@@ -1,7 +1,32 @@
----
-layout: default
-title: Taber
----
+<!DOCTYPE html>
+<html>
+<head>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/0c2fce5114154786ea49e9caad5bd7cd/allmobilize.min.js"></script>
+<meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+<meta charset="utf-8">
+<title>Taber</title>
+
+
+<link rel="stylesheet" href="/static/css/base-common.css" />
+
+<!--[if lt IE 9]>
+<script src="/static/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<header>
+  <nav class="fn-clear">
+    <a href="/" id="logo" class="fn-left">Table's</a>
+    <a href="/#anchor-article" id="link-article" class="fn-left">Article</a>
+    <a href="/#anchor-project" id="link-project" class="fn-left">Project</a>
+    <a href="https://github.com/taberhuang" class="fn-left">Github</a>
+    <a href="http://www.scoop.it/u/taberh" class="fn-left">Scoop.it</a>
+    <a href="/#anchor-aboutme" id="link-aboutme" class="fn-right">About</a>
+  </nav>
+</header>
+
+<div id="main">
 <style>
 /*
   @名称: index
@@ -60,9 +85,13 @@ h2 {
 <section id="article">
   <h2>Article</h2>
   <ul>
-    {% for post in site.posts %}
-      <li><time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_string }}</time> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
+    
+      <li><time datetime="2013-07-08">08 Jul 2013</time> &raquo; <a href="/2013/07/08/mobile-browser-debug.html">Mobile Browser Debug</a></li>
+    
+      <li><time datetime="2011-12-26">26 Dec 2011</time> &raquo; <a href="/2011/12/26/use-Jekyll-build-Blog-on-Github.html">使用Jekyll在Github上搭建博客</a></li>
+    
+      <li><time datetime="2011-05-10">10 May 2011</time> &raquo; <a href="/2011/05/10/learn-jquery-event.html">jQuery Event 源码学习</a></li>
+    
   </ul>
 </section>
 
@@ -128,3 +157,22 @@ function goTo(e) {
   return false;
 }
 </script>
+
+</div>
+
+<footer>
+  <p>Build by <a href="https://github.com/mojombo/jekyll/wiki" target="_blank">Jekyll</a></p>
+</footer>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-23358884-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</body>
+</html>

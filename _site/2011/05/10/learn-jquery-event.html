@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/0c2fce5114154786ea49e9caad5bd7cd/allmobilize.min.js"></script>
+<meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+<meta charset="utf-8">
+<title>jQuery Event 源码学习</title>
+
+
+<link rel="stylesheet" href="/static/css/base-common.css" />
+
+
+<link rel="stylesheet" href="/static/css/syntax.css" />
+
+
+<!--[if lt IE 9]>
+<script src="/static/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<header>
+  <nav class="fn-clear">
+    <a href="/" id="logo" class="fn-left">Table's</a>
+    <a href="/#anchor-article" id="link-article" class="fn-left">Article</a>
+    <a href="/#anchor-project" id="link-project" class="fn-left">Project</a>
+    <a href="https://github.com/taberhuang" class="fn-left">Github</a>
+    <a href="http://www.scoop.it/u/taberh" class="fn-left">Scoop.it</a>
+    <a href="/#anchor-aboutme" id="link-aboutme" class="fn-right">About</a>
+  </nav>
+</header>
+
+<div id="main">
+<style>
+article {
+  margin:30px auto 0;
+  color:#666;
+}
+article h1 {
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  line-height:2;
+  color:black;
+}
+article h2 {
+  font-weight:bold;
+  line-height:2;
+  color:black;
+  font-size:20px;
+  margin-top:10px;
+}
+article p {
+  margin:12px 0;
+  text-indent:2em;
+  font-size:18px;
+  line-height:1.8;
+}
+article p b {
+  font-weight:bold;
+  color:#333;
+}
+article ol {
+  list-style:decimal;
+  margin-left:25px;
+  font-size:16px;
+  line-height:1.6;
+}
+article p code {
+  background:#333;
+  color: white;
+}
+</style>
+<article>
+  <h1>jQuery Event 源码学习</h1>
+  <p>众所周知，jQuery 通过jQuery.event.add &amp; jQuery.event.remove 方法对DOM元素(文本和注释节点除外)进行事件的绑定和解绑。这两个方法都提供了四个参数，前三个参数elem, types, handler 是必选的，最后一个为可选参数分别是data和pos。</p>
+
+<h2>绑定:</h2>
+
+
+<p>jQuery在对DOM元素进行绑定事件时，通过jQuery.data在jQuery.cache中存储绑定的事件类型、响应函数和可选参数data。该数据结构如下：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="p">{</span> 
+<span class="lineno">2</span>   <span class="nx">events</span><span class="o">:</span> <span class="p">{</span> <span class="p">},</span> 
+<span class="lineno">3</span>   <span class="nx">handle</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span> <span class="p">}</span> 
+<span class="lineno">4</span> <span class="p">}</span></code></pre></div>
+
+
+<p>events是一个对象，events中的属性值存储的是事件类型；值是一个数组。当为DOM元素绑定事件时，首先会创建一个包含响应函数、事件类型、guid和一些附加信息的对象，如果events中不存在值为该事件类型的属性，则添加一个值为该事件类型的属性，和一个值为空的数组，然后将刚创建的新对象push到数组中；如果存在，直接push到相对应的数组中。看下面这个例子就一目了然了：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="c1">//给id元素绑定两个单击和一个鼠标离开事件 </span>
+<span class="lineno"> 2</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#id&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;once&#39;</span><span class="p">);</span> <span class="p">});</span> 
+<span class="lineno"> 3</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#id&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;second&#39;</span><span class="p">);</span> <span class="p">});</span> 
+<span class="lineno"> 4</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#id&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;mouseout&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;mouseout&#39;</span><span class="p">);</span> <span class="p">});</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="c1">//events对象的值 </span>
+<span class="lineno"> 7</span> <span class="p">{</span> 
+<span class="lineno"> 8</span>   <span class="s1">&#39;click&#39;</span><span class="o">:</span> <span class="p">[</span> 
+<span class="lineno"> 9</span>     <span class="p">{</span><span class="c1">// 此对象还有:data,guid,namespace属性 </span>
+<span class="lineno">10</span>       <span class="nx">handler</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;once&#39;</span><span class="p">);</span> <span class="p">},</span> 
+<span class="lineno">11</span>       <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;click&#39;</span> 
+<span class="lineno">12</span>     <span class="p">},</span> 
+<span class="lineno">13</span>     <span class="p">{</span> 
+<span class="lineno">14</span>       <span class="nx">handler</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;second&#39;</span><span class="p">);</span> <span class="p">},</span> 
+<span class="lineno">15</span>       <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;click&#39;</span> 
+<span class="lineno">16</span>     <span class="p">}</span> 
+<span class="lineno">17</span>   <span class="p">],</span> 
+<span class="lineno">18</span>   <span class="s1">&#39;mouseout&#39;</span><span class="o">:</span> <span class="p">[</span> 
+<span class="lineno">19</span>     <span class="p">{</span> 
+<span class="lineno">20</span>       <span class="nx">handler</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;mouseover&#39;</span><span class="p">);</span> <span class="p">},</span> 
+<span class="lineno">21</span>       <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;mouseout&#39;</span> 
+<span class="lineno">22</span>     <span class="p">}</span> 
+<span class="lineno">23</span>   <span class="p">]</span> 
+<span class="lineno">24</span> <span class="p">}</span></code></pre></div>
+
+
+<p>handle是一个函数。jQuery为每一个DOM元素绑定的任意类型事件的响应函数都是此函数，并不是直接将用户传入的函数绑定为响应函数。该函数会在执行时调用一个公共方法jQuery.event.handle，通过apply更改this的指向，此函数还有一个静态属性elem，也是指向DOM元素自己，下面是jQuery中的源码：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="c1">//引用自jQuery源码 </span>
+<span class="lineno"> 2</span> <span class="nx">add</span><span class="o">:</span> 
+<span class="lineno"> 3</span>   <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">types</span><span class="p">,</span> <span class="nx">handler</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span> 
+<span class="lineno"> 4</span>     <span class="kd">var</span> <span class="nx">elemData</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">_data</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">handle</span><span class="p">,</span> <span class="c1">// 从jQuery.cache中提取的数据 </span>
+<span class="lineno"> 5</span>       <span class="nx">eventHandle</span> <span class="o">=</span> <span class="nx">elemData</span><span class="p">.</span><span class="nx">handle</span><span class="p">;</span> <span class="c1">// 创建elem对象的事件响应函数 </span>
+<span class="lineno"> 6</span>     
+<span class="lineno"> 7</span>     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">eventHandle</span><span class="p">)</span> <span class="p">{</span> 
+<span class="lineno"> 8</span>       <span class="nx">elemData</span><span class="p">.</span><span class="nx">handle</span> <span class="o">=</span> <span class="nx">eventHandle</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span> 
+<span class="lineno"> 9</span>         <span class="k">return</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">handle</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span> <span class="nx">eventHandle</span><span class="p">.</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">arguments</span> <span class="p">);</span> <span class="c1">// 改变对象的this指向 </span>
+<span class="lineno">10</span>       <span class="p">};</span> 
+<span class="lineno">11</span>     <span class="p">}</span> 
+<span class="lineno">12</span>     
+<span class="lineno">13</span>     <span class="c1">// handle元素的静态属性elem     </span>
+<span class="lineno">14</span>     <span class="nx">eventHandle</span><span class="p">.</span><span class="nx">elem</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">;</span> 
+<span class="lineno">15</span>     
+<span class="lineno">16</span>     <span class="k">while</span> <span class="p">(</span><span class="nx">type</span> <span class="o">=</span> <span class="nx">types</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">])</span> <span class="p">{</span> 
+<span class="lineno">17</span>       <span class="kd">var</span> <span class="nx">handlers</span> <span class="o">=</span> <span class="nx">events</span><span class="p">[</span> <span class="nx">type</span> <span class="p">];</span> <span class="c1">// 查看type类型的事件是否存在 </span>
+<span class="lineno">18</span>       
+<span class="lineno">19</span>       <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">handlers</span><span class="p">)</span> <span class="p">{</span> 
+<span class="lineno">20</span>         <span class="nx">handlers</span> <span class="o">=</span> <span class="nx">events</span><span class="p">[</span> <span class="nx">type</span> <span class="p">]</span> <span class="o">=</span> <span class="p">[];</span> 
+<span class="lineno">21</span>         <span class="c1">// 绑定事件 </span>
+<span class="lineno">22</span>         <span class="nx">elem</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">eventHandle</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> 
+<span class="lineno">23</span>       <span class="p">}</span> 
+<span class="lineno">24</span>       
+<span class="lineno">25</span>       <span class="nx">handlers</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">handler</span><span class="p">);</span> 
+<span class="lineno">26</span>     <span class="p">}</span> 
+<span class="lineno">27</span>   <span class="p">}</span></code></pre></div>
+
+
+<p>当用户触发事件后，jQuery.event.handle首先会调用jQuery.event.fix对Event对象做兼容处理，之后根据Event.type从jQuery.cache中获取用户绑定时传入的响应函数，逐个运行。</p>
+
+<h2>解绑:</h2>
+
+
+<p>主要思路是匹配guid，然后从jQuery.cache中events里删除包含相应的响应函数的对象。最后检查该DOM元素还有没有绑定的事件了，如果没有才是真的removeEventListener掉handle处理函数关删除jQuery.cache中的数据。</p>
+
+<h2>思考:</h2>
+
+
+<p>通过以上的了解，我们可以看到jQuery再为DOM元素的一种类型事件绑定多个响应函数时只会addEventListener一次，而不需要重复addEventListner，并且该DOM元素的所有类型的事件响应都指向一个函数。这时我的脑子里便浮出了这些问题(这里不谈浏览器兼容上比如IE的内存泄漏之类的问题)：这样做的好处是啥？可以减少内存的使用？还是可以提高运行效率？或者说jQuery只是为了对内部事件模块的统一管理？这只是本人所想的到的一些问题，John Resig 这样设计肯定有他的考虑。</p>
+
+<p>接下来，本人就自己所想到的问题进行了思考。我们看看，这样做的唯一一点就是减少了JavaScript引擎对各个DOM元素本身相同类型事件的listening数，用一个对象将DOM元素绑定的响应函数重新组织了下，并增加了一些附加信息。难道说减少listening数可以减少对内存的使用，提高运行效率吗？如果是这样，我们便可以用最老土的方法来进行一些测试，以下是本人的测试方法和数据，仅供参考。</p>
+
+<pre>
+Chrome 11          内存使用/MB   解析时间/ms   处理响应时间/ms
+jQuery.bind        17.5          44.75         30.75
+addEventListener   21.75         215.75        11.5
+</pre>
+
+
+<p>以上数据是在window下的chrome 11.0.696.65环境中，绑定10 000个事件处理后，测试得到的平均值。当我绑定100 000个事件处理时，使用原生的addEventListener Chrome就提示无影响了，而用jQuery.bind是正常的。</p>
+
+<p>根据上面的数据，jQuery这样做却实能减少内存的使用和提高JavaScript引擎的解析时间，可是在触发事件后的响应处理要慢一点。</p>
+
+</article>
+</div>
+
+<footer>
+  <p>Build by <a href="https://github.com/mojombo/jekyll/wiki" target="_blank">Jekyll</a></p>
+</footer>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-23358884-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</body>
+</html>
