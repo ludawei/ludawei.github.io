@@ -1,2 +1,26 @@
-markdown: rdiscount
-pygments: true
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+relative_permalinks: true
+
+# Setup
+title:            乌贼的技术博客
+tagline:          ''
+description:      '图片胜过千言万语，界面抵得上千图片'
+url:              http://ludawei.github.io
+baseurl:          /
+
+author:	
+  name:           '卢大维'
+  url:            http://ludawei.github.io
+
+paginate:         5
+
+# Custom vars
+version:          1.0.0
+
+github:
+  repo:           https://github.com/ludawei/ludawei.github.io

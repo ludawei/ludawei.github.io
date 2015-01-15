@@ -1,130 +1,37 @@
 ---
 layout: default
-title: Taber
+title: Home
 ---
-<style>
-/*
-  @名称: index
-	@功能: 首页样式
-*/
-h2 {
-  font-size:18px;
-  font-weight:bold;
-  color:black;
-}
-#article,
-#project,
-#aboutme {
-  margin:30px auto 0;
-}
-#article ul,
-#project ul,
-#aboutme p {
-  margin:0 2em;
-}
-#article time {
-  color:#999;
-}
-#article ul {
-  line-height:1.8;
-}
-#project li {
-  margin:8px 8px 0 0;
-}
-#project a {
-  display:inline-block;
-  border:1px solid #ccc;
-  padding:2px;
-}
-#project a:hover {
-  border:2px solid #A10000;
-  padding:1px;
-}
-#project img {
-  display:block;
-  width:100px;
-  height:100px;
-}
-#aboutme {
-  line-height:2.2;
-}
-#aboutme span {
-  font-weight:bold;
-  margin-right:10px;
-}
-#aboutme a {
-  margin-right:15px;
-}
-</style>
 
-<section id="article">
-  <h2>Article</h2>
-  <ul>
-    {% for post in site.posts %}
-      <li><time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_string }}</time> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
-</section>
+<div class="posts">
+  {% for post in paginator.posts %}
+  <div class="post">
+    <h1 class="post-title">
+      <a href="{{ post.url }}">
+        {{ post.title }}
+      </a>
+    </h1>
 
-<section id="project">
-  <h2>Project</h2>
-  <ul class="fn-clear">
-    <li class="fn-left">
-      <a href="/project/plant.html" title="图片加工厂"><img src="/static/images/plant.png" alt="图片加工厂" /></a>
-    </li>
-    <li class="fn-left">
-      <a href="/project/light.html" title="Android 屏保"><img src="/static/images/light.gif" alt="Android 屏保" /></a>
-    </li>
-    <li class="fn-left">
-      <a href="https://chrome.google.com/webstore/detail/%E5%BF%AB%E9%80%92%E6%9F%A5%E8%AF%A2/fcganpmlhcfmnjkpmnpddajmkeeommoc" title="Chrome扩展-快递查询应用"><img src="/static/images/kuaidi.png" alt="快递查询应用" /></a>
-    </li>
-    <li class="fn-left">
-      <a href="http://itunes.apple.com/us/app/bao-bao-jiao-lian/id538261867?mt=8&uo=4" title="宝宝教练"><img src="http://a2.mzstatic.com/us/r1000/107/Purple/v4/6f/ff/4d/6fff4ddd-bf5c-6efc-3884-0809407a09be/mza_4643124410096853757.175x175-75.jpg" alt="宝宝教练-logo" /></a>
-    </li>
-    <li class="fn-left">
-      <a href="https://itunes.apple.com/app/memix-pro/id559730363?mt=8" title="TTCall"><img src="/static/images/tt-call-icon.png" alt="TTCall-logo" /></a>
-    </li>
-  </ul>
-</section>
+    <span class="post-date">{{ post.date | date_to_string }}</span>
 
-<section id="aboutme">
-  <h2>About me</h2>
-  <p>技术爱好者.正在努力前进中</p>
-  <p><span>足迹:</span><a href="https://twitter.com/taberhuang">Twitter</a><a href="http://www.douban.com/people/34350903/">豆瓣</a><a href="http://www.yinyuetai.com/u/1437841">音悦台</a></p>
-  <p><span>E-mail:</span>taber.huang#gmail.com</p>
-</section>
+    <!-- {{ post.content }} -->
+  </div>
+  {% endfor %}
+</div>
 
-<script>
-function moveSection(hash) {
-  var body, elem, value;
-
-  if (!hash) return;
-
-  hash = hash.match(/#[^#]*/g);
-
-  for (var i = 0, len = hash.length; i < len; i++) {
-    value = hash[i];
-
-    if (value.indexOf('#anchor-') > -1) {
-      elem = document.getElementById(value.replace(/#anchor-/, ''));
-      break;
-    }
-  }
-
-  body = document.getElementById('main');
-  body.insertBefore(elem, body.firstElementChild || body.firstChild);
-}
-
-moveSection(location.hash);
-
-if (location.pathname === '/') {
-  document.getElementById('link-article').onclick = goTo;
-  document.getElementById('link-project').onclick = goTo;
-  document.getElementById('link-aboutme').onclick = goTo;
-}
-
-function goTo(e) {
-  moveSection(this.href);
-  return false;
-}
-</script>
+<div class="pagination">
+  {% if paginator.next_page %}
+    <a class="pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Older</a>
+  {% else %}
+    <span class="pagination-item older">Older</span>
+  {% endif %}
+  {% if paginator.previous_page %}
+    {% if paginator.page == 2 %}
+      <a class="pagination-item newer" href="{{ site.baseurl }}">Newer</a>
+    {% else %}
+      <a class="pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Newer</a>
+    {% endif %}
+  {% else %}
+    <span class="pagination-item newer">Newer</span>
+  {% endif %}
+</div>
