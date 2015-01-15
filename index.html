@@ -12,9 +12,13 @@ title: Home
       </a>
     </h1>
 
-    <span class="post-date">{{ post.date | date_to_string }}</span>
+    <span class="post-date">{{ post.date | date: "%Y年%-m月%-d" }}</span>
 
-    <!-- {{ post.content }} -->
+    {{ post.excerpt }}
+
+    <h5> 
+      <a href="{{ post.url }}">阅读全文>></a>
+    </h5>
   </div>
   {% endfor %}
 </div>
