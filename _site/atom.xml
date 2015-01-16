@@ -4,7 +4,7 @@
  <title>乌贼的技术博客</title>
  <link href="http://ludawei.github.io/atom.xml" rel="self"/>
  <link href="http://ludawei.github.io/"/>
- <updated>2015-01-16T17:21:43+08:00</updated>
+ <updated>2015-01-16T17:58:59+08:00</updated>
  <id>http://ludawei.github.io</id>
  <author>
    <name>卢大维</name>
@@ -37,6 +37,8 @@ ok，接下来，就是添加博客内容了，看页面的最下边；
 &lt;/font&gt;  &lt;/p&gt;
 
 &lt;h4&gt;push git后就能看了博客了。&lt;/h4&gt;
+
+&lt;h4&gt;添加评论&lt;/h4&gt;
 
 &lt;hr&gt;
 
