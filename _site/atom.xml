@@ -4,13 +4,45 @@
  <title>乌贼的技术博客</title>
  <link href="http://ludawei.github.io/atom.xml" rel="self"/>
  <link href="http://ludawei.github.io/"/>
- <updated>2015-01-16T13:44:51+08:00</updated>
+ <updated>2015-01-16T17:21:43+08:00</updated>
  <id>http://ludawei.github.io</id>
  <author>
    <name>卢大维</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>从0开始搭建github.io博客</title>
+   <link href="http://ludawei.github.io/2015/01/16/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BAgithub.io%E5%8D%9A%E5%AE%A2/"/>
+   <updated>2015-01-16T00:00:00+08:00</updated>
+   <id>http://ludawei.github.io/2015/01/16/从0开始搭建github.io博客</id>
+   <content type="html">&lt;p&gt;这几天比较闲，故有时间扫描博客；发现有很多 &lt;code&gt;userName.github.io&lt;/code&gt; 的博客，布局和主题比较美观，如&lt;a href=&quot;http://wanglongqi.github.io&quot;&gt;http://wanglongqi.github.io&lt;/a&gt;，于是心动了，google之；&lt;/p&gt;
+
+&lt;h4&gt;首先找到了&lt;a href=&quot;https://pages.github.com&quot;&gt;https://pages.github.com&lt;/a&gt;，按github引导一步步完成；&lt;/h4&gt;
+
+&lt;p&gt;&lt;font color=&quot;#999&quot; size=3&gt;
+非常好，看起来没有任何问题~，但是博客里只有个&lt;em&gt;Hello World&lt;/em&gt;&lt;br&gt;
+ok，接下来，就是添加博客内容了，看页面的最下边；
+&lt;img src=&quot;/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-16%20%E4%B8%8B%E5%8D%884.12.33.png&quot; alt=&quot;https://pages.github.com&quot;&gt;
+&lt;/font&gt;&lt;/p&gt;
+
+&lt;h4&gt;博客框架，安装配置&lt;a href=&quot;http://jekyllcn.com/&quot;&gt;Jekyll&lt;/a&gt;，就略过了，按照&lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot;&gt;https://help.github.com/articles/using-jekyll-with-pages/&lt;/a&gt;操作就行，网上也有教程，一搜一大堆；&lt;/h4&gt;
+
+&lt;p&gt;推荐几个：&lt;br&gt;
+1，&lt;a href=&quot;http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html&quot;&gt;http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html&lt;/a&gt;
+2，&lt;a href=&quot;http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html&quot;&gt;http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html&lt;/a&gt;&lt;br&gt;
+&lt;font color=&quot;#999&quot; size=3&gt;
+对Jekyll基本了解后，就可以开干了，找一个合适的主题，我用的是&lt;a href=&quot;https://github.com/poole/hyde&quot;&gt;https://github.com/poole/hyde&lt;/a&gt;，git clone下来，粘贴到github.io对应的目录下，然后修改css，达到自己想要的效果；
+&lt;/font&gt;  &lt;/p&gt;
+
+&lt;h4&gt;push git后就能看了博客了。&lt;/h4&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;其中，最为费事的是&lt;code&gt;css&lt;/code&gt;修改，本人&lt;code&gt;html，css&lt;/code&gt;0基础啊，泪奔~&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>第一个测试</title>
