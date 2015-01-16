@@ -81,32 +81,47 @@
 </div>
 
 
+    <!-- <div class="headnote">
+    	乌贼的技术博客
+    </div> -->
+
     <div class="content container">
       <div class="post">
   <h1 class="post-title">从0开始搭建github.io博客</h1>
   <span class="post-date">2015年1月16</span>
   <p>这几天比较闲，故有时间扫描博客；发现有很多 <code>userName.github.io</code> 的博客，布局和主题比较美观，如<a href="http://wanglongqi.github.io">http://wanglongqi.github.io</a>，于是心动了，google之；</p>
 
-<h4>首先找到了<a href="https://pages.github.com">https://pages.github.com</a>，按github引导一步步完成；</h4>
+<h3>1，首先找到了<a href="https://pages.github.com">https://pages.github.com</a>，按github引导一步步完成；</h3>
 
-<p><font color="#999" size=3>
-非常好，看起来没有任何问题~，但是博客里只有个<em>Hello World</em><br>
+<div class="message" size=3>
+非常好，看起来没有任何问题~，但是博客里只有个<em>"Hello World"</em>。<br />
 ok，接下来，就是添加博客内容了，看页面的最下边；
-<img src="/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-16%20%E4%B8%8B%E5%8D%884.12.33.png" alt="https://pages.github.com">
-</font></p>
+</div>
 
-<h4>博客框架，安装配置<a href="http://jekyllcn.com/">Jekyll</a>，就略过了，按照<a href="https://help.github.com/articles/using-jekyll-with-pages/">https://help.github.com/articles/using-jekyll-with-pages/</a>操作就行，网上也有教程，一搜一大堆；</h4>
+<p><img src="/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-16%20%E4%B8%8B%E5%8D%884.12.33.png" alt="https://pages.github.com"></p>
 
-<p>推荐几个：<br>
-1，<a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html</a>
-2，<a href="http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html">http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html</a><br>
-<font color="#999" size=3>
+<h3>2，博客框架，安装配置<a href="http://jekyllcn.com/">Jekyll</a>，就略过了，按照<a href="https://help.github.com/articles/using-jekyll-with-pages/">https://help.github.com/articles/using-jekyll-with-pages/</a>操作就行，网上也有教程，一搜一大堆；</h3>
+
+<p>推荐几个:<br>
+<a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html</a><br>
+<a href="http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html">http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html</a><br>
+<div class="message" size=3>
 对Jekyll基本了解后，就可以开干了，找一个合适的主题，我用的是<a href="https://github.com/poole/hyde">https://github.com/poole/hyde</a>，git clone下来，粘贴到github.io对应的目录下，然后修改css，达到自己想要的效果；
-</font>  </p>
+</div>  </p>
 
-<h4>push git后就能看了博客了。</h4>
+<h3>3，push git后就能看到博客了。</h3>
 
-<h4>添加评论</h4>
+<h3>4，添加评论，参考<a href="http://joeyio.com/jekyll/2013/04/13/how-to-use-uyan-in-Jekyll/">http://joeyio.com/jekyll/2013/04/13/how-to-use-uyan-in-Jekyll/</a></h3>
+
+<div class="message" size=3>
+经测试，只用把以下代码，粘贴到html的任一地方就OK了。
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c">&lt;!--</span> <span class="nx">UY</span> <span class="nx">BEGIN</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;uyan_frame&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;UYScript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://v1.uyan.cc/js/iframe.js?UYUserId=YOUR_USER_ID&quot;</span> <span class="nx">async</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+<span class="c">&lt;!--</span> <span class="nx">UY</span> <span class="nx">END</span> <span class="o">--&gt;</span></code></pre></div>
+
+</div>
 
 <hr>
 

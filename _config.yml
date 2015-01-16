@@ -34,5 +34,5 @@ github:
   repo:           https://github.com/ludawei/ludawei.github.io
 
 # 评论
-comments :
-    provider : custom
+# comments :
+#     provider : custom

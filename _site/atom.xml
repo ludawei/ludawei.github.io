@@ -4,7 +4,7 @@
  <title>乌贼的技术博客</title>
  <link href="http://ludawei.github.io/atom.xml" rel="self"/>
  <link href="http://ludawei.github.io/"/>
- <updated>2015-01-16T17:58:59+08:00</updated>
+ <updated>2015-01-16T18:52:40+08:00</updated>
  <id>http://ludawei.github.io</id>
  <author>
    <name>卢大维</name>
@@ -19,26 +19,37 @@
    <id>http://ludawei.github.io/2015/01/16/从0开始搭建github.io博客</id>
    <content type="html">&lt;p&gt;这几天比较闲，故有时间扫描博客；发现有很多 &lt;code&gt;userName.github.io&lt;/code&gt; 的博客，布局和主题比较美观，如&lt;a href=&quot;http://wanglongqi.github.io&quot;&gt;http://wanglongqi.github.io&lt;/a&gt;，于是心动了，google之；&lt;/p&gt;
 
-&lt;h4&gt;首先找到了&lt;a href=&quot;https://pages.github.com&quot;&gt;https://pages.github.com&lt;/a&gt;，按github引导一步步完成；&lt;/h4&gt;
+&lt;h3&gt;1，首先找到了&lt;a href=&quot;https://pages.github.com&quot;&gt;https://pages.github.com&lt;/a&gt;，按github引导一步步完成；&lt;/h3&gt;
 
-&lt;p&gt;&lt;font color=&quot;#999&quot; size=3&gt;
-非常好，看起来没有任何问题~，但是博客里只有个&lt;em&gt;Hello World&lt;/em&gt;&lt;br&gt;
+&lt;div class=&quot;message&quot; size=3&gt;
+非常好，看起来没有任何问题~，但是博客里只有个&lt;em&gt;&quot;Hello World&quot;&lt;/em&gt;。&lt;br /&gt;
 ok，接下来，就是添加博客内容了，看页面的最下边；
-&lt;img src=&quot;/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-16%20%E4%B8%8B%E5%8D%884.12.33.png&quot; alt=&quot;https://pages.github.com&quot;&gt;
-&lt;/font&gt;&lt;/p&gt;
+&lt;/div&gt;
 
-&lt;h4&gt;博客框架，安装配置&lt;a href=&quot;http://jekyllcn.com/&quot;&gt;Jekyll&lt;/a&gt;，就略过了，按照&lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot;&gt;https://help.github.com/articles/using-jekyll-with-pages/&lt;/a&gt;操作就行，网上也有教程，一搜一大堆；&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-16%20%E4%B8%8B%E5%8D%884.12.33.png&quot; alt=&quot;https://pages.github.com&quot;&gt;&lt;/p&gt;
 
-&lt;p&gt;推荐几个：&lt;br&gt;
-1，&lt;a href=&quot;http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html&quot;&gt;http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html&lt;/a&gt;
-2，&lt;a href=&quot;http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html&quot;&gt;http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html&lt;/a&gt;&lt;br&gt;
-&lt;font color=&quot;#999&quot; size=3&gt;
+&lt;h3&gt;2，博客框架，安装配置&lt;a href=&quot;http://jekyllcn.com/&quot;&gt;Jekyll&lt;/a&gt;，就略过了，按照&lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot;&gt;https://help.github.com/articles/using-jekyll-with-pages/&lt;/a&gt;操作就行，网上也有教程，一搜一大堆；&lt;/h3&gt;
+
+&lt;p&gt;推荐几个:&lt;br&gt;
+&lt;a href=&quot;http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html&quot;&gt;http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html&quot;&gt;http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html&lt;/a&gt;&lt;br&gt;
+&lt;div class=&quot;message&quot; size=3&gt;
 对Jekyll基本了解后，就可以开干了，找一个合适的主题，我用的是&lt;a href=&quot;https://github.com/poole/hyde&quot;&gt;https://github.com/poole/hyde&lt;/a&gt;，git clone下来，粘贴到github.io对应的目录下，然后修改css，达到自己想要的效果；
-&lt;/font&gt;  &lt;/p&gt;
+&lt;/div&gt;  &lt;/p&gt;
 
-&lt;h4&gt;push git后就能看了博客了。&lt;/h4&gt;
+&lt;h3&gt;3，push git后就能看到博客了。&lt;/h3&gt;
 
-&lt;h4&gt;添加评论&lt;/h4&gt;
+&lt;h3&gt;4，添加评论，参考&lt;a href=&quot;http://joeyio.com/jekyll/2013/04/13/how-to-use-uyan-in-Jekyll/&quot;&gt;http://joeyio.com/jekyll/2013/04/13/how-to-use-uyan-in-Jekyll/&lt;/a&gt;&lt;/h3&gt;
+
+&lt;div class=&quot;message&quot; size=3&gt;
+经测试，只用把以下代码，粘贴到html的任一地方就OK了。
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;UY&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;uyan_frame&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;UYScript&amp;quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;http://v1.uyan.cc/js/iframe.js?UYUserId=YOUR_USER_ID&amp;quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;async&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;UY&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
 
 &lt;hr&gt;
 
