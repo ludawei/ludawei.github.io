@@ -65,13 +65,14 @@
 .css .nt + .nt { color: #999; }
 
 /* Add to css/syntax.css */
- .post > .highlight .lineno { display:inline-block; padding: 0 5px; border-right:1px solid #ccc; }
- .post > .highlight pre code { display: block; white-space: pre; overflow-x: auto; word-wrap: normal; }
- 
- .lineno { 
-  -moz-user-select: none; 
-  -webkit-user-select: none; 
-  -o-user-select: none; 
-  user-select: none; 
-} 
+ .post > .highlight .lineno { display:inline-block; padding: 0 5px; border-right:1px solid #ccc;}
+
+.lineno {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
