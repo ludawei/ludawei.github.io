@@ -4,7 +4,7 @@
  <title>乌贼的技术博客</title>
  <link href="http://ludawei.github.io/atom.xml" rel="self"/>
  <link href="http://ludawei.github.io/"/>
- <updated>2015-01-19T14:17:56+08:00</updated>
+ <updated>2015-01-19T18:45:04+08:00</updated>
  <id>http://ludawei.github.io</id>
  <author>
    <name>卢大维</name>
@@ -22,6 +22,29 @@
 &lt;p&gt;写给以后的自己：要想不闹心，自己一个人！（自己一个人住去吧，少年~）&lt;/p&gt;
 
 &lt;p&gt;写此文以自谨，自我批评。&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>浦公英 - ios打包测试工具</title>
+   <link href="http://ludawei.github.io/2015/01/19/ios-%E6%89%93%E5%8C%85%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-%E6%B5%A6%E5%85%AC%E8%8B%B1/"/>
+   <updated>2015-01-19T00:00:00+08:00</updated>
+   <id>http://ludawei.github.io/2015/01/19/ios-打包测试工具-浦公英</id>
+   <content type="html">&lt;p&gt;浦公英 - ios打包测试工具&lt;a href=&quot;http://www.pgyer.com/&quot;&gt;http://www.pgyer.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Android的测试非常方便，放到服务器上，生成个链接，就可以安装测试了；&lt;br&gt;
+但是，因为apple的安全策略，ios应用测试一直是我等开发者最为头疼的问题之一。&lt;strong&gt;（如果你有299刀的企业账号，这自然不是问题了）&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;以前用&lt;a href=&quot;https://testflightapp.com&quot;&gt;TestFlight&lt;/a&gt;进行分发测试，基本可以完成需要。就是上传和下载时会比较慢&lt;strong&gt;（因为是国内的网站）&lt;/strong&gt;;&lt;/p&gt;
+
+&lt;p&gt;最近发现了这个浦公英，试了下，还不错，原理也是基于apple企业账号的，注册个账号，上传应用ipa，使用&lt;code&gt;http://www.pgyer.com/apiv1/app/getAppKeyByShortcut&lt;/code&gt;(验证App短链接)得到appkey；
+&lt;img src=&quot;/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-19%20%E4%B8%8B%E5%8D%886.31.41.png&quot; alt=&quot;chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm/index.html&quot;&gt;  &lt;/p&gt;
+
+&lt;p&gt;最后生成安装链接&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;http://www.pgyer.com/apiv1/app/install?aKey=791f5327dfd671300fac21ed7d4c****&lt;span class=&quot;err&quot;&gt;&amp;amp;&lt;/span&gt;_api_key=5db309c09824cf85d0252b530240****&lt;span class=&quot;err&quot;&gt;&amp;amp;&lt;/span&gt;password=****&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;直接把这个链接发给测试人员就行了，复制到safri中访问就可以安装测试了。&lt;/p&gt;
 </content>
  </entry>
  

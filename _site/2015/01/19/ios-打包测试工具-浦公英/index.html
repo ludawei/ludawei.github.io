@@ -11,7 +11,7 @@
 
   <title>
     
-      What's Jekyll? &middot; 乌贼的技术博客
+      浦公英 - ios打包测试工具 &middot; 乌贼的技术博客
     
   </title>
 
@@ -99,64 +99,25 @@
 
 
     <div class="content container fadeInLeft animated">
-     <div class="post">
-  <h1 class="post-title">What's Jekyll?</h1>
-  <span class="post-date">2012年2月6</span>
-  <p><a href="http://jekyllrb.com">Jekyll</a> is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From <a href="https://github.com/mojombo/jekyll/blob/master/README.markdown">the project&#39;s readme</a>:</p>
+     <div class="page">
+  <h1 class="page-title">浦公英 - ios打包测试工具</h1>
+  <p>浦公英 - ios打包测试工具<a href="http://www.pgyer.com/">http://www.pgyer.com/</a></p>
 
-<blockquote>
-<p>Jekyll is a simple, blog aware, static site generator. It takes a template directory [...] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.</p>
-</blockquote>
+<p>Android的测试非常方便，放到服务器上，生成个链接，就可以安装测试了；<br>
+但是，因为apple的安全策略，ios应用测试一直是我等开发者最为头疼的问题之一。<strong>（如果你有299刀的企业账号，这自然不是问题了）</strong></p>
 
-<p>It&#39;s an immensely useful tool and one we encourage you to use here with Hyde.</p>
+<p>以前用<a href="https://testflightapp.com">TestFlight</a>进行分发测试，基本可以完成需要。就是上传和下载时会比较慢<strong>（因为是国内的网站）</strong>;</p>
 
-<p>Find out more by <a href="https://github.com/mojombo/jekyll">visiting the project on GitHub</a>.</p>
+<p>最近发现了这个浦公英，试了下，还不错，原理也是基于apple企业账号的，注册个账号，上传应用ipa，使用<code>http://www.pgyer.com/apiv1/app/getAppKeyByShortcut</code>(验证App短链接)得到appkey；
+<img src="/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-19%20%E4%B8%8B%E5%8D%886.31.41.png" alt="chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm/index.html">  </p>
+
+<p>最后生成安装链接</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html">http://www.pgyer.com/apiv1/app/install?aKey=791f5327dfd671300fac21ed7d4c****<span class="err">&amp;</span>_api_key=5db309c09824cf85d0252b530240****<span class="err">&amp;</span>password=****</code></pre></div>
+
+<p>直接把这个链接发给测试人员就行了，复制到safri中访问就可以安装测试了。</p>
 
 </div>
-
-<div class="footnote">
-  先要解决从玩到有的问题，再说从差到好的问题。
-</div>
-
-<div class="related">
-  <h2>Related Posts</h2>
-  <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/life/2015/01/19/%E6%89%BE%E6%88%BF%E5%B0%8F%E5%8F%B9/">
-            找房小叹
-            <small>2015年1月19</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2015/01/19/ios-%E6%89%93%E5%8C%85%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-%E6%B5%A6%E5%85%AC%E8%8B%B1/">
-            浦公英 - ios打包测试工具
-            <small>2015年1月19</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2015/01/16/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BAgithub.io%E5%8D%9A%E5%AE%A2/">
-            从0开始搭建github.io博客
-            <small>2015年1月16</small>
-          </a>
-        </h3>
-      </li>
-    
-  </ul>
-</div>
-
-<div style="margin-bottom:1rem;padding:0;height:1px;background-color:#eee;overflow:hidden;"> </div>
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2003036"></script>
-<!-- UY END -->
 
     </div>
 
