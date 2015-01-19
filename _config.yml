@@ -36,3 +36,7 @@ github:
 # 评论
 # comments :
 #     provider : custom
+
+sass:
+  sass_dir: assets/css
+  style: :compressed
