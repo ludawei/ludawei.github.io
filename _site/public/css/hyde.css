@@ -32,7 +32,7 @@
  */
 
 html {
-  font-family: "FangSong", Helvetica, Arial, sans-serif;
+  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 }
 @media (min-width: 48em) {
   html {

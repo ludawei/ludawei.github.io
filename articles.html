@@ -5,6 +5,7 @@ title: 文章
 
 <section class="archive">
 {% for post in site.posts %}
+
 {% unless post.next %}
 
 {% unless forloop.first %}</div></div>{% endunless %}
@@ -25,13 +26,15 @@ title: 文章
     <div class="posts-by-year col span_10">
 {% endif %}
 {% endunless %}
+
+{% if post.category != 'life' %}
   <article class="row gutters">
     <a href="{{ post.url }}" title="{{ post.title }}" class="col span_8">{{ post.title }}</a>
     <div class="post-date col span_4" style="padding-top:0; margin-top:0">
       <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-m月%-d" }}</time>
     </div>
   </article>
-
+{% endif %}
 {% if forloop.last %}</div></div>{% endif %}
 
 {% endfor %}
