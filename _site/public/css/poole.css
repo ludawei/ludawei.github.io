@@ -83,7 +83,7 @@ a:focus {
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: .5rem;
   font-weight: bold;
-  line-height: 1.25;
+  line-height: 1.5;
   color: #313131;
   text-rendering: optimizeLegibility;
 }
@@ -411,7 +411,7 @@ tbody tr:nth-child(odd) th {
   overflow: hidden; /* clearfix */
   margin-left: -1rem;
   margin-right: -1rem;
-  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
   color: #ccc;
   text-align: center;
 }

@@ -7,17 +7,20 @@ title: Home
   {% for post in paginator.posts %}
   {% if post.category != 'life' %}
   <div class="post">
-    <h1 class="post-title">
+    <h3 class="post-title">
       <a href="{{ post.url }}">
         {{ post.title }}
       </a>
-    </h1>
+    </h3>
 
     <span class="post-date">{{ post.date | date: "%Y年%-m月%-d" }}</span>
 
+    <div>
     {{ post.excerpt }}
-
-    <h5> 
+    </div>
+    
+    <!-- <h5 style="float:right;">  -->
+    <h5>
       <a href="{{ post.url }}">阅读全文>></a>
     </h5>
   </div>
