@@ -4,7 +4,7 @@
  <title>乌贼的技术博客</title>
  <link href="http://ludawei.github.io/atom.xml" rel="self"/>
  <link href="http://ludawei.github.io/"/>
- <updated>2015-01-21T17:55:51+08:00</updated>
+ <updated>2015-01-21T18:01:02+08:00</updated>
  <id>http://ludawei.github.io</id>
  <author>
    <name>卢大维</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>iOS 中常用的字符串加密方式</title>
-   <link href="http://ludawei.github.io/ios/2015/01/21/ios-%E5%8A%A0%E5%AF%86/"/>
+   <link href="http://ludawei.github.io/ios/2015/01/21/ios-encode/"/>
    <updated>2015-01-21T00:00:00+08:00</updated>
-   <id>http://ludawei.github.io/ios/2015/01/21/ios-加密</id>
+   <id>http://ludawei.github.io/ios/2015/01/21/ios-encode</id>
    <content type="html">&lt;ul&gt;
 &lt;li&gt; 16位MD5加密方式&lt;/li&gt;
 &lt;/ul&gt;
@@ -166,9 +166,9 @@
  
  <entry>
    <title>浦公英 - ios打包测试工具</title>
-   <link href="http://ludawei.github.io/ios/2015/01/19/ios-%E6%89%93%E5%8C%85%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-%E6%B5%A6%E5%85%AC%E8%8B%B1/"/>
+   <link href="http://ludawei.github.io/ios/2015/01/19/ios-Testing-iOS-simple-pgyer/"/>
    <updated>2015-01-19T00:00:00+08:00</updated>
-   <id>http://ludawei.github.io/ios/2015/01/19/ios-打包测试工具-浦公英</id>
+   <id>http://ludawei.github.io/ios/2015/01/19/ios-Testing-iOS-simple-pgyer</id>
    <content type="html">&lt;p&gt;ios打包测试工具 - &lt;a href=&quot;http://www.pgyer.com/&quot;&gt;浦公英&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Android的测试非常方便，放到服务器上，生成个链接，就可以安装测试了； &lt;/p&gt;
@@ -196,9 +196,9 @@
  
  <entry>
    <title>从0开始搭建github.io博客</title>
-   <link href="http://ludawei.github.io/%E5%85%B6%E5%AE%83/2015/01/16/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BAgithub.io%E5%8D%9A%E5%AE%A2/"/>
+   <link href="http://ludawei.github.io/%E5%85%B6%E5%AE%83/2015/01/16/Build-my-github.io-blog-from-0/"/>
    <updated>2015-01-16T00:00:00+08:00</updated>
-   <id>http://ludawei.github.io/%E5%85%B6%E5%AE%83/2015/01/16/从0开始搭建github.io博客</id>
+   <id>http://ludawei.github.io/%E5%85%B6%E5%AE%83/2015/01/16/Build-my-github.io-blog-from-0</id>
    <content type="html">&lt;p&gt;这几天比较闲，故有时间扫描博客；发现有很多 &lt;code&gt;userName.github.io&lt;/code&gt; 的博客，布局和主题比较美观，如&lt;a href=&quot;http://wanglongqi.github.io&quot;&gt;这里&lt;/a&gt;，于是心动了，google之；&lt;/p&gt;
 
 &lt;h4&gt;1，首先找到了&lt;a href=&quot;https://pages.github.com&quot;&gt;github的pages&lt;/a&gt;，按github引导一步步完成。&lt;/h4&gt;
