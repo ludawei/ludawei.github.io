@@ -5,7 +5,7 @@ title: 浦公英 - ios打包测试工具
 category: iOS
 ---
 
-ios打包测试工具 - [浦公英](http://www.pgyer.com/)
+ios打包测试工具 - [浦公英](http://www.pgyer.com/)  介绍与使用
 
 Android的测试非常方便，放到服务器上，生成个链接，就可以安装测试了； 
 
@@ -26,6 +26,6 @@ http://www.pgyer.com/apiv1/app/getAppKeyByShortcut
 http://www.pgyer.com/apiv1/app/install?aKey=791f5327dfd671300fac21ed7d4c****&_api_key=5db309c09824cf85d0252b530240****&password=****
 {% endhighlight %}
 
-直接把这个链接发给测试人员就行了，复制到iOS设备的`safri`中访问就可以安装测试了。
+直接把这个链接发给测试人员就行了，复制到iOS设备的`Safari`中访问就可以安装测试了。
 
 *有需要的朋友，赶紧去试试吧~*

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      iOS开发中用到的开源库（整理） &middot; 乌贼的技术博客
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"> -->
+
+  <link rel="stylesheet" href="/assets/css/solarized-dark.css">
+  <link rel="stylesheet" href="/assets/css/animate.min.css">
+  <link rel="stylesheet" href="/assets/css/responsive.gs.12col.css">
+
+  <meta name="uyan_auth" content="06b3cbdaaa" />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="layout-reverse theme-base-0d">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky ">
+    <div class="sidebar-about">
+      <h2>
+        <a href="/">
+          乌贼的技术博客
+        </a>
+      </h2>
+      <p class="lead">图片胜过千言万语，界面抵得上千图片</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">关于我</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/articles/">文章</a>
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+      <!-- <a class="sidebar-nav-item" href="https://github.com/ludawei/ludawei.github.io/archive/v1.0.0.zip">Download</a>
+      <a class="sidebar-nav-item" href="https://github.com/ludawei/ludawei.github.io">GitHub project</a> -->
+      <span class="sidebar-nav-item">Currently v1.0.0</span>
+    </nav>
+
+    <p>&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <!-- <div class="headnote">
+    	乌贼的技术博客
+    </div> -->
+
+
+    <div class="content container fadeInLeft animated">
+     <div class="post">
+  <h1 class="post-title">iOS开发中用到的开源库（整理）</h1>
+  <span class="post-date">2015年1月22</span>
+  <p>开源库在app开发中起着重要的作用，用好了开源库，往往能<strong>代码风骚、效率恐怖</strong>~</p>
+
+<p>做iOS也有几年了，整理一下开发中常用到的开源库。 </p>
+
+<p>1，<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>&nbsp;在iOS开发中使用非常多网络开源库,适用于iOS以及Mac OS X。架构良好，模块清晰，api丰富，绝对是iOS开发中网络库的不二之先。
+<div class="message">
+<em>AFNetworing</em>是mattt大神的开源库，mattt同时也是<a href="http://nshipster.com/">nshipster</a>的组织者，上面有很多关于iOS的技术文章。
+</div>
+简单使用示例：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">manager</span><span class="p">];</span>
+<span class="p">[</span><span class="n">manager</span> <span class="nl">GET</span><span class="p">:</span><span class="s">@&quot;http://example.com/resources.json&quot;</span> <span class="nl">parameters</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;JSON: %@&quot;</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
+<span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+<span class="p">}];</span></code></pre></div>
+
+
+2，<a href="https://github.com/rs/SDWebImage">SDWebImage</a>&nbsp;ios开发的图片下载缓存库，实现<strong>懒加载</strong>的得力助手。
+<div class="message">
+不过新版本的AFNetwording集成了这功能，而且api一样，所以现在基本用不单独用这个库了。
+</div>
+
+<p>简单使用示例：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">imageView</span> <span class="nl">setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://www.domain.com/path/to/image.jpg&quot;</span><span class="p">]</span>
+               <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;placeholder.png&quot;</span><span class="p">]</span>
+                      <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">)</span> <span class="p">{</span>
+                      <span class="p">...</span> <span class="n">completion</span> <span class="n">code</span> <span class="n">here</span> <span class="p">...</span>
+                      <span class="p">}];</span></code></pre></div>
+
+
+3，<a href="https://github.com/jdg/MBProgressHUD">MBProgressHUD </a>&nbsp;集加载等待、进度条、提示功能于一体的指示器库。
+<div class="message">
+基于它可以非常简单的生成类型Android的toast的提示效果；
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showHUDNoteWithText:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+<span class="p">{</span>
+    <span class="n">MBProgressHUD</span> <span class="o">*</span><span class="n">hud</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MBProgressHUD</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithWindow</span><span class="p">:[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">keyWindow</span><span class="p">];</span>
+    <span class="n">hud</span><span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">MBProgressHUDModeText</span><span class="p">;</span>
+    <span class="n">hud</span><span class="p">.</span><span class="n">removeFromSuperViewOnHide</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">keyWindow</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">hud</span><span class="p">];</span>
+    <span class="n">hud</span><span class="p">.</span><span class="n">labelText</span> <span class="o">=</span> <span class="n">text</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">hud</span> <span class="nl">show</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">hud</span> <span class="nl">hide</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">afterDelay</span><span class="p">:</span><span class="mf">1.5</span><span class="p">];</span>
+<span class="p">}</span></code></pre></div>
+
+</div>
+
+<p><img src="/assets/images/1%E6%9C%88-22-2015-11-34.gif" alt="gif"></p>
+
+<p>4，<a href="https://developer.apple.com/library/ios/samplecode/Reachability/Introduction/Intro.html">Reachability</a>&nbsp;<code>apple</code>官方给出的在iOS设备上检测网络的库，可以检测网络的连通性，也可以监听网络的变化（由3g到wifi等情况）。<br>
+简单使用示例：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">-(</span><span class="kt">int</span><span class="p">)</span><span class="nf">checkNetWork</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">isExistenceNetWork</span><span class="p">;</span>
+    <span class="n">Reachability</span> <span class="o">*</span><span class="n">reachability</span> <span class="o">=</span> <span class="p">[</span><span class="n">Reachability</span> <span class="nl">reachabilityWithHostName</span><span class="p">:</span><span class="s">@&quot;www.baidu.com&quot;</span><span class="p">];</span>
+    <span class="k">switch</span> <span class="p">([</span><span class="n">reachability</span> <span class="n">currentReachabilityStatus</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="nl">NotReachable</span><span class="p">:</span><span class="c1">//无网络</span>
+            <span class="n">isExistenceNetWork</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">ReachableVia3G</span><span class="p">:</span><span class="c1">//使用3G或RPRS</span>
+            <span class="n">isExistenceNetWork</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">ReachableVia2G</span><span class="p">:</span><span class="c1">//使用2G或RPRS</span>
+            <span class="n">isExistenceNetWork</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">ReachableViaWiFi</span><span class="p">:</span><span class="c1">//使用WiFi</span>
+            <span class="n">isExistenceNetWork</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">isExistenceNetWork</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+
+5，<a href="https://github.com/gotosleep/JASidePanels">JASidePanels</a>&nbsp;左右侧滑的UIViewController容器;
+<div class="message">
+这样左右侧滑效果在一两年前，相当流行啊！现在好像差不多审美疲劳了~
+</div>
+
+<p><img src="https://camo.githubusercontent.com/c7764cc1a74c7a9be35fa09f350adb5622e3eb49/68747470733a2f2f696d672e736b697463682e636f6d2f32303132303332322d6478366b36393537377261333777776771676d73676b737170782e6a7067" alt=""></p>
+
+<p>6，分享组件&nbsp;&nbsp;&nbsp;国内有好多平台，用过的有：<br>
+<ul>
+<li><a href="http://www.umeng.com/social">友盟</a></li>
+<li><a href="http://www.mob.com/">mob</a></li>
+<li><a href="http://share.baidu.com/">百度</a></li>
+</ul></p>
+
+<p>7，<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>&nbsp;&nbsp; GPUImage是Brad Larson在github托管的一个开源项目，项目实现了图片滤镜、摄像头实时滤镜，该项目的优点不但在于滤镜很多，而且处理效果是基于GPU的，比使用CPU性能更高。
+<div class="message">
+部分滤镜介绍参考<a href="http://www.cnblogs.com/bunsman/archive/2013/06/06/3121406.html">这里</a>
+</div>
+<img src="/assets/images/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202015-01-22%20%E4%B8%8B%E5%8D%882.16.00.png" alt="filterImage">
+简单使用示例：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">GPUImageSepiaFilter</span> <span class="o">*</span><span class="n">stillImageFilter2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPUImageSepiaFilter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="bp">UIImage</span> <span class="o">*</span><span class="n">quickFilteredImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">stillImageFilter2</span> <span class="nl">imageByFilteringImage</span><span class="p">:</span><span class="n">inputImage</span><span class="p">];</span></code></pre></div>
+
+
+8，<a href="https://github.com/feuvan/opencore-amr-iOS">opencore-amr</a>&nbsp;&nbsp;能将声音转化为amr格式，amr格式十多Ｋ大小就可以长达一分钟的内容，便于网络上传使用。
+<div class="message">
+编译好的带arm64的库见<a href="https://github.com/ondev/AMR-for-iOS7">这里</a>或者<a href="https://github.com/guange2015/ios-amr">这里</a><br />
+因为源码是c语言的，故调用时用到中间函数，示例见<a href="https://github.com/guange2015/ios-amr">这里</a>
+</div>
+
+<p>9，<a href="https://github.com/jamztang/JTGestureBasedTableViewDemo">JTGestureBasedTableView</a>&nbsp;&nbsp;对UITableViewCell手势的监听操作，个人用到的是它的“长按cell重新排序”的功能；<br>
+<img src="https://raw.githubusercontent.com/jamztang/JTGestureBasedTableViewDemo/master/demo4.png" alt="Drawing" style="width: 200px;"/></p>
+
+<p>10，<a href="https://github.com/piemonte/PBJVision">PBJVision</a>&nbsp;&nbsp;PBJVision是iOS摄像头引擎，支持按住屏幕后录制视频和拍照。
+<div class="message">
+拍摄界面可自定义，拍摄视频尺寸可自定义，功能很强大，谁用谁知道。
+</div></p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad:</span><span class="p">(</span><span class="n">Bool</span><span class="p">)</span><span class="nv">animated</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="nb">super</span> <span class="nl">viewDidLoad</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+    
+    <span class="c1">// preview and AV layer</span>
+    <span class="n">_previewView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectZero</span><span class="p">];</span>
+    <span class="n">_previewView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+    <span class="bp">CGRect</span> <span class="n">previewFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">60.0f</span><span class="p">,</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">),</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">));</span>
+    <span class="n">_previewView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">previewFrame</span><span class="p">;</span>
+    <span class="n">_previewLayer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PBJVision</span> <span class="n">sharedInstance</span><span class="p">]</span> <span class="n">previewLayer</span><span class="p">];</span>
+    <span class="n">_previewLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">_previewView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="n">_previewLayer</span><span class="p">.</span><span class="n">videoGravity</span> <span class="o">=</span> <span class="n">AVLayerVideoGravityResizeAspectFill</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">_previewView</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="n">_previewLayer</span><span class="p">];</span>
+<span class="p">}</span>
+        
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">_setup</span>
+<span class="p">{</span>
+    <span class="n">_longPressGestureRecognizer</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+        
+    <span class="n">PBJVision</span> <span class="o">*</span><span class="n">vision</span> <span class="o">=</span> <span class="p">[</span><span class="n">PBJVision</span> <span class="n">sharedInstance</span><span class="p">];</span>
+    <span class="n">vision</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+    <span class="n">vision</span><span class="p">.</span><span class="n">cameraMode</span> <span class="o">=</span> <span class="n">PBJCameraModeVideo</span><span class="p">;</span>
+    <span class="n">vision</span><span class="p">.</span><span class="n">cameraOrientation</span> <span class="o">=</span> <span class="n">PBJCameraOrientationPortrait</span><span class="p">;</span>
+    <span class="n">vision</span><span class="p">.</span><span class="n">focusMode</span> <span class="o">=</span> <span class="n">PBJFocusModeContinuousAutoFocus</span><span class="p">;</span>
+    <span class="n">vision</span><span class="p">.</span><span class="n">outputFormat</span> <span class="o">=</span> <span class="n">PBJOutputFormatSquare</span><span class="p">;</span>    <span class="p">[</span><span class="n">vision</span> <span class="n">startPreview</span><span class="p">];</span>
+<span class="p">}</span></code></pre></div>
+
+
+11，<a href="https://github.com/enormego/EGOTableViewPullRefresh">EGOTableViewPullRefresh</a>&nbsp;&nbsp;最有名的iOS列表下拉刷新控件。
+<div class="message">
+源码可任意自定义，修改出各种样式的下拉刷新样式~
+</div>
+
+<p>12，<a href="https://github.com/CEWendel/SWTableViewCell">SWTableViewCell</a>&nbsp;&nbsp;UITableViewCell右滑删除，效果十分赞~
+<img src="https://camo.githubusercontent.com/c138fcd3df24ae1d91f8bf6feb51a1cf111606a4/687474703a2f2f692e696d6775722e636f6d2f6e6a4b436a4b382e676966" alt=""></p>
+
+<p>13，<a href="http://developer.baidu.com/wiki/index.php?title=docs/cplat/media/voice">百度语音服务</a>&nbsp;&nbsp;这个服务能帮你把语音变成文本。</p>
+
+<p>简单使用示例：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sdkUIRecognition</span>
+<span class="p">{</span>
+    <span class="c1">// 创建识别控件</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">recognizerViewController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BDRecognizerViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithOrigin</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span> <span class="nl">withTheme</span><span class="p">:[</span><span class="n">BDTheme</span> <span class="n">lightBlueTheme</span><span class="p">]];</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">recognizerViewController</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+    <span class="c1">//    self.recognizerViewController = tmpRecognizerViewController;</span>
+    
+    <span class="c1">// 设置识别参数</span>
+    <span class="n">BDRecognizerViewParamsObject</span> <span class="o">*</span><span class="n">paramsObject</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BDRecognizerViewParamsObject</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+    
+    <span class="c1">// 开发者信息，必须修改API_KEY和SECRET_KEY为在百度开发者平台申请得到的值，否则示例不能工作</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">apiKey</span> <span class="o">=</span> <span class="n">BAIDU_API_KEY</span><span class="p">;</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">secretKey</span> <span class="o">=</span> <span class="n">BAIDU_SECRET_KEY</span><span class="p">;</span>
+    
+    <span class="c1">// 设置是否需要语义理解，只在搜索模式有效</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">isNeedNLU</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    
+    <span class="c1">// 设置识别语言</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">BDVoiceRecognitionLanguageChinese</span><span class="p">;</span>
+    
+    <span class="c1">// 设置识别模式，分为搜索和输入</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">recognitionProperty</span> <span class="o">=</span> <span class="n">EVoiceRecognitionPropertySearch</span><span class="p">;</span>
+    
+    <span class="c1">// 开启联系人识别</span>
+    <span class="c1">//paramsObject.enableContacts = YES;</span>
+    
+    <span class="c1">// 设置显示效果，是否开启连续上屏</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">resultShowMode</span> <span class="o">=</span> <span class="n">BDRecognizerResultShowModeWholeShow</span><span class="p">;</span>
+    
+    <span class="c1">// 设置提示音开关，是否打开，默认打开</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">recordPlayTones</span> <span class="o">=</span> <span class="n">EBDRecognizerPlayTonesRecordForbidden</span><span class="p">;</span>
+    
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">isShowTipAfter3sSilence</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="n">paramsObject</span><span class="p">.</span><span class="n">isShowHelpButtonWhenSilence</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="c1">//    paramsObject.tipsTitle = @&quot;可以使用如下指令记账&quot;;</span>
+<span class="c1">//    paramsObject.tipsList = [NSArray arrayWithObjects:@&quot;我要记账&quot;, @&quot;买苹果花了十块钱&quot;, @&quot;买牛奶五块钱&quot;, @&quot;第四行滚动后可见&quot;, @&quot;第五行是最后一行&quot;, nil];</span>
+    
+    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">recognizerViewController</span> <span class="nl">startWithParams</span><span class="p">:</span><span class="n">paramsObject</span><span class="p">];</span>
+<span class="p">}</span></code></pre></div>
+
+
+14，高德地图sdk，百度地图sdk&nbsp;&nbsp;&nbsp;这两个地图sdk的api基本一样，都包含了`apple`自己的MapKit的所有api.
+<div class="message">
+这两地图提供了一些额外的api，如地图覆盖物图层MAGroundOverlay等。<br />
+用法见官网吧。
+</div>
+
+<p>15，<a href="https://github.com/ninjinkun/NJKWebViewProgress">NJKWebViewProgress</a>&nbsp;&nbsp;是一个 UIWebView 的进度条接口库，UIWebView 本身是不提供进度条的。样式与Safari差不多。<br>
+<img src="https://camo.githubusercontent.com/082fc708cc461dc53832b7d14d5affdf475dd57b/68747470733a2f2f7261772e6769746875622e636f6d2f6e696e6a696e6b756e2f4e4a4b5765625669657750726f67726573732f6d61737465722f44656d6f4170702f53637265656e73686f742f73637265656e73686f74312e706e67" alt="Drawing" style="width: 200px;"/></p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">// Do any additional setup after loading the view.</span>
+    
+    <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+    
+    <span class="n">_progressProxy</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NJKWebViewProgress</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+    <span class="n">_progressProxy</span><span class="p">.</span><span class="n">webViewProxyDelegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+    <span class="n">_progressProxy</span><span class="p">.</span><span class="n">progressDelegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+    
+    <span class="n">CGFloat</span> <span class="n">progressBarHeight</span> <span class="o">=</span> <span class="mf">2.f</span><span class="p">;</span>
+    <span class="bp">CGRect</span> <span class="n">navigaitonBarBounds</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="bp">CGRect</span> <span class="n">barFrame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">navigaitonBarBounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">progressBarHeight</span><span class="p">,</span> <span class="n">navigaitonBarBounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">progressBarHeight</span><span class="p">);</span>
+    <span class="n">_progressView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NJKWebViewProgressView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">barFrame</span><span class="p">];</span>
+    <span class="n">_progressView</span><span class="p">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="n">UIViewAutoresizingFlexibleWidth</span> <span class="o">|</span> <span class="n">UIViewAutoresizingFlexibleTopMargin</span><span class="p">;</span>
+    
+    <span class="n">_webView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIWebView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">height</span><span class="p">)];</span>
+    <span class="n">_webView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">_progressProxy</span><span class="p">;</span>
+    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">_webView</span><span class="p">];</span>
+    
+    <span class="p">[</span><span class="nb">self</span> <span class="n">loadUrl</span><span class="p">];</span>
+    
+    <span class="c1">// other inits...</span>
+<span class="p">}</span>
+        
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="nb">super</span> <span class="nl">viewWillAppear</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+    
+    <span class="c1">// self.navigationController.navigationBarHidden = NO;</span>
+    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">_progressView</span><span class="p">];</span>
+<span class="p">}</span></code></pre></div>
+
+
+16，<a href="https://github.com/bmorton/ZBarSDK">ZBarSDK</a>&nbsp;&nbsp;条形码和二维码扫描库。
+<div class="message">
+支持arm64的库到<a href="https://github.com/null09264/ZBarSDK-for-iOS">这里</a>下载<br />
+使用方法与调用相机差不多，delegate代码比较多，示例自行google吧。
+</div>
+
+<p>17，<a href="http://developer.baidu.com/cloud/push">百度推送</a>&nbsp;&nbsp;可管理，更简便的推送功能。
+<div class="message">
+使用的的实质其实只是用百度推送服务器做了一次中转
+<ul>
+<li>未使用：我们的服务器-&gt;apns-&gt;iOS设备</li>
+<li>使用后：我们的服务器-&gt;百度云推送服务器-&gt;apns-&gt;iOS设备</li>
+</ul>
+使用的好处是，它提供用户分组，可以单播，分组播等，也提供了统计功能。
+</div></p>
+
+<p>18，微信支付，银联支付
+<div class="message">
+这两个api接口要想成功调用，都必须申请各自平台支付商户号。
+其中银联的sdk也得申请完了，人家才会给。</p>
+
+<p>客户端代码比较简单了，所有订单，流水号全在服务上生成完了，参数扔给客户端，
+客户端调起各平台的支付界面，就没你事了，成功与否在delegate中找。</p>
+
+<p>支付宝虽然没实际用过，但想来流程也应该差不多~
+</div>
+部分示例代码：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">wxPay</span>
+<span class="p">{</span>
+    <span class="n">TJHttpCmdWXPayData</span> <span class="o">*</span><span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="n">TJHttpCmdWXPayData</span> <span class="n">cmd</span><span class="p">];</span>
+    <span class="n">cmd</span><span class="p">.</span><span class="n">payType</span> <span class="o">=</span> <span class="s">@&quot;wx&quot;</span><span class="p">;</span>
+    <span class="n">cmd</span><span class="p">.</span><span class="n">sign</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">sign</span><span class="p">;</span>
+    <span class="n">cmd</span><span class="p">.</span><span class="n">tokenId</span> <span class="o">=</span> <span class="p">[</span><span class="n">TJUserManager</span> <span class="n">sharedInstance</span><span class="p">].</span><span class="n">tokenId</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">cmd</span> <span class="nl">setSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">object</span><span class="p">){</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">object</span><span class="p">);</span>
+        
+        <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">dict</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;payData&quot;</span><span class="p">];</span>
+        
+        <span class="nb">self</span><span class="p">.</span><span class="n">payTradeNo</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;tradeNo&quot;</span><span class="p">];</span>
+        
+        <span class="c1">// 调起微信支付</span>
+        <span class="n">PayReq</span> <span class="o">*</span><span class="n">request</span>   <span class="o">=</span> <span class="p">[[</span><span class="n">PayReq</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">partnerId</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="s">@&quot;partnerid&quot;</span><span class="p">]];</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">prepayId</span>  <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="s">@&quot;prepayid&quot;</span><span class="p">]];</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">package</span>   <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="s">@&quot;packages&quot;</span><span class="p">]];</span>      <span class="c1">// 文档为 `Request.package = _package;` , 但如果填写上面生成的 `package` 将不能支付成功</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">nonceStr</span>  <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="s">@&quot;noncestr&quot;</span><span class="p">]];</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">timeStamp</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="s">@&quot;timestamp&quot;</span><span class="p">]]</span> <span class="n">integerValue</span><span class="p">];</span>
+        
+        <span class="n">request</span><span class="p">.</span><span class="n">sign</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">dict</span><span class="p">[</span><span class="s">@&quot;sign&quot;</span><span class="p">]];</span>
+        
+        <span class="c1">// 在支付之前，如果应用没有注册到微信，应该先调用 [WXApi registerApp:appId] 将应用注册到微信</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">WXApi</span> <span class="nl">safeSendReq</span><span class="p">:</span><span class="n">request</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;success~~&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;fail~~&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">cmd</span> <span class="nl">setFail</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">response</span><span class="p">){</span>
+        <span class="n">LOG</span><span class="p">(</span><span class="s">@&quot;失败%@&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">);</span>
+        
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">cmd</span> <span class="n">startRequest</span><span class="p">];</span>
+<span class="p">}</span>
+        
+<span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">upPay</span>
+<span class="p">{</span>
+    <span class="n">TJHttpCmdWXPayData</span> <span class="o">*</span><span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="n">TJHttpCmdWXPayData</span> <span class="n">cmd</span><span class="p">];</span>
+    <span class="n">cmd</span><span class="p">.</span><span class="n">payType</span> <span class="o">=</span> <span class="s">@&quot;up&quot;</span><span class="p">;</span>
+    <span class="n">cmd</span><span class="p">.</span><span class="n">sign</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">sign</span><span class="p">;</span>
+    <span class="n">cmd</span><span class="p">.</span><span class="n">tokenId</span> <span class="o">=</span> <span class="p">[</span><span class="n">TJUserManager</span> <span class="n">sharedInstance</span><span class="p">].</span><span class="n">tokenId</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">cmd</span> <span class="nl">setSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">object</span><span class="p">){</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">object</span><span class="p">);</span>
+        
+        <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">dict</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;payData&quot;</span><span class="p">];</span>
+        <span class="nb">self</span><span class="p">.</span><span class="n">payTradeNo</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;tradeNo&quot;</span><span class="p">];</span>
+        
+        <span class="bp">NSString</span> <span class="o">*</span><span class="n">tn</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;tn&quot;</span><span class="p">];</span>
+        <span class="bp">NSString</span> <span class="o">*</span><span class="n">mode</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;model&quot;</span><span class="p">];</span>
+        
+        <span class="c1">// 从服务器请求回来tn</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">UPPayPlugin</span> <span class="nl">startPay</span><span class="p">:</span><span class="n">tn</span> <span class="nl">mode</span><span class="p">:</span><span class="n">mode</span> <span class="nl">viewController</span><span class="p">:</span><span class="nb">self</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;success~~&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;fail~~&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">cmd</span> <span class="nl">setFail</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">response</span><span class="p">){</span>
+        <span class="n">LOG</span><span class="p">(</span><span class="s">@&quot;失败%@&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">);</span>
+        
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">cmd</span> <span class="n">startRequest</span><span class="p">];</span>
+<span class="p">}</span></code></pre></div>
+
+<p>还有一些用过的，但不常用，就不介绍了。先到这里，以后有再添加。</p>
+
+</div>
+
+<div class="footnote">
+  先要解决从玩到有的问题，再说从差到好的问题。
+</div>
+
+<div class="related">
+  <h3>最近发布</h3>
+  <ul class="related-posts">
+    
+    
+      <li>
+        <h4>
+          <a href="/ios/2015/01/21/ios-encode/">
+            iOS 中常用的字符串加密方式
+            <small>2015年1月21</small>
+          </a>
+        </h4>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <h4>
+          <a href="/ios/2015/01/19/ios-Testing-iOS-simple-pgyer/">
+            浦公英 - ios打包测试工具
+            <small>2015年1月19</small>
+          </a>
+        </h4>
+      </li>
+    
+    
+  </ul>
+</div>
+
+<div style="margin-bottom:1rem;padding:0;height:1px;background-color:#eee;overflow:hidden;"> </div>
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2003036"></script>
+<!-- UY END -->
+
+    </div>
+
+
+  </body>
+</html>
