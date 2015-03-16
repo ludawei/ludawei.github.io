@@ -31,6 +31,8 @@ NSData *data = [NSData dataWithContentsOfFile:imagePath];
 ####3，ios推送中加小图片->[apple push emoji](http://stackoverflow.com/questions/16649050/emojis-support-in-apple-push-notification), 参考http://code.iamcal.com/php/emoji/
 ![](/assets/images/屏幕快照 2015-03-16 下午3.55.34.png)
 
-####4，iOS 定位坐标不准确的相关整理及解决方案汇总 CLLocation+Sino
+####4，[iOS 定位坐标不准确的相关整理及解决方案汇总](http://blog.csdn.net/demo_qiao/article/details/43667317) CLLocation+Sino
 
 ####5，2015年3月起，要求关闭所有App内的检查更新功能，苹果App Store将向用户自动提示更新，新提交审核版本如果保留检查更新入口审核时将被拒绝
+
+####6，MKMapView加载时，控制台提示 “mapview More than xxx names on road . Data is probably bad. Please open a radar”，还未找到解决方法。
