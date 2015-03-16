@@ -24,10 +24,8 @@ NSData *data = [NSData dataWithContentsOfFile:imagePath];
 
 解决方法：
 
->1）检查Target->Capabilities，修改掉其中的错误；
-
-2）若没有找到错误，则重启xcode后，重复上面1）操作；
-
+>1）检查Target->Capabilities，修改掉其中的错误；  
+2）若没有找到错误，则重启xcode后，重复上面1）操作；  
 3）若还没有错误，则删除手机上应用，再试；  
 
 ####3，ios推送中加小图片->[apple push emoji](http://stackoverflow.com/questions/16649050/emojis-support-in-apple-push-notification), 参考http://code.iamcal.com/php/emoji/
