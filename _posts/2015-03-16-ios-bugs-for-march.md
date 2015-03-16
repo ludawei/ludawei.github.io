@@ -4,9 +4,9 @@ title: iOS开发-这几天遇到的问题
 category: iOS
 ---
 
-几个比较烦人的xcodebug：
-1，ios <Error>: 
-ImageIO: CGImageReadCreateDataWithMappedFile  'open' failed 
+这几天遇到的几个比较烦人的问题及解决方法（记录一下）  
+
+###1，ios <Error>: ImageIO: CGImageReadCreateDataWithMappedFile  'open' failed 
 程序没有错误，逻辑也没有问题；
 
 最后把
@@ -20,7 +20,7 @@ NSData *data = [NSData dataWithContentsOfFile:imagePath];
 
 问题解决；
 
-2，真机调试时，The entitlements specified in your application’s Code Signing Entitlements file do not match those specified in your provisioning profile.
+###2，真机调试时，The entitlements specified in your application’s Code Signing Entitlements file do not match those specified in your provisioning profile.
 
 解决方法：
 
@@ -32,8 +32,8 @@ NSData *data = [NSData dataWithContentsOfFile:imagePath];
 
 
 
-3，ios推送中加小图片->apple push emoji
+###3，ios推送中加小图片->apple push emoji
 
-4，iOS 定位坐标不准确的相关整理及解决方案汇总 CLLocation+Sino
+###4，iOS 定位坐标不准确的相关整理及解决方案汇总 CLLocation+Sino
 
-5，2015年3月起，要求关闭所有App内的检查更新功能，苹果App Store将向用户自动提示更新，新提交审核版本如果保留检查更新入口审核时将被拒绝
+###5，2015年3月起，要求关闭所有App内的检查更新功能，苹果App Store将向用户自动提示更新，新提交审核版本如果保留检查更新入口审核时将被拒绝
