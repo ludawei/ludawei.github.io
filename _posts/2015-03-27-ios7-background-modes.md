@@ -1,8 +1,6 @@
-
 ---
 layout: post
 title: iOS 7新增三种后台测试
-<!-- excerpt: ios打包测试工具 - [浦公英](http://www.pgyer.com/) -->
 category: iOS
 ---
 
