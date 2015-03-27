@@ -29,7 +29,7 @@ category: iOS
 4， 远程下载时，这个sessionConfiguration的identifier很重要， com.company.XXX  这里，这个com.company.这个一定要和 bundle identifier 里面的一致，否则ApplicationDelegate 不会调用handleEventsForBackgroundURLSession代理方法
 
 
-测试demo：https://github.com/ludawei，m/TestMultaMask.git
+测试demo：https://github.com/ludawei/TestMultaMask.git
 
 #####3）测试结果：  
 远程推送的想法demo中已经实现；  
