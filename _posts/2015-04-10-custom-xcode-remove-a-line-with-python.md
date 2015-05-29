@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
 {% endhighlight %}
 
-使用场景：
+#使用场景：
 每次更新xcode后（apple更新xcode的频率真心快）
-用法：
+#用法：
 创建空文件，粘贴代码并保存为.py文件，在控制台cd到文件目前目录，执行 python 文件名.py ,重启xcode。
