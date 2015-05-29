@@ -4,10 +4,10 @@ title: iOS开发中用到的开源库（整理）
 category: iOS
 ---
 
-开源库在app开发中起着重要的作用，用好了开源库，往往能**代码风骚、效率恐怖**~
+本着不重复造轮子的原则，app开发中或多或少用各种的开源库，用对了开源库，往往能**代码风骚、效率恐怖**~
 
-做iOS也有几年了，整理一下开发中常用到的开源库。 
- 
+做iOS也有几年了，整理一下开发中常用到的开源库。
+
 1，[AFNetworking](https://github.com/AFNetworking/AFNetworking)&nbsp;在iOS开发中使用非常多网络开源库,适用于iOS以及Mac OS X。架构良好，模块清晰，api丰富，绝对是iOS开发中网络库的不二之先。
 <div class="message">
 *AFNetworing*是mattt大神的开源库，mattt同时也是[nshipster](http://nshipster.com/)的组织者，上面有很多关于iOS的技术文章。
@@ -53,7 +53,7 @@ AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager]
 </div>
 ![gif](/assets/images/1月-22-2015-11-34.gif)
 
-4，[Reachability](https://developer.apple.com/library/ios/samplecode/Reachability/Introduction/Intro.html)&nbsp;`apple`官方给出的在iOS设备上检测网络的库，可以检测网络的连通性，也可以监听网络的变化（由3g到wifi等情况）。  
+4，[Reachability](https://developer.apple.com/library/ios/samplecode/Reachability/Introduction/Intro.html)&nbsp;`apple`官方给出的在iOS设备上检测网络的库，可以检测网络的连通性，也可以监听网络的变化（由3g到wifi等情况）。
 简单使用示例：
 {% highlight objc %}
 -(int)checkNetWork {
@@ -83,7 +83,7 @@ AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager]
 </div>
 ![](https://camo.githubusercontent.com/c7764cc1a74c7a9be35fa09f350adb5622e3eb49/68747470733a2f2f696d672e736b697463682e636f6d2f32303132303332322d6478366b36393537377261333777776771676d73676b737170782e6a7067)
 
-6，分享组件&nbsp;&nbsp;&nbsp;国内有好多平台，用过的有：  
+6，分享组件&nbsp;&nbsp;&nbsp;国内有好多平台，用过的有：
 <ul>
 <li>[友盟](http://www.umeng.com/social)</li>
 <li>[mob](http://www.mob.com/)</li>
@@ -107,7 +107,7 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
 因为源码是c语言的，故调用时用到中间函数，示例见<a href="https://github.com/guange2015/ios-amr">这里</a>
 </div>
 
-9，<a href="https://github.com/jamztang/JTGestureBasedTableViewDemo">JTGestureBasedTableView</a>&nbsp;&nbsp;对UITableViewCell手势的监听操作，个人用到的是它的“长按cell重新排序”的功能；  
+9，<a href="https://github.com/jamztang/JTGestureBasedTableViewDemo">JTGestureBasedTableView</a>&nbsp;&nbsp;对UITableViewCell手势的监听操作，个人用到的是它的“长按cell重新排序”的功能；
 <img src="https://raw.githubusercontent.com/jamztang/JTGestureBasedTableViewDemo/master/demo4.png" alt="Drawing" style="width: 200px;"/>
 
 10，<a href="https://github.com/piemonte/PBJVision">PBJVision</a>&nbsp;&nbsp;PBJVision是iOS摄像头引擎，支持按住屏幕后录制视频和拍照。
@@ -118,7 +118,7 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
 -(void)viewDidLoad:(Bool)animated
 {
 	[super viewDidLoad:animated];
-	
+
 	// preview and AV layer
     _previewView = [[UIView alloc] initWithFrame:CGRectZero];
     _previewView.backgroundColor = [UIColor blackColor];
@@ -129,11 +129,11 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
     _previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [_previewView.layer addSublayer:_previewLayer];
 }
-		
+
 - (void)_setup
 {
     _longPressGestureRecognizer.enabled = YES;
-		
+
     PBJVision *vision = [PBJVision sharedInstance];
     vision.delegate = self;
     vision.cameraMode = PBJCameraModeVideo;
@@ -163,37 +163,37 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
     self.recognizerViewController = [[BDRecognizerViewController alloc] initWithOrigin:CGPointMake(9, 128) withTheme:[BDTheme lightBlueTheme]];
     self.recognizerViewController.delegate = self;
     //    self.recognizerViewController = tmpRecognizerViewController;
-    
+
     // 设置识别参数
     BDRecognizerViewParamsObject *paramsObject = [[BDRecognizerViewParamsObject alloc] init];
-    
+
     // 开发者信息，必须修改API_KEY和SECRET_KEY为在百度开发者平台申请得到的值，否则示例不能工作
     paramsObject.apiKey = BAIDU_API_KEY;
     paramsObject.secretKey = BAIDU_SECRET_KEY;
-    
+
     // 设置是否需要语义理解，只在搜索模式有效
     paramsObject.isNeedNLU = NO;
-    
+
     // 设置识别语言
     paramsObject.language = BDVoiceRecognitionLanguageChinese;
-    
+
     // 设置识别模式，分为搜索和输入
     paramsObject.recognitionProperty = EVoiceRecognitionPropertySearch;
-    
+
     // 开启联系人识别
     //paramsObject.enableContacts = YES;
-    
+
     // 设置显示效果，是否开启连续上屏
     paramsObject.resultShowMode = BDRecognizerResultShowModeWholeShow;
-    
+
     // 设置提示音开关，是否打开，默认打开
     paramsObject.recordPlayTones = EBDRecognizerPlayTonesRecordForbidden;
-    
+
     paramsObject.isShowTipAfter3sSilence = NO;
     paramsObject.isShowHelpButtonWhenSilence = NO;
 //    paramsObject.tipsTitle = @"可以使用如下指令记账";
 //    paramsObject.tipsList = [NSArray arrayWithObjects:@"我要记账", @"买苹果花了十块钱", @"买牛奶五块钱", @"第四行滚动后可见", @"第五行是最后一行", nil];
-    
+
     [self.recognizerViewController startWithParams:paramsObject];
 }
 {% endhighlight %}
@@ -204,38 +204,38 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
 用法见官网吧。
 </div>
 
-15，<a href="https://github.com/ninjinkun/NJKWebViewProgress">NJKWebViewProgress</a>&nbsp;&nbsp;是一个 UIWebView 的进度条接口库，UIWebView 本身是不提供进度条的。样式与Safari差不多。  
+15，<a href="https://github.com/ninjinkun/NJKWebViewProgress">NJKWebViewProgress</a>&nbsp;&nbsp;是一个 UIWebView 的进度条接口库，UIWebView 本身是不提供进度条的。样式与Safari差不多。
 <img src="https://camo.githubusercontent.com/082fc708cc461dc53832b7d14d5affdf475dd57b/68747470733a2f2f7261772e6769746875622e636f6d2f6e696e6a696e6b756e2f4e4a4b5765625669657750726f67726573732f6d61737465722f44656d6f4170702f53637265656e73686f742f73637265656e73686f74312e706e67" alt="Drawing" style="width: 200px;"/>
 {% highlight objc %}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     _progressProxy = [[NJKWebViewProgress alloc] init];
     _progressProxy.webViewProxyDelegate = self;
     _progressProxy.progressDelegate = self;
-    
+
     CGFloat progressBarHeight = 2.f;
     CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
     CGRect barFrame = CGRectMake(0, navigaitonBarBounds.size.height - progressBarHeight, navigaitonBarBounds.size.width, progressBarHeight);
     _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    
+
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height)];
     _webView.delegate = _progressProxy;
     [self.view addSubview:_webView];
-    
+
     [self loadUrl];
-    
+
     // other inits...
 }
-		
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     // self.navigationController.navigationBarHidden = NO;
     [self.navigationController.navigationBar addSubview:_progressView];
 }
@@ -277,11 +277,11 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
     cmd.tokenId = [TJUserManager sharedInstance].tokenId;
     [cmd setSuccess:^(id object){
         NSLog(@"%@", object);
-        
+
         NSDictionary *dict = [object objectForKey:@"payData"];
-        
+
         self.payTradeNo = [dict objectForKey:@"tradeNo"];
-        
+
         // 调起微信支付
         PayReq *request   = [[PayReq alloc] init];
         request.partnerId = [NSString stringWithFormat:@"%@", dict[@"partnerid"]];
@@ -289,9 +289,9 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
         request.package   = [NSString stringWithFormat:@"%@", dict[@"packages"]];      // 文档为 `Request.package = _package;` , 但如果填写上面生成的 `package` 将不能支付成功
         request.nonceStr  = [NSString stringWithFormat:@"%@", dict[@"noncestr"]];
         request.timeStamp = [[NSString stringWithFormat:@"%@", dict[@"timestamp"]] integerValue];
-        
+
         request.sign = [NSString stringWithFormat:@"%@", dict[@"sign"]];
-        
+
         // 在支付之前，如果应用没有注册到微信，应该先调用 [WXApi registerApp:appId] 将应用注册到微信
         if ([WXApi safeSendReq:request]) {
             NSLog(@"success~~");
@@ -300,15 +300,15 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
         {
             NSLog(@"fail~~");
         }
-        
+
     }];
     [cmd setFail:^(AFHTTPRequestOperation *response){
         LOG(@"失败%@", response);
-        
+
     }];
     [cmd startRequest];
 }
-		
+
 -(void)upPay
 {
     TJHttpCmdWXPayData *cmd = [TJHttpCmdWXPayData cmd];
@@ -317,13 +317,13 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
     cmd.tokenId = [TJUserManager sharedInstance].tokenId;
     [cmd setSuccess:^(id object){
         NSLog(@"%@", object);
-        
+
         NSDictionary *dict = [object objectForKey:@"payData"];
         self.payTradeNo = [dict objectForKey:@"tradeNo"];
-        
+
         NSString *tn = [dict objectForKey:@"tn"];
         NSString *mode = [dict objectForKey:@"model"];
-        
+
         // 从服务器请求回来tn
         if ([UPPayPlugin startPay:tn mode:mode viewController:self delegate:self]) {
             NSLog(@"success~~");
@@ -335,7 +335,7 @@ UIImage *quickFilteredImage = [stillImageFilter2 imageByFilteringImage:inputImag
     }];
     [cmd setFail:^(AFHTTPRequestOperation *response){
         LOG(@"失败%@", response);
-        
+
     }];
     [cmd startRequest];
 }

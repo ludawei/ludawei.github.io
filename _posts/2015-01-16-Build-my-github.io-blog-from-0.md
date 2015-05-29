@@ -5,7 +5,7 @@ title: 从0开始搭建github.io博客
 category: 其它
 ---
 
-这几天比较闲，故有时间扫描博客；发现有很多 `userName.github.io` 的博客，布局和主题比较美观，如[这里](http://wanglongqi.github.io)，于是心动了，google之；
+这几天浏览博客，发现有很多 `userName.github.io` 的博客，布局和主题比较美观，如[这里](http://wanglongqi.github.io)，本着寻根问底的态度，google之；
 
 #### 1，首先找到了[github的pages](https://pages.github.com)，按github引导一步步完成。
 <div class="message" style="font-size: 15px">
@@ -13,13 +13,13 @@ category: 其它
 </div>
 ![https://pages.github.com](/assets/images/屏幕快照 2015-01-16 下午4.12.33.png)
 
-#### 2，博客框架jekyll，安装配置见[官网](http://jekyllcn.com)，有详细教程；或者按照[github的pages](https://help.github.com/articles/using-jekyll-with-pages)直接操作也行，网上也有教程，一搜一大堆。推荐这两个:  
-* [搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门](http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html)  
-* [一步步在GitHub上创建博客主页](http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html)  
+#### 2，博客框架jekyll，安装配置见[官网](http://jekyllcn.com)，有详细教程；或者按照[github的pages](https://help.github.com/articles/using-jekyll-with-pages)直接操作也行，网上也有教程，一搜一大堆。推荐这两个:
+* [搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门](http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html)
+* [一步步在GitHub上创建博客主页](http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html)
 
 <div class="message" style="font-size: 15px">
 对Jekyll基本了解后，就可以开干了，找一个合适的主题，我用的是[hyde](https://github.com/poole/hyde)，git clone下来，粘贴到github.io对应的目录下，然后修改css，达到自己想要的效果；
-</div>  
+</div>
 
 #### 3，push git后就能看到博客了。
 
