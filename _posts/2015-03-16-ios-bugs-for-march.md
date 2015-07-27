@@ -31,7 +31,7 @@ NSData *data = [NSData dataWithContentsOfFile:imagePath];
 >3）若还没有错误，则删除手机上应用，再试；
 
 ####3，ios推送中加小图片->[apple push emoji](http://stackoverflow.com/questions/16649050/emojis-support-in-apple-push-notification), 参考http://code.iamcal.com/php/emoji/,
-http://www.emoji-cheat-sheet.com/
+或者http://www.emoji-cheat-sheet.com/
 ![](/assets/images/屏幕快照 2015-03-16 下午3.55.34.png)
 
 ####4，[iOS 定位坐标不准确的相关整理及解决方案汇总](http://blog.csdn.net/demo_qiao/article/details/43667317) CLLocation+Sino
