@@ -1,46 +1,21 @@
----
-layout: default
-title: Home
----
-
-<div class="posts">
-  {% for post in paginator.posts %}
-  {% if post.category != 'life' %}
-  <div class="post">
-    <h3 class="post-title">
-      <a href="{{ post.url }}">
-        {{ post.title }}
-      </a>
-    </h3>
-
-    <span class="post-date">{{ post.date | date: "%Y年%-m月%-d" }}</span>
-
-    <div>
-    {{ post.excerpt }}
-    </div>
-    
-    <!-- <h5 style="float:right;">  -->
-    <h5>
-      <a href="{{ post.url }}">阅读全文>></a>
-    </h5>
-  </div>
-  {% endif %}
-  {% endfor %}
-</div>
-
-<div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}">Newer</a>
-    {% else %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Newer</a>
-    {% endif %}
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
-  {% endif %}
-</div>
+<style type="text/css">
+    #e {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        font-size: 16px;
+    }
+</style>
+<div id="e"></div>
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+<script>
+    var myKey = "SecretKeyz";
+    $(document).ready(function () {
+        var e = ace.edit("e");
+        e.setTheme("ace/theme/solarized_light");
+        e.getSession().setMode("ace/mode/markdown");
+    });
+</script>
