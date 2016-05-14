@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>dav's blog. - Articles by dav</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">dav's blog. <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+
+              <ul class="columns">
+                <!-- <li><a href="/">Home</a></li> -->
+
+                <li><a href="/">首页</a></li>
+                <li><a href="/archives">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+
+              </ul>
+            </div>
+
+<section id="content">
+<h2>Articles by dav</h2>
+
+
+   <div class="row">
+
+
+        <div class="eleven columns">
+                 <ol id="post-list">
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/ios-mac-tools.html" rel="bookmark" title="Permalink to iOS mac工具集">iOS mac工具集</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-05-29T00:00:00+02:00"> 2015年05月29 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>记录一下自己mac上安装的，并且每天都在用的软件</p>
+<h4>1，Evernote</h4>
+<p>大名鼎鼎的印象笔记，功能强大；</p>
+<h4>2，SourceTree</h4>
+<p>非常好用的版本控制工具GUI软件，支持git,svn等；</p>
+<h4>3，The Unarchiver</h4>
+<p>mac下解压rar的软件</p>
+<h4>4，ColorSnapper</h4>
+<p>吸色工具，将颜色变成代码，支持oc,html;</p>
+<h4>5，Sublime Text2</h4>
+<p>文本编辑工具，支持各种语言；</p>
+<h4>6，iPhone 配置实用工具</h4>
+<p>管理开发证书利器</p>
+<h4>7，Photoshop</h4>
+<p>修图神器</p>
+<h4>8，ImageOptim</h4>
+<p>去掉图片中无用的透明空间，减小图片大小</p>
+<h4>9，Justinmind</h4>
+<p>非常简单的app原型图制作工具（目前只有mac版本）</p>
+<h4>10，Shadowsocks</h4>
+<p>简单实用的vpn神器，用它上google</p>
+<h4>11，adt-boundle-mac-x86_64</h4>
+<p>mac下基于eclipse的android开发环境</p> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/ios-mac-tools.html" rel="bookmark" title="Permalink to iOS mac工具集">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/custom-xcode-remove-a-line-with-python.html" rel="bookmark" title="Permalink to xcode自定义“删除一行”快捷键的python脚本">xcode自定义“删除一行”快捷键的python脚本</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-04-10T00:00:00+02:00"> 2015年04月10 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>一个xcode自定义“删除一行”快捷键的python脚本</p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding:utf8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># 修改文件权限</span>
+<span class="c1"># 添加自定义的ctr+D删除到xcode中</span>
+<span class="c1"># 参考：</span>
+<span class="c1">#   http://hi.baidu.com/castiello_ybx/item/20e9945932516ac89e2667ea</span>
+<span class="c1">#   http://stackoverflow.com/questions/13045593/using-sudo-with-python-script</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">stat</span>
+<span class="kn">from</span> <span class="nn">biplist</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">changeChmod</span><span class="p">(</span><span class="n">sudoPassword</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;echo </span><span class="si">%s</span><span class="s1">|sudo </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sudoPassword</span><span class="p">,</span> <span class="n">command</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">myFun</span><span class="p">():</span>
+    <span class="c1"># os.chmod(&quot;/Applications/Xcode.app/Contents/Frameworks ...</span></pre></div> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/custom-xcode-remove-a-line-with-python.html" rel="bookmark" title="Permalink to xcode自定义“删除一行”快捷键的python脚本">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                            <a class="danger label" href="/tag/xcode.html">xcode</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/ios7-background-modes.html" rel="bookmark" title="Permalink to iOS 7新增三种后台测试">iOS 7新增三种后台测试</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-03-27T00:00:00+01:00"> 2015年03月27 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>想实现这样一个功能：
+某个视频类app中，一个上班族用户正在追某个感兴趣的视频，TA想每天下班回家后，TA追的那些个视频，在他上班期间已经下载完成了，TA回到家后不用下载了，直接可以看了。</p>
+<h5>实现想法：</h5>
+<p>1，当某个视频节目刚更新完后，会远程通知给客户端，客户端收到通知后，根据内容，后台下载这个视频节目；（这是基于远程推送的想法）
+2，每天下班前的某个时刻点，进行一次远程获取数据，客户端根据数据，开一个下载队列，依次下载这些视频节目；（这是基于远程获取的想法）</p>
+<h5>1）知识准备：</h5>
+<p>1，后台获取（fetch）；
+2，后台推送（notifications）；
+3，后台下载（BackgroundTransfer）；</p>
+<h5>2）测试说明：</h5>
+<p>1，一条远程通知实际上只是一条普通的带有 content-available 标志的推送通知。
+(注：普通的推送，如果应用在后台，程序是没有回调的，但是远程通知有回调)；</p>
+<p>2，一个新的远程通知测试方法get：http://nomad-cli.com ...</p> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/ios7-background-modes.html" rel="bookmark" title="Permalink to iOS 7新增三种后台测试">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/iOS-bugs.html" rel="bookmark" title="Permalink to iOS开发-这几天遇到的问题">iOS开发-这几天遇到的问题</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-03-16T00:00:00+01:00"> 2015年03月16 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>这几天遇到的几个比较常见的问题及解决方法（记录一下）</p>
+<h4>1，ios <Error>: ImageIO: CGImageReadCreateDataWithMappedFile  'open' failed</h4>
+<p>程序没有错误，逻辑也没有问题；</p>
+<p>最后把
+UIImage *image = [UIImage imageWithContentsOfFile:imagePath];</p>
+<p>改成</p>
+<p>NSData *data = [NSData dataWithContentsOfFile:imagePath];</p>
+<p>UIImage *image = [UIImage imageWithData:data];</p>
+<p>问题解决；</p>
+<h4>2，真机调试时，The entitlements specified in your application’s Code Signing Entitlements file do not match those specified in your provisioning profile ...</h4> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/iOS-bugs.html" rel="bookmark" title="Permalink to iOS开发-这几天遇到的问题">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                            <a class="danger label" href="/tag/xcode.html">xcode</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/ReactiveCocoa-learning.html" rel="bookmark" title="Permalink to 响应式编程ReactiveCocoa学习">响应式编程ReactiveCocoa学习</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-03-05T00:00:00+01:00"> 2015年03月05 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>ReactiveCocoa是一个将函数响应式编程范例带入Objective-C的开源库。由Josh Abernathy和Justin Spahr-Summers在对GitHub for Mac的开发过程中建立。上周，<a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>发布了其1.0 release，达到了第一个重要里程碑。</p>
+<p>函数响应式编程(Functional Reactive Programming a.k.a FRP)是思考软件将输入转化为输出在时间上的持续过程的一种方式。</p>
+<p>以上引自：http://nshipster.cn/reactivecocoa/</p>
+<p>RAC代码：</p>
+<div class="highlight"><pre><span></span><span class="c1">// textField 每次内容变化，都会log；</span>
+<span class="p">[[</span><span class="n">textField</span> <span class="n">rac_textSignal</span><span class="p">]</span> <span class="nl">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">newName</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">newName</span><span class="p">);</span>
+<span class="p">}];</span>
+
+<span class="c1">// 等价的delegate</span>
+<span class="p">-(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textField:</span><span class="p">(</span><span class="bp">UITextField</span> <span class="o">*</span><span class="p">)</span><span class="nv">textField</span> <span class="nf">shouldChangeCharactersInRange:</span><span class="p">(</span><span class="n">NSRange</span><span class="p">)</span><span class="nv">range</span> <span class="nf">replacementString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span>
+<span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">textField ...</span></pre></div> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/ReactiveCocoa-learning.html" rel="bookmark" title="Permalink to 响应式编程ReactiveCocoa学习">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/UIBarButtonItem-all-types.html" rel="bookmark" title="Permalink to UIBarButtonItem 所有系统样式(ios_8)">UIBarButtonItem 所有系统样式(ios_8)</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-02-04T00:00:00+01:00"> 2015年02月04 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>2015-02-04-UIBarButtonItem-all-types</p>
+<p>UIBarButtonItem 所有系统样式(ios_8)，有图有真相</p>
+<p><img alt="img" src="../images/2015年2月4日下午6.02.40.png" /></p> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/UIBarButtonItem-all-types.html" rel="bookmark" title="Permalink to UIBarButtonItem 所有系统样式(ios_8)">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/ios-third-libs-arrange.html" rel="bookmark" title="Permalink to iOS开发中用到的开源库（整理）">iOS开发中用到的开源库（整理）</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-01-22T00:00:00+01:00"> 2015年01月22 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>本着不重复造轮子的原则，app开发中或多或少用各种的开源库，用对了开源库，往往能<strong>代码风骚、效率恐怖</strong>~</p>
+<p>做iOS也有几年了，整理一下开发中常用到的开源库。</p>
+<p _="%" endhighlight="endhighlight">1，<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>&nbsp;在iOS开发中使用非常多网络开源库,适用于iOS以及Mac OS X。架构良好，模块清晰，api丰富，绝对是iOS开发中网络库的不二之先。
+<div class="message">
+<em>AFNetworing</em>是mattt大神的开源库，mattt同时也是<a href="http://nshipster.com/">nshipster</a>的组织者，上面有很多关于iOS的技术文章。
+</div>
+简单使用示例：
+{% highlight objc %}
+AFHTTPRequestOperationManager <em>manager = [AFHTTPRequestOperationManager manager];
+[manager GET:@"http://example.com/resources.json" parameters:nil success:^(AFHTTPRequestOperation </em>operation, id responseObject) {
+    NSLog(@"JSON: %@", responseObject);
+} failure:^(AFHTTPRequestOperation ...</p> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/ios-third-libs-arrange.html" rel="bookmark" title="Permalink to iOS开发中用到的开源库（整理）">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/ios-encode.html" rel="bookmark" title="Permalink to iOS 中常用的字符串加密方式">iOS 中常用的字符串加密方式</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-01-21T00:00:00+01:00"> 2015年01月21 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <ul>
+<li>16位MD5加密方式</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">getMd5_16Bit_String:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">srcString</span><span class="p">{</span>
+    <span class="c1">//提取32位MD5散列的中间16位</span>
+    <span class="bp">NSString</span> <span class="o">*</span><span class="n">md5_32Bit_String</span><span class="o">=</span><span class="p">[</span><span class="nb">self</span> <span class="nl">getMd5_32Bit_String</span><span class="p">:</span><span class="n">srcString</span><span class="p">];</span>
+    <span class="bp">NSString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">md5_32Bit_String</span> <span class="nl">substringToIndex</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span> <span class="nl">substringFromIndex</span><span class="p">:</span><span class="mi">8</span><span class="p">];</span><span class="c1">//即9～25位</span>
+
+   <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li>32位MD5加密方式</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">getMd5_32Bit_String:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">srcString</span><span class="p">{</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cStr</span> <span class="o">=</span> <span class="p">[</span><span class="n">srcString</span> <span class="n">UTF8String</span><span class="p">];</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">digest</span><span class="p">[</span><span class="n">CC_MD5_DIGEST_LENGTH</span><span class="p">];</span>
+    <span class="n">CC_MD5</span><span class="p">(</span> <span class="n">cStr</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">cStr</span><span class="p">),</span> <span class="n">digest</span> <span class="p">);</span>
+    <span class="bp">NSMutableString</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableString</span> <span class="nl">stringWithCapacity</span><span class="p">:</span><span class="n">CC_MD5_DIGEST_LENGTH</span> <span class="o">*</span> <span class="mi">2</span><span class="p">];</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i ...</span></pre></div> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/ios-encode.html" rel="bookmark" title="Permalink to iOS 中常用的字符串加密方式">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/ios.html">iOS</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/ios-Testing-iOS-simple-pgyer.html" rel="bookmark" title="Permalink to 浦公英 - ios打包测试工具">浦公英 - ios打包测试工具</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-01-19T00:00:00+01:00"> 2015年01月19 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>ios打包测试工具 - <a href="http://www.pgyer.com/">浦公英</a>  介绍与使用</p>
+<p>Android的测试非常方便，放到服务器上，生成个链接，就可以安装测试了；</p>
+<p>但是，因为apple的安全策略，ios应用测试一直是我等开发者最为头疼的问题之一。<strong>（如果你有299刀的企业账号，这自然不是问题了）</strong></p>
+<p>以前用<a href="https://testflightapp.com">TestFlight</a>进行分发测试，基本可以完成需要。就是上传和下载时会比较慢__（因为是国外的网站）__;</p>
+<p>最近发现了这个浦公英，试了下，还不错，原理也是基于apple企业账号的，注册个账号，上传应用ipa，使用<a href="http://www.pgyer.com/doc/api">验证App短链接</a>接口</p>
+<div class="highlight"><pre><span></span>http://www.pgyer.com/apiv1/app/getAppKeyByShortcut
+</pre></div>
+
+
+<p>得到appkey；以下是用postman得到的结果
+<img alt="chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm/index.html" src="../images/2015-01-19pm6.31.41.png" />  </p>
+<p>最后生成安装链接</p>
+<div class="highlight"><pre><span></span>http://www.pgyer.com/apiv1/app/install?aKey=791f5327dfd671300fac21ed7d4c****<span class="err">&amp;</span>_api_key=5db309c09824cf85d0252b530240****<span class="err">&amp;</span>password ...</pre></div> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/ios-Testing-iOS-simple-pgyer.html" rel="bookmark" title="Permalink to 浦公英 - ios打包测试工具">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/iosda-bao.html">iOS打包</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/Build-my-github.io-blog-from-0.html" rel="bookmark" title="Permalink to 从0开始搭建github.io博客">从0开始搭建github.io博客</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2015-01-16T00:00:00+01:00"> 2015年01月16 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/dav.html"> dav</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>这几天浏览博客，发现有很多 <code>userName.github.io</code> 的博客，布局和主题比较美观，如<a href="http://wanglongqi.github.io">这里</a>，本着寻根问底的态度，google之；</p>
+<h4>1，首先找到了<a href="https://pages.github.com">github的pages</a>，按github引导一步步完成。</h4>
+<p><div class="message" style="font-size: 15px">
+非常好，看起来没有任何问题~，但是博客里只有个<em>"Hello World"</em>。ok，接下来，就是添加博客内容了，看页面的最下边。
+</div>
+<img alt="https://pages.github.com" src="../images/2015-01-16pm4.12.33.png" /></p>
+<h4>2，博客框架jekyll，安装配置见<a href="http://jekyllcn.com">官网</a>，有详细教程；或者按照<a href="https://help.github.com/articles/using-jekyll-with-pages">github的pages</a>直接操作也行，网上也有教程，一搜一大堆。推荐这两个:</h4>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门</a></li>
+<li><a href="http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html">一步步在GitHub上创建博客主页</a></li>
+</ul>
+<div class="message" style="font-size: 15px">
+对Jekyll基本了解后，就可以开干了，找一个合适的主题，我用的是[hyde](https://github.com/poole/hyde)，git ...</div> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/Build-my-github.io-blog-from-0.html" rel="bookmark" title="Permalink to 从0开始搭建github.io博客">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/githubio.html">github.io</a>
+                                            <a class="danger label" href="/tag/blog.html">blog</a>
+                                </div>
+
+
+
+                        </article></li>
+                </ol><!-- /#posts-list -->
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="three columns">
+
+<!-- <h4>方位</h4>
+
+ <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/archives">归档</a></li>
+      <li><a href="/categories">分类</a></li>
+      <li><a href="/tags">标签</a></li>
+  </ul> -->
+
+<h4>分类</h4>
+<ul class="blank">
+		<li><a href="/category/ios.html">iOS</a></li>
+		<li><a href="/category/markdown.html">markdown</a></li>
+		<li><a href="/category/qi-ta.html">其它</a></li>
+</ul>
+
+
+<h4>标签</h4>
+	<ul class="blank">
+	    <li class="tag-3"><a href="/tag/xcode.html">xcode</a></li>
+	    <li class="tag-4"><a href="/tag/iosda-bao.html">iOS打包</a></li>
+	    <li class="tag-4"><a href="/tag/blog.html">blog</a></li>
+	    <li class="tag-4"><a href="/tag/githubio.html">github.io</a></li>
+	    <li class="tag-4"><a href="/tag/markdown.html">markdown</a></li>
+	    <li class="tag-1"><a href="/tag/ios.html">iOS</a></li>
+</ul>
+
+
+<nav class="widget">
+  <h4>about me</h4>
+  <ul class="blank">
+    <li><a href="https://github.com/ludawei">github</a></li>
+    <li><a href="http://www.cnblogs.com/china-ldw/">cnblog</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+<p class="paginator">
+    Page 1 / 2
+        <a href="/author/dav2.html"><i class="icon-arrow-right"></i></a>
+</p>
+</section><!-- /#content -->
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>
