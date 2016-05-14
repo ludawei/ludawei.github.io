@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>iOS开发-这几天遇到的问题</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+              <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-77750244-1', 'auto');
+                ga('send', 'pageview');
+
+              </script>
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">少即是多... <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+
+              <ul class="columns">
+                <!-- <li><a href="/">Home</a></li> -->
+
+                <li><a href="/">首页</a></li>
+                <li><a href="/archives">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/iOS-bugs.html" rel="bookmark"
+                   title="Permalink to iOS开发-这几天遇到的问题">iOS开发-这几天遇到的问题</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2015-03-16T00:00:00+01:00">
+                2015年03月16
+              </abbr>
+              <address class="vcard author">By
+                <a class="url fn" href="/author/dav.html"> dav</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>这几天遇到的几个比较常见的问题及解决方法（记录一下）</p>
+<h4>1，ios <Error>: ImageIO: CGImageReadCreateDataWithMappedFile  'open' failed</h4>
+<p>程序没有错误，逻辑也没有问题；</p>
+<p>最后把
+UIImage *image = [UIImage imageWithContentsOfFile:imagePath];</p>
+<p>改成</p>
+<p>NSData *data = [NSData dataWithContentsOfFile:imagePath];</p>
+<p>UIImage *image = [UIImage imageWithData:data];</p>
+<p>问题解决；</p>
+<h4>2，真机调试时，The entitlements specified in your application’s Code Signing Entitlements file do not match those specified in your provisioning profile.</h4>
+<p>解决方法：</p>
+<blockquote>
+<p>1）检查Target-&gt;Capabilities，修改掉其中的错误；</p>
+<p>2）若没有找到错误，则重启xcode后，重复上面1）操作；</p>
+<p>3）若还没有错误，则删除手机上应用，再试；</p>
+</blockquote>
+<h4>3，ios推送中加小图片-&gt;<a href="http://stackoverflow.com/questions/16649050/emojis-support-in-apple-push-notification">apple push emoji</a>, 参考http://code.iamcal.com/php/emoji/,</h4>
+<p>或者http://www.emoji-cheat-sheet.com/
+<img alt="img" src="../images/屏幕快照2015-03-16下午3.55.34.png" /></p>
+<h4>4，<a href="http://blog.csdn.net/demo_qiao/article/details/43667317">iOS 定位坐标不准确的相关整理及解决方案汇总</a> CLLocation+Sino</h4>
+<h4>5，2015年3月起，要求关闭所有App内的检查更新功能，苹果App Store将向用户自动提示更新，新提交审核版本如果保留检查更新入口审核时将被拒绝</h4>
+<h4>6，MKMapView加载时，控制台提示 “mapview More than xxx names on road . Data is probably bad. Please open a radar”，还未找到解决方法。</h4>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "iOS-bugs.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<!-- <h4>方位</h4>
+
+ <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/archives">归档</a></li>
+      <li><a href="/categories">分类</a></li>
+      <li><a href="/tags">标签</a></li>
+  </ul> -->
+
+<h4>分类</h4>
+<ul class="blank">
+		<li><a href="/category/ios.html">iOS</a></li>
+		<li><a href="/category/markdown.html">markdown</a></li>
+		<li><a href="/category/qi-ta.html">其它</a></li>
+</ul>
+
+
+<h4>标签</h4>
+	<ul class="blank">
+	    <li class="tag-1"><a href="/tag/ios.html">iOS</a></li>
+	    <li class="tag-4"><a href="/tag/blog.html">blog</a></li>
+	    <li class="tag-4"><a href="/tag/iosda-bao.html">iOS打包</a></li>
+	    <li class="tag-4"><a href="/tag/githubio.html">github.io</a></li>
+	    <li class="tag-4"><a href="/tag/markdown.html">markdown</a></li>
+	    <li class="tag-3"><a href="/tag/xcode.html">xcode</a></li>
+</ul>
+
+
+<nav class="widget">
+  <h4>about me</h4>
+  <ul class="blank">
+    <li><a href="https://github.com/ludawei">github</a></li>
+    <li><a href="http://www.cnblogs.com/china-ldw/">cnblog</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<!-- <script type="text/javascript">
+    var disqus_shortname = 'davlu';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+ -->
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>
