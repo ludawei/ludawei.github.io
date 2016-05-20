@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>iOS mac工具集</title>
+        <title>iOS block定义</title>
         <meta charset="utf-8" />
 
 
@@ -63,49 +63,47 @@
 
             <header>
               <h2 class="entry-title">
-                <a href="/ios-mac-tools.html" rel="bookmark"
-                   title="Permalink to iOS mac工具集">iOS mac工具集</a></h2>
+                <a href="/fuckingblocks.html" rel="bookmark"
+                   title="Permalink to iOS block定义">iOS block定义</a></h2>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2015-05-29T00:00:00+02:00">
-                2015年05月29
+              <abbr class="published" title="2016-05-20T00:00:00+02:00">
+                2016年05月20
               </abbr>
               <address class="vcard author">By
                 <a class="url fn" href="/author/dav.html"> dav</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>记录一下自己mac上安装的，并且每天都在用的软件</p>
-<h4>1，Evernote</h4>
-<p>大名鼎鼎的印象笔记，功能强大；</p>
-<h4>2，SourceTree</h4>
-<p>非常好用的版本控制工具GUI软件，支持git,svn等；</p>
-<h4>3，The Unarchiver</h4>
-<p>mac下解压rar的软件</p>
-<h4>4，ColorSnapper</h4>
-<p>吸色工具，将颜色变成代码，支持oc,html;</p>
-<h4>5，Sublime Text2</h4>
-<p>文本编辑工具，支持各种语言；</p>
-<h4>6，iPhone 配置实用工具</h4>
-<p>管理开发证书利器</p>
-<h4>7，Photoshop</h4>
-<p>修图神器</p>
-<h4>8，ImageOptim</h4>
-<p>去掉图片中无用的透明空间，减小图片大小</p>
-<h4>9，Justinmind</h4>
-<p>非常简单的app原型图制作工具（目前只有mac版本）</p>
-<h4>10，Shadowsocks</h4>
-<p>简单实用的vpn神器，用它上google</p>
-<h4>11，adt-boundle-mac-x86_64</h4>
-<p>mac下基于eclipse的android开发环境</p>
+              <h2>How Do I Declare A Block in Objective-C?</h2>
+<div class="highlight"><pre><span></span><span class="n">As</span> <span class="n">a</span> <span class="n">local</span> <span class="nl">variable</span><span class="p">:</span>
+
+<span class="n">returnType</span> <span class="p">(</span><span class="o">^</span><span class="n">blockName</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">)</span> <span class="o">=</span> <span class="o">^</span><span class="n">returnType</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{...};</span>
+<span class="n">As</span> <span class="n">a</span> <span class="nl">property</span><span class="p">:</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">copy</span><span class="p">,</span> <span class="n">nullability</span><span class="p">)</span> <span class="n">returnType</span> <span class="p">(</span><span class="o">^</span><span class="n">blockName</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">);</span>
+<span class="n">As</span> <span class="n">a</span> <span class="n">method</span> <span class="nl">parameter</span><span class="p">:</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">someMethodThatTakesABlock</span><span class="p">:(</span><span class="n">returnType</span> <span class="p">(</span><span class="o">^</span><span class="n">nullability</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">))</span><span class="n">blockName</span><span class="p">;</span>
+<span class="n">As</span> <span class="n">an</span> <span class="n">argument</span> <span class="n">to</span> <span class="n">a</span> <span class="n">method</span> <span class="nl">call</span><span class="p">:</span>
+
+<span class="p">[</span><span class="n">someObject</span> <span class="nl">someMethodThatTakesABlock</span><span class="p">:</span><span class="o">^</span><span class="n">returnType</span> <span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{...}];</span>
+<span class="n">As</span> <span class="n">a</span> <span class="k">typedef</span><span class="o">:</span>
+
+<span class="k">typedef</span> <span class="n">returnType</span> <span class="p">(</span><span class="o">^</span><span class="n">TypeName</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">);</span>
+<span class="n">TypeName</span> <span class="n">blockName</span> <span class="o">=</span> <span class="o">^</span><span class="n">returnType</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{...};</span>
+</pre></div>
+
+
+<p>取自：<a href="http://fuckingblocksyntax.com/">http://fuckingblocksyntax.com/</a></p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "ios-mac-tools.html";
+                var disqus_identifier = "fuckingblocks.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
