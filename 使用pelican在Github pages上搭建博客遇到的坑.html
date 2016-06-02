@@ -173,6 +173,22 @@ Author: 作者
 
 
 <p>这样每次make html时，都会自动复制DIR_TO_COPY中的文件到OUTPUTDIR目录下了</p>
+<h4><strong>给每个分类添加文章的数目（16/06/02更新）</strong></h4>
+<p>最终效果图：
+<img alt="img" src="../images/2016_06_02_18_13_40.png" /></p>
+<p>修改主题目录下对应位置的模板文件<code>sidebar.html</code>：</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;h4&gt;</span>分类<span class="nt">&lt;/h4&gt;</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">categories</span> <span class="cp">%}</span>
+<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;blank&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">cat</span><span class="o">,</span> <span class="nv">null</span> <span class="k">in</span> <span class="nv">categories</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">SITEURL</span> <span class="cp">}}</span><span class="s">/</span><span class="cp">{{</span> <span class="nv">cat.url</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">cat</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;</span>（<span class="cp">{{</span> <span class="nv">null</span><span class="o">|</span><span class="nf">length</span> <span class="cp">}}</span>）<span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+
+
+<p><code>（{{ null|length }}）</code>即为新添加的数目,Done!</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
@@ -205,38 +221,44 @@ Author: 作者
 
 <h4>分类</h4>
 <ul class="blank">
-		<li><a href="/category/ios.html">iOS</a></li>
-		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a></li>
-		<li><a href="/category/markdown.html">markdown</a></li>
-		<li><a href="/category/mysql.html">mysql</a></li>
-		<li><a href="/category/pelican.html">pelican</a></li>
-		<li><a href="/category/qi-ta.html">其它</a></li>
-		<li><a href="/category/tools.html">tools</a></li>
+		<li><a href="/category/gong-ju.html">工具</a>（2）</li>
+		<li><a href="/category/ios.html">iOS</a>（11）</li>
+		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a>（1）</li>
+		<li><a href="/category/markdown.html">markdown</a>（1）</li>
+		<li><a href="/category/mysql.html">mysql</a>（1）</li>
+		<li><a href="/category/pelican.html">pelican</a>（1）</li>
+		<li><a href="/category/qi-ta.html">其它</a>（2）</li>
 </ul>
 
 
-<h4>标签</h4>
+<!-- <h4>标签</h4>
 	<ul class="blank">
-	    <li class="tag-4"><a href="/tag/python.html">python</a></li>
-	    <li class="tag-4"><a href="/tag/carina.html">carina</a></li>
-	    <li class="tag-4"><a href="/tag/qi-ta.html">其它</a></li>
-	    <li class="tag-4"><a href="/tag/gong-ju.html">工具</a></li>
-	    <li class="tag-4"><a href="/tag/tools.html">tools</a></li>
-	    <li class="tag-4"><a href="/tag/githubio.html">github.io</a></li>
-	    <li class="tag-4"><a href="/tag/github-pages.html">Github pages</a></li>
-	    <li class="tag-4"><a href="/tag/mysql.html">mysql</a></li>
-	    <li class="tag-4"><a href="/tag/mac.html">mac</a></li>
-	    <li class="tag-4"><a href="/tag/pelican.html">pelican</a></li>
-	    <li class="tag-4"><a href="/tag/textnow.html">textnow</a></li>
-	    <li class="tag-4"><a href="/tag/markdown.html">markdown</a></li>
-	    <li class="tag-3"><a href="/tag/xcode.html">xcode</a></li>
-	    <li class="tag-4"><a href="/tag/iosda-bao.html">iOS打包</a></li>
-	    <li class="tag-4"><a href="/tag/shadowsocks.html">ShadowSocks</a></li>
-	    <li class="tag-1"><a href="/tag/ios.html">iOS</a></li>
-	    <li class="tag-4"><a href="/tag/hao-wan-de-blog.html">好玩的blog</a></li>
-	    <li class="tag-4"><a href="/tag/blog.html">blog</a></li>
-	    <li class="tag-4"><a href="/tag/docker.html">Docker</a></li>
 </ul>
+ -->
+
+<!-- <h4>时间</h4>
+	<ul class="blank">
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 四月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 五月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 四月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 二月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 九月 2014</a></li>
+</ul>
+ -->
 
 
 <nav class="widget">
