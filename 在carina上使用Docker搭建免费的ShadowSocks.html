@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>从0开始搭建github.io博客</title>
+        <title>在carina上使用Docker搭建免费的ShadowSocks</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/Build-my-github.io-blog-from-0.html" rel="bookmark"
-                   title="Permalink to 从0开始搭建github.io博客">从0开始搭建github.io博客</a></h3>
+                <a href="/在carina上使用Docker搭建免费的ShadowSocks.html" rel="bookmark"
+                   title="Permalink to 在carina上使用Docker搭建免费的ShadowSocks">在carina上使用Docker搭建免费的ShadowSocks</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2015-01-16T00:00:00+01:00">
-                2015年01月16
+              <abbr class="published" title="2016-06-02T00:00:00+02:00">
+                2016年06月02
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,41 +78,90 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>这几天浏览博客，发现有很多 <code>userName.github.io</code> 的博客，布局和主题比较美观，如<a href="http://wanglongqi.github.io">这里</a>，本着寻根问底的态度，google之；</p>
-<h4>1，首先找到了<a href="https://pages.github.com">github的pages</a>，按github引导一步步完成。</h4>
-<p><div class="message" style="font-size: 15px">
-非常好，看起来没有任何问题~，但是博客里只有个<em>"Hello World"</em>。ok，接下来，就是添加博客内容了，看页面的最下边。
-</div>
-<img alt="https://pages.github.com" src="../images/2015-01-16pm4.12.33.png" /></p>
-<h4>2，博客框架jekyll，安装配置见<a href="http://jekyllcn.com">官网</a>，有详细教程；或者按照<a href="https://help.github.com/articles/using-jekyll-with-pages">github的pages</a>直接操作也行，网上也有教程，一搜一大堆。推荐这两个:</h4>
-<ul>
-<li><a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门</a></li>
-<li><a href="http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html">一步步在GitHub上创建博客主页</a></li>
-</ul>
-<div class="message" style="font-size: 15px">
-对Jekyll基本了解后，就可以开干了，找一个合适的主题，我用的是[hyde](https://github.com/poole/hyde)，git clone下来，粘贴到github.io对应的目录下，然后修改css，达到自己想要的效果；
-</div>
-
-<h4>3，push git后就能看到博客了。</h4>
-<h4>4，添加评论，参考<a href="http://joeyio.com/jekyll/2013/04/13/how-to-use-uyan-in-Jekyll/">这里</a></h4>
-<p><div class="message" style="font-size: 15px">
-经测试，只用把以下代码，粘贴到html的任一地方就OK了。</p>
-<div class="highlight"><pre><span></span><span class="c">&lt;!--</span> <span class="nx">UY</span> <span class="nx">BEGIN</span> <span class="o">--&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;uyan_frame&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;UYScript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://v1.uyan.cc/js/iframe.js?UYUserId=YOUR_USER_ID&quot;</span> <span class="nx">async</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
-<span class="c">&lt;!--</span> <span class="nx">UY</span> <span class="nx">END</span> <span class="o">--&gt;</span>
+              <p>Carina是Rackspace旗下的一个网站，提供了Docker服务。最近，看到消息可以在该网站上注册账号，免费试用Docker服务。竟然有这么好的事，于是尝试注册了一个账号，搭建了一个免费的shadowsocks服务器。</p>
+<p><strong>账号注册</strong></p>
+<p>textnow提供无限的美国和加拿大短信收发，并且提供有免费的一个美国电话号码.不同于heywire的是这个虚拟号在国内完全可以访问，而且收发的速度都是一流，在手机端登陆也是很快就可以收发到短信</p>
+<p><a href="http://www.textnow.com/">http://www.textnow.com/</a></p>
+<p>账号：facebook账号(本人的)
+号码：(917) 636-7274（本人的）</p>
+<p><strong>安装Boot2Docker</strong></p>
+<p>Boot2Docker是帮助控制虚拟机中Docker的工具，它会下载一个安装好docker的虚拟机，并控制其实现docker功能。</p>
+<p>在mac下安装boot2docker只要执行</p>
+<div class="highlight"><pre><span></span>brew install boot2docker
 </pre></div>
 
 
-<h2></div></h2>
-<p>其中，最为费事的是<code>css</code>修改，本人<code>html，css</code>0基础啊，泪奔~</p>
+<p>即可。</p>
+<p><strong>配置Docker CLI</strong></p>
+<p>点击cluster下面的按钮Get access，下载一个Docker集群配置信息文件。</p>
+<p>解压后，进入该目录。source docker.env设置合适的docker环境变量：</p>
+<div class="highlight"><pre><span></span>source docker.env
+</pre></div>
+
+
+<p>查看是否连接上：</p>
+<div class="highlight"><pre><span></span>➜ docker info
+Containers: 11
+Images: 6
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: 1
+2ede2591-1ec0-4c2b-a3ef-59697ff02ba7-n1: 104.130.22.24:42376
+  └ Status: Healthy
+  └ Containers: 11
+  └ Reserved CPUs: 0 / 12
+  └ Reserved Memory: 0 B / 4.2 GiB
+  └ Labels: com.docker.network.driver.overlay.bind_interface=eth1, executiondriver=native-0.2, kernelversion=3.18.21-2-rackos, operatingsystem=Debian GNU/Linux 7 (wheezy) (containerized), storagedriver=aufs
+  └ Error: (none)
+  └ UpdatedAt: 2016-04-15T11:53:04Z
+Kernel Version: 3.18.21-2-rackos
+Operating System: linux
+CPUs: 12
+Total Memory: 4.2 GiB
+Name: 2ede2591-1ec0-4c2b-a3ef-59697ff02ba7-n1
+</pre></div>
+
+
+<p>可以看到cluster中结点的具体信息。</p>
+<p>通过Docker安装shadowsocks</p>
+<p>通过Docker安装shadowsocks非常方便，只需要一个命令：</p>
+<div class="highlight"><pre><span></span>docker run -d --name shadowsocks -p 8989:8989 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 8989 -k ludawei -m aes-256-cfb
+</pre></div>
+
+
+<p>-p是设置shadowsocks的服务器端口号；-k后面设置自己的密码。</p>
+<p>使用docker ps查看是否安装成功：</p>
+<div class="highlight"><pre><span></span>➜  docker ps
+
+CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                         NAMES
+3d21228c5ce1        oddrationale/docker-shadowsocks   &quot;/usr/local/bin/ssser&quot;   8 seconds ago       Up 7 seconds        172.99.70.21:8989-&gt;8989/tcp   73eb155d-807d-4453-af3a-45068088827b-n1/shadowsocks
+0dd57ba46081        carina/consul                     &quot;/entrypoint.sh agent&quot;   31 minutes ago      Up 31 minutes                                     73eb155d-807d-4453-af3a-45068088827b-n1/carina-svcd
+</pre></div>
+
+
+<p>可以看到shadowsocks服务已经在运行了。</p>
+<p>使用port命令，可以查看shadowsocks服务的IP和端口：</p>
+<div class="highlight"><pre><span></span>➜  docker port shadowsocks
+8989/tcp -&gt; 172.99.70.21:8989
+</pre></div>
+
+
+<p>记住shadowsocks的IP和端口号，待会儿需要填入shadowsocks代理软件中。</p>
+<p>完成！</p>
+<p>参考：
+1，http://zzsa.net/%E5%9B%BD%E5%86%85%E5%A4%96%E4%B8%80%E4%BA%9B%E5%85%8D%E8%B4%B9%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E7%94%B5%E8%AF%9D-%E5%85%8D%E8%B4%B9%E7%9F%AD%E4%BF%A1%E6%94%B6%E5%8F%91-%E5%85%8D%E8%B4%B9%E4%BC%A0/（免费短信收发）
+2，http://www.wengweitao.com/zai-carinashang-shi-yong-dockerda-jian-mian-fei-de-shadowsocks.html（在carina上使用Docker搭建免费的ShadowSocks）
+3，http://www.rendoumi.com/wan-quan-mian-fei-de-shadowsocksfu-wu-qi/（不花一分钱，搭建一个完全免费的Shadowsocks服务器）
+4，http://yansu.org/2014/04/10/install-docker-in-mac.html（在Mac下安装使用Docker）
+5，http://www.infoq.com/cn/articles/docker-command-line-quest（深入浅出Docker（二）：Docker命令行探秘）</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "Build-my-github.io-blog-from-0.html";
+                var disqus_identifier = "在carina上使用Docker搭建免费的ShadowSocks.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
