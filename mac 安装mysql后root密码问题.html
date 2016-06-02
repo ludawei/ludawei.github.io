@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>分享是美德 - blog</title>
+        <title>mac 安装mysql后root密码问题</title>
         <meta charset="utf-8" />
 
 
@@ -56,42 +56,108 @@
               </ul>
             </div>
 
-<section id="content">
-
-
+<section id="content" class="body">
 
    <div class="row">
-
-
         <div class="eleven columns">
-                 <ol id="post-list">
-                        <li><article class="hentry">
-                                <header> <h3 class="entry-title"><a href="/Build-my-github.io-blog-from-0.html" rel="bookmark" title="Permalink to 从0开始搭建github.io博客">从0开始搭建github.io博客</a></h3> </header>
-                                <footer class="post-info">
-                                    <abbr class="published" title="2015-01-16T00:00:00+01:00"> 2015年01月16 </abbr>
-                                    <!--  -->
-                                    <address class="vcard author">
-                                    <!--                                     <a class="url fn" href="aboutme.html"> admin</a>
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/mac 安装mysql后root密码问题.html" rel="bookmark"
+                   title="Permalink to mac 安装mysql后root密码问题">mac 安装mysql后root密码问题</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2016-06-02T00:00:00+02:00">
+                2016年06月02
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
  -->
-                                    </address>
-                                    <!--  -->
-                                </footer><!-- /.post-info -->
-                                <div class="entry-content"> <p>这几天浏览博客，发现有很多 <code>userName.github.io</code> 的博客，布局和主题比较美观，如<a href="http://wanglongqi.github.io">这里</a>，本着寻根问底的态度 ...</p> </div><!-- /.entry-content -->
-
-                                <!-- <div class="medium primary btn"><a href="/Build-my-github.io-blog-from-0.html" rel="bookmark" title="Permalink to 从0开始搭建github.io博客">Read more <i class="icon-arrow-right"></i></a></div> -->
-
-
-
-                                <div class="row tag-row">
-                                        <!-- <span>Tagged as : </span> -->
-                                            <a class="danger label" href="/tag/githubio.html">github.io</a>
-                                            <a class="danger label" href="/tag/blog.html">blog</a>
-                                </div>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>问题描述：mac上新安装的mysql, 在终端使用命令：<code>mysql -u root -p</code> 无法连接到mysql数据库；</p>
+<p>解决方法：修改密码！</p>
+<p>步骤：<br />
+1，在 设置 中关闭msql服务<br />
+2，进入超级管理员用户：</p>
+<div class="highlight"><pre><span></span>sudo su
+</pre></div>
 
 
+<p>3，进入mysql目录：</p>
+<div class="highlight"><pre><span></span>cd /usr/local/mysql/bin/
+</pre></div>
 
-                        </article></li>
-                </ol><!-- /#posts-list -->
+
+<p>4，安全启动mysql：</p>
+<div class="highlight"><pre><span></span>./mysqld_safe --skip-grant-tables &amp;
+</pre></div>
+
+
+<p>5，新打开一个终端，进入 MySQL：</p>
+<div class="highlight"><pre><span></span>mysql -u root -p
+</pre></div>
+
+
+<p>6，数据库、表说明如下图：
+<img alt="img" src="../images/mysql_root_pass_img_1.png" /></p>
+<p>7，修改密码为“root”：</p>
+<div class="highlight"><pre><span></span>update user set authentication_string=PASSWORD(&#39;root&#39;) where User=&#39;root’;
+</pre></div>
+
+
+<p>8，刷新权限，使配置生效：</p>
+<div class="highlight"><pre><span></span>flush privileges;
+</pre></div>
+
+
+<p>9，关闭数据库：</p>
+<div class="highlight"><pre><span></span>quit;
+</pre></div>
+
+
+<p>10，重启mysql：</p>
+<div class="highlight"><pre><span></span>sudo /usr/local/mysql/support-files/mysql.server start
+</pre></div>
+
+
+<p>11，再次连接：</p>
+<div class="highlight"><pre><span></span>mysql -u root -proot
+</pre></div>
+
+
+<p>提示错误：<br /></p>
+<div class="highlight"><pre><span></span>ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.
+</pre></div>
+
+
+<p>12，mysql下执行命令：</p>
+<div class="highlight"><pre><span></span>SET PASSWORD = PASSWORD(&#39;root&#39;);
+</pre></div>
+
+
+<p>完毕！（:</p>
+<p>参考：<br />
+1，<a href="http://www.2cto.com/database/201303/197067.html">http://www.2cto.com/database/201303/197067.html</a><br />
+2，<a href="http://fgyong.cn/2016/01/28/MAC-%E9%87%8D%E7%BD%AEMySQL-root-%E5%AF%86%E7%A0%81/">http://fgyong.cn/2016/01/28/MAC-%E9%87%8D%E7%BD%AEMySQL-root-%E5%AF%86%E7%A0%81/</a><br /></p>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "mac 安装mysql后root密码问题.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
 
         </div><!-- /.eleven.columns -->
 
@@ -152,10 +218,51 @@
 
 </div> </div><!-- /.row -->
 
-<p class="paginator">
-    Page 1 / 1
-</p>
-</section><!-- /#content -->
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
 
        </div><!-- /.row -->
     </div><!-- /.container -->

@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>分享是美德 - blog</title>
+        <title>MKMapView经纬度引起的一个bug</title>
         <meta charset="utf-8" />
 
 
@@ -56,42 +56,64 @@
               </ul>
             </div>
 
-<section id="content">
-
-
+<section id="content" class="body">
 
    <div class="row">
-
-
         <div class="eleven columns">
-                 <ol id="post-list">
-                        <li><article class="hentry">
-                                <header> <h3 class="entry-title"><a href="/Build-my-github.io-blog-from-0.html" rel="bookmark" title="Permalink to 从0开始搭建github.io博客">从0开始搭建github.io博客</a></h3> </header>
-                                <footer class="post-info">
-                                    <abbr class="published" title="2015-01-16T00:00:00+01:00"> 2015年01月16 </abbr>
-                                    <!--  -->
-                                    <address class="vcard author">
-                                    <!--                                     <a class="url fn" href="aboutme.html"> admin</a>
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/MKMapView经纬引起的一个bug.html" rel="bookmark"
+                   title="Permalink to MKMapView经纬度引起的一个bug">MKMapView经纬度引起的一个bug</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2016-06-02T00:00:00+02:00">
+                2016年06月02
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
  -->
-                                    </address>
-                                    <!--  -->
-                                </footer><!-- /.post-info -->
-                                <div class="entry-content"> <p>这几天浏览博客，发现有很多 <code>userName.github.io</code> 的博客，布局和主题比较美观，如<a href="http://wanglongqi.github.io">这里</a>，本着寻根问底的态度 ...</p> </div><!-- /.entry-content -->
-
-                                <!-- <div class="medium primary btn"><a href="/Build-my-github.io-blog-from-0.html" rel="bookmark" title="Permalink to 从0开始搭建github.io博客">Read more <i class="icon-arrow-right"></i></a></div> -->
-
-
-
-                                <div class="row tag-row">
-                                        <!-- <span>Tagged as : </span> -->
-                                            <a class="danger label" href="/tag/githubio.html">github.io</a>
-                                            <a class="danger label" href="/tag/blog.html">blog</a>
-                                </div>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>错误提示：</p>
+<div class="highlight"><pre><span></span>*** Terminating app due to uncaught exception &#39;NSInternalInconsistencyException&#39;, reason: &#39;An instance 0x139ce46f0 of class MyAnnotation was deallocated while key value observers were still registered with it. Current observation info: &lt;NSKeyValueObservationInfo 0x139cc2820&gt; (
+&lt;NSKeyValueObservance 0x139d5e110: Observer: 0x136c314b0, Key path: coordinate, Options: &lt;New: NO, Old: YES, Prior: YES&gt; Context: 0x0, Property: 0x139e30de0&gt;
+&lt;NSKeyValueObservance 0x139d5e110: Observer: 0x136c314b0, Key path: coordinate, Options: &lt;New: NO, Old: YES, Prior: YES&gt; Context: 0x0, Property: 0x139e30de0&gt;
+)&#39;
+*** First throw call stack:
+(0x18339ae38 0x1829fff80 0x18339ad80 0x183ceed50 0x1832923e8 0x18d9377a8 0x18d950300 0x18d967bc4 0x18d399050 0x18d365548 0x18d3658e8 0x18d3659f8 0x18d2f2f30 0x18d371910 0x18d35692c 0x18d6c70b8 0x185ed42f0 0x185ed41a4 0x183611e54 0x1833390e0 0x18335185c 0x183350f94 0x18334ecec 0x183278d10 0x184b60088 0x18854df70 0x10012372c 0x182e168b8)
+libc++abi.dylib: terminating with uncaught exception of type NSException
+</pre></div>
 
 
+<p>解决方法：</p>
+<div class="highlight"><pre><span></span>if (anno.coordinate.longitude == 180)
+{
+    anno.coordinate = CLLocationCoordinate2DMake(anno.coordinate.latitude, -180);
+}
+</pre></div>
 
-                        </article></li>
-                </ol><!-- /#posts-list -->
+
+<p>原因应该是MKMapView默认的 纬度 范围是（-180 ~ 180），包含-180，但不包含180，故认为180的纬度是无效的。
+解决方法就是将180变为-180（因为两者是相等的）</p>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "MKMapView经纬引起的一个bug.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
 
         </div><!-- /.eleven.columns -->
 
@@ -152,10 +174,51 @@
 
 </div> </div><!-- /.row -->
 
-<p class="paginator">
-    Page 1 / 1
-</p>
-</section><!-- /#content -->
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
 
        </div><!-- /.row -->
     </div><!-- /.container -->
