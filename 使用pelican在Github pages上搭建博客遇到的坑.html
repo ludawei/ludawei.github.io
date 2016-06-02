@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>从0开始搭建github.io博客</title>
+        <title>使用pelican在Github pages上搭建博客遇到的坑</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/Build-my-github.io-blog-from-0.html" rel="bookmark"
-                   title="Permalink to 从0开始搭建github.io博客">从0开始搭建github.io博客</a></h3>
+                <a href="/使用pelican在Github pages上搭建博客遇到的坑.html" rel="bookmark"
+                   title="Permalink to 使用pelican在Github pages上搭建博客遇到的坑">使用pelican在Github pages上搭建博客遇到的坑</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2015-01-16T00:00:00+01:00">
-                2015年01月16
+              <abbr class="published" title="2016-04-26T00:00:00+02:00">
+                2016年04月26
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,41 +78,108 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>这几天浏览博客，发现有很多 <code>userName.github.io</code> 的博客，布局和主题比较美观，如<a href="http://wanglongqi.github.io">这里</a>，本着寻根问底的态度，google之；</p>
-<h4>1，首先找到了<a href="https://pages.github.com">github的pages</a>，按github引导一步步完成。</h4>
-<p><div class="message" style="font-size: 15px">
-非常好，看起来没有任何问题~，但是博客里只有个<em>"Hello World"</em>。ok，接下来，就是添加博客内容了，看页面的最下边。
-</div>
-<img alt="https://pages.github.com" src="../images/2015-01-16pm4.12.33.png" /></p>
-<h4>2，博客框架jekyll，安装配置见<a href="http://jekyllcn.com">官网</a>，有详细教程；或者按照<a href="https://help.github.com/articles/using-jekyll-with-pages">github的pages</a>直接操作也行，网上也有教程，一搜一大堆。推荐这两个:</h4>
-<ul>
-<li><a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">搭建一个免费的，无限流量的Blog----github Pages和Jekyll入门</a></li>
-<li><a href="http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html">一步步在GitHub上创建博客主页</a></li>
-</ul>
-<div class="message" style="font-size: 15px">
-对Jekyll基本了解后，就可以开干了，找一个合适的主题，我用的是[hyde](https://github.com/poole/hyde)，git clone下来，粘贴到github.io对应的目录下，然后修改css，达到自己想要的效果；
-</div>
-
-<h4>3，push git后就能看到博客了。</h4>
-<h4>4，添加评论，参考<a href="http://joeyio.com/jekyll/2013/04/13/how-to-use-uyan-in-Jekyll/">这里</a></h4>
-<p><div class="message" style="font-size: 15px">
-经测试，只用把以下代码，粘贴到html的任一地方就OK了。</p>
-<div class="highlight"><pre><span></span><span class="c">&lt;!--</span> <span class="nx">UY</span> <span class="nx">BEGIN</span> <span class="o">--&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;uyan_frame&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;UYScript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://v1.uyan.cc/js/iframe.js?UYUserId=YOUR_USER_ID&quot;</span> <span class="nx">async</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
-<span class="c">&lt;!--</span> <span class="nx">UY</span> <span class="nx">END</span> <span class="o">--&gt;</span>
+              <p><strong>正常步骤参考：</strong></p>
+<p>1，<a href="http://www.xueweihan.com/pelican-build-bolg.html">http://www.xueweihan.com/pelican-build-bolg.html</a><br />
+2，<a href="http://www.wengweitao.com/shi-yong-pelican-github-pagesda-jian-ge-ren-bo-ke.html">http://www.wengweitao.com/shi-yong-pelican-github-pagesda-jian-ge-ren-bo-ke.html</a><br />
+3，<a href="http://jinjun.info/pelican-build-blog.html">http://jinjun.info/pelican-build-blog.html</a><br /></p>
+<p><strong>以下是实际操作时出现的问题：</strong></p>
+<p>1）安装</p>
+<div class="highlight"><pre><span></span>pip install pelican
+pip install markdown
 </pre></div>
 
 
-<h2></div></h2>
-<p>其中，最为费事的是<code>css</code>修改，本人<code>html，css</code>0基础啊，泪奔~</p>
+<p>2）生成working_dir</p>
+<div class="highlight"><pre><span></span>mkdir blog
+cd blog
+pelican-quickstart
+</pre></div>
+
+
+<p>这时报错：</p>
+<div class="highlight"><pre><span></span>*** error: ImportError: No module named html_parser
+</pre></div>
+
+
+<p>这时只需要更改一下源文件即可：</p>
+<div class="highlight"><pre><span></span>vim /Library/Python/2.7/site-packages/pelican/readers.py
+</pre></div>
+
+
+<p>将24行的：</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>
+</pre></div>
+
+
+<p>换成：</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">HTMLParser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>
+</pre></div>
+
+
+<p>即可
+3）创建一个测试md文件保存到content目录下，并测试</p>
+<div class="highlight"><pre><span></span>Title: 文章标题
+Date: 创建日期
+Modified: 修改日期
+Category: 文章分类，标志本文处于该分类下
+Tags: 文章标签，标志本文处于该标签下
+Slug: URL中该文章的链接地址
+
+Author: 作者
+
+这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容
+</pre></div>
+
+
+<p>4）生成静态页面</p>
+<div class="highlight"><pre><span></span>make html
+</pre></div>
+
+
+<p>5）本地预览，博客全部文件在output目录下</p>
+<div class="highlight"><pre><span></span>make serve
+</pre></div>
+
+
+<p>通过在浏览器中访问 http://localhost:8000/ 就可以看到你的站点了。<br />
+6）部署到github上：将 output目录 整个上传到github page即可<br />
+7）访问yourname.github.io 就可以看到你的站点了。<br /></p>
+<p>8）绑定域名</p>
+<blockquote>
+<p>1，在<a href="https://www.GoDaddy.com">GoDaddy</a>上购买一个域名，并配合DNSPod指向your name.github.io的地址（参考：<a href="http://www.cnblog.me/2015/04/26/dnspod/">http://www.cnblog.me/2015/04/26/dnspod/</a>）<br />
+2，增加CNAME文件 在repo的根目录下面，新建一个名为CNAME的文本文件，里面写入你要绑定的域名，如：
+     www.davlu.com</p>
+</blockquote>
+<p>至此，blog部署应该可以基本完成了；</p>
+<h4><strong>在添加一个静态的html文件（16/06/02更新）</strong></h4>
+<p>具体是想实现在<code>make html</code>生成静态html时，将已有的静态html文件copy到output目录下即可。
+如此，只需要修改Makefile脚本</p>
+<div class="highlight"><pre><span></span><span class="nv">BASEDIR</span><span class="o">=</span><span class="k">$(</span>CURDIR<span class="k">)</span>
+<span class="nv">INPUTDIR</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/content
+<span class="nv">OUTPUTDIR</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/output
+<span class="nv">CONFFILE</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/pelicanconf.py
+<span class="nv">PUBLISHCONF</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/publishconf.py
+<span class="c">#增加一个常量路径</span>
+<span class="nv">DIR_TO_COPY</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/static_files
+</pre></div>
+
+
+<p>修改html命令：</p>
+<div class="highlight"><pre><span></span><span class="nf">html</span><span class="o">:</span>
+    <span class="k">$(</span>PELICAN<span class="k">)</span> <span class="k">$(</span>INPUTDIR<span class="k">)</span> -o <span class="k">$(</span>OUTPUTDIR<span class="k">)</span> -s <span class="k">$(</span>CONFFILE<span class="k">)</span> <span class="k">$(</span>PELICANOPTS<span class="k">)</span>
+<span class="c">    #复制到 OUTPUTDIR</span>
+    cp <span class="k">$(</span>DIR_TO_COPY<span class="k">)</span>/* <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>
+</pre></div>
+
+
+<p>这样每次make html时，都会自动复制DIR_TO_COPY中的文件到OUTPUTDIR目录下了</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "Build-my-github.io-blog-from-0.html";
+                var disqus_identifier = "使用pelican在Github pages上搭建博客遇到的坑.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
