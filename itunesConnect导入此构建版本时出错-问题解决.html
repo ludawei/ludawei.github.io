@@ -80,7 +80,7 @@
             <div class="entry-content">
               <p>提交app到itunesConnect后台，提示错误 "导入此构建版本时出错。在'活动'中查看'所有构建版本'" ；
 <img alt="img" src="../images/itc_error.png" /></p>
-<p>在网上查找得知 ~~使用第三方动态库的app发布不了app store~~（这是错误的结论），2014年wwdc放开了动态库的限制，可以发布app store了；</p>
+<p>在网上查找得知 <S>使用第三方动态库的app发布不了app store</S>（这是错误的结论），2014年wwdc放开了动态库的限制，可以发布app store了；</p>
 <p>问题定位：
 由于app使用了2个第三方的动态库（怀疑问题就在它们），故通过删除每个第三方动态库及相关代码后打包上传，来定位问题；
 最后定位问题出在动态库A；</p>
