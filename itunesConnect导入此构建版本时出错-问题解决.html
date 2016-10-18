@@ -84,10 +84,10 @@
 <p>问题定位：
 由于app使用了2个第三方的动态库（怀疑问题就在它们），故通过删除每个第三方动态库及相关代码后打包上传，来定位问题；
 最后定位问题出在动态库A；</p>
-<p>解决办法：
-1，第一步先处理完成，有邮件提示的问题，info.plist文件中Private权限申请添加必要的文字说明；
-2，检查"Build Setting"中bitcode设置是否正确；
-3，确认"Build Setting"中Valid Architectures设置符合第三方库要求（动态库A只支持arm64，app工程默认设置支持arm64、armv7、armv7s，故上传itunesConnect后台后报错）；</p>
+<p>解决办法：<br />
+1，第一步先处理完成，有邮件提示的问题，info.plist文件中Private权限申请添加必要的文字说明；<br />
+2，检查"Build Setting"中bitcode设置是否正确；<br />
+3，确认"Build Setting"中Valid Architectures设置符合第三方库要求（动态库A只支持arm64，app工程默认设置支持arm64、armv7、armv7s，故上传itunesConnect后台后报错）；  </p>
 <p>PS：这种问题apple不给出问题描述，就给个提示"导入构建版本出错"根本没用啊，跪了~</p>
             </div><!-- /.entry-content -->
             <div class="comments">
