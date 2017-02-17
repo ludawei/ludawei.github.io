@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>在carina上使用Docker搭建免费的ShadowSocks</title>
+        <title>thinkphp导出execl表格</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/在carina上使用Docker搭建免费的ShadowSocks.html" rel="bookmark"
-                   title="Permalink to 在carina上使用Docker搭建免费的ShadowSocks">在carina上使用Docker搭建免费的ShadowSocks</a></h3>
+                <a href="/php-execl-export.html" rel="bookmark"
+                   title="Permalink to thinkphp导出execl表格">thinkphp导出execl表格</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2016-06-02T00:00:00+02:00">
-                2016年06月02
+              <abbr class="published" title="2017-02-17T00:00:00+01:00">
+                2017年02月17
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,90 +78,55 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>Carina是Rackspace旗下的一个网站，提供了Docker服务。最近，看到消息可以在该网站上注册账号，免费试用Docker服务。竟然有这么好的事，于是尝试注册了一个账号，搭建了一个免费的shadowsocks服务器。</p>
-<p><strong>账号注册</strong></p>
-<p>textnow提供无限的美国和加拿大短信收发，并且提供有免费的一个美国电话号码.不同于heywire的是这个虚拟号在国内完全可以访问，而且收发的速度都是一流，在手机端登陆也是很快就可以收发到短信</p>
-<p><a href="http://www.textnow.com/">http://www.textnow.com/</a></p>
-<p>账号：facebook账号(本人的)<br />
-号码：(917) 636-7274（本人的）</p>
-<p><strong>安装Boot2Docker</strong></p>
-<p>Boot2Docker是帮助控制虚拟机中Docker的工具，它会下载一个安装好docker的虚拟机，并控制其实现docker功能。</p>
-<p>在mac下安装boot2docker只要执行</p>
-<div class="highlight"><pre><span></span>brew install boot2docker
+              <p>thinkphp导出execl表格</p>
+<div class="highlight"><pre><span></span><span class="nt">public</span> <span class="nt">function</span> <span class="nt">testExcel</span><span class="o">()</span>
+<span class="p">{</span>
+    <span class="n">header</span><span class="p">(</span><span class="s1">&#39;Content-Type:text/html;charset=utf-8&#39;</span><span class="p">);</span>
+    <span class="c">/*获取数据表内容*/</span>
+    <span class="err">$</span><span class="n">data</span> <span class="o">=</span> <span class="cp">[</span><span class="err">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="cp">]</span><span class="o">,</span>
+            <span class="cp">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="cp">]</span><span class="o">,</span>
+            <span class="cp">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="cp">]</span><span class="o">,</span>
+            <span class="cp">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="cp">]</span>
+    <span class="p">];</span>
+    <span class="c">/*引入phpexcel包*/</span>
+    <span class="n">import</span><span class="p">(</span><span class="s1">&#39;Vendor.phpexcel.PHPExcel&#39;</span><span class="p">);</span>
+    <span class="c">/*引入的类库没有命名空间，所以实例化前需要加上根命名空间*/</span>
+    <span class="err">$</span><span class="n">phpexcel</span> <span class="o">=</span> <span class="n">new</span> <span class="err">\</span><span class="n">PHPExcel</span><span class="p">();</span>
+    <span class="c">/*取得数据表*/</span>
+    <span class="err">$</span><span class="n">sheet</span> <span class="o">=</span> <span class="err">$</span><span class="n">phpexcel</span><span class="o">-&gt;</span><span class="n">setActiveSheetIndex</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+    <span class="c">/*添加表头*/</span>
+    <span class="err">$</span><span class="n">sheet</span><span class="o">-&gt;</span><span class="n">setCellValue</span><span class="p">(</span> <span class="s1">&#39;A1&#39;</span><span class="o">,</span> <span class="s2">&quot;id&quot;</span> <span class="p">)</span>
+       <span class="o">-&gt;</span><span class="n">setCellValue</span><span class="p">(</span> <span class="s1">&#39;B1&#39;</span><span class="o">,</span> <span class="s2">&quot;name&quot;</span> <span class="p">)</span>
+       <span class="o">-&gt;</span><span class="n">setCellValue</span><span class="p">(</span> <span class="s1">&#39;C1&#39;</span><span class="o">,</span> <span class="s2">&quot;skill_score&quot;</span> <span class="p">);</span>
+    <span class="o">//</span> <span class="err">给表格添加数据</span>
+    <span class="n">foreach</span> <span class="p">(</span><span class="err">$</span><span class="n">data</span> <span class="n">as</span> <span class="err">$</span><span class="n">k</span> <span class="o">=&gt;</span> <span class="err">$</span><span class="n">v</span><span class="p">)</span> <span class="err">{</span>
+     <span class="err">$</span><span class="n">i</span> <span class="o">=</span> <span class="err">$</span><span class="n">k</span> <span class="o">+</span> <span class="m">2</span><span class="p">;</span>
+     <span class="err">$</span><span class="n">id</span> <span class="o">=</span> <span class="err">$</span><span class="n">v</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">;</span>
+     <span class="err">$</span><span class="n">name</span> <span class="o">=</span> <span class="err">$</span><span class="n">v</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span><span class="p">;</span>
+     <span class="err">$</span><span class="n">skill_score</span> <span class="o">=</span> <span class="err">$</span><span class="n">v</span><span class="cp">[</span><span class="mi">2</span><span class="cp">]</span><span class="p">;</span>
+     <span class="err">$</span><span class="n">sheet</span><span class="o">-&gt;</span><span class="n">setCellValue</span><span class="p">(</span> <span class="s2">&quot;A&quot;</span><span class="o">.</span><span class="err">$</span><span class="n">i</span><span class="o">,</span> <span class="s2">&quot;$id&quot;</span><span class="p">);</span>
+     <span class="err">$</span><span class="n">sheet</span><span class="o">-&gt;</span><span class="n">setCellValue</span><span class="p">(</span> <span class="s2">&quot;B&quot;</span><span class="o">.</span><span class="err">$</span><span class="n">i</span><span class="o">,</span> <span class="s2">&quot;$name&quot;</span><span class="p">);</span>
+     <span class="err">$</span><span class="n">sheet</span><span class="o">-&gt;</span><span class="n">setCellValue</span><span class="p">(</span> <span class="s2">&quot;C&quot;</span><span class="o">.</span><span class="err">$</span><span class="n">i</span><span class="o">,</span> <span class="s2">&quot;$skill_score&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="o">//</span> <span class="err">生成</span><span class="nt">2003excel</span><span class="err">格式的</span><span class="nt">xls</span><span class="err">文件</span>
+    <span class="nt">header</span><span class="o">(</span><span class="s1">&#39;Content-Type: application/vnd.ms-excel&#39;</span><span class="o">);</span>
+    <span class="nt">header</span><span class="o">(</span><span class="s1">&#39;Content-Disposition: attachment;filename=&quot;01simple.xls&quot;&#39;</span><span class="o">);</span>
+    <span class="nt">header</span><span class="o">(</span><span class="s1">&#39;Cache-Control: max-age=0&#39;</span><span class="o">);</span>
+    <span class="o">$</span><span class="nt">objWriter</span> <span class="o">=</span> <span class="err">\</span><span class="nt">PHPExcel_IOFactory</span><span class="o">:</span><span class="nd">:createWriter</span><span class="o">($</span><span class="nt">phpexcel</span><span class="o">,</span> <span class="s1">&#39;Excel5&#39;</span><span class="o">);</span>
+    <span class="o">$</span><span class="nt">objWriter-</span><span class="o">&gt;</span><span class="nt">save</span><span class="o">(</span><span class="s1">&#39;php://output&#39;</span><span class="o">);</span>
+    <span class="nt">exit</span><span class="o">;</span>
+<span class="err">}</span>
 </pre></div>
 
 
-<p>即可。</p>
-<p><strong>配置Docker CLI</strong></p>
-<p>点击cluster下面的按钮Get access，下载一个Docker集群配置信息文件。</p>
-<p>解压后，进入该目录。source docker.env设置合适的docker环境变量：</p>
-<div class="highlight"><pre><span></span>source docker.env
-</pre></div>
-
-
-<p>查看是否连接上：</p>
-<div class="highlight"><pre><span></span>➜ docker info
-Containers: 11
-Images: 6
-Role: primary
-Strategy: spread
-Filters: health, port, dependency, affinity, constraint
-Nodes: 1
-2ede2591-1ec0-4c2b-a3ef-59697ff02ba7-n1: 104.130.22.24:42376
-  └ Status: Healthy
-  └ Containers: 11
-  └ Reserved CPUs: 0 / 12
-  └ Reserved Memory: 0 B / 4.2 GiB
-  └ Labels: com.docker.network.driver.overlay.bind_interface=eth1, executiondriver=native-0.2, kernelversion=3.18.21-2-rackos, operatingsystem=Debian GNU/Linux 7 (wheezy) (containerized), storagedriver=aufs
-  └ Error: (none)
-  └ UpdatedAt: 2016-04-15T11:53:04Z
-Kernel Version: 3.18.21-2-rackos
-Operating System: linux
-CPUs: 12
-Total Memory: 4.2 GiB
-Name: 2ede2591-1ec0-4c2b-a3ef-59697ff02ba7-n1
-</pre></div>
-
-
-<p>可以看到cluster中结点的具体信息。</p>
-<p>通过Docker安装shadowsocks</p>
-<p>通过Docker安装shadowsocks非常方便，只需要一个命令：</p>
-<div class="highlight"><pre><span></span>docker run -d --name shadowsocks -p 8989:8989 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 8989 -k xxxxxx -m aes-256-cfb
-</pre></div>
-
-
-<p>-p是设置shadowsocks的服务器端口号；-k后面设置自己的密码。</p>
-<p>使用docker ps查看是否安装成功：</p>
-<div class="highlight"><pre><span></span>➜  docker ps
-
-CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                         NAMES
-3d21228c5ce1        oddrationale/docker-shadowsocks   &quot;/usr/local/bin/ssser&quot;   8 seconds ago       Up 7 seconds        172.99.70.21:8989-&gt;8989/tcp   73eb155d-807d-4453-af3a-45068088827b-n1/shadowsocks
-0dd57ba46081        carina/consul                     &quot;/entrypoint.sh agent&quot;   31 minutes ago      Up 31 minutes                                     73eb155d-807d-4453-af3a-45068088827b-n1/carina-svcd
-</pre></div>
-
-
-<p>可以看到shadowsocks服务已经在运行了。</p>
-<p>使用port命令，可以查看shadowsocks服务的IP和端口：</p>
-<div class="highlight"><pre><span></span>➜  docker port shadowsocks
-8989/tcp -&gt; 172.99.70.21:8989
-</pre></div>
-
-
-<p>记住shadowsocks的IP和端口号，待会儿需要填入shadowsocks代理软件中。</p>
-<p>完成！</p>
-<p>参考：<br />
-1，<a href="http://zzsa.net/%E5%9B%BD%E5%86%85%E5%A4%96%E4%B8%80%E4%BA%9B%E5%85%8D%E8%B4%B9%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E7%94%B5%E8%AF%9D-%E5%85%8D%E8%B4%B9%E7%9F%AD%E4%BF%A1%E6%94%B6%E5%8F%91-%E5%85%8D%E8%B4%B9%E4%BC%A0/">免费短信收发</a><br />
-2，<a href="http://www.wengweitao.com/zai-carinashang-shi-yong-dockerda-jian-mian-fei-de-shadowsocks.html">在carina上使用Docker搭建免费的ShadowSocks</a><br />
-3，<a href="http://www.rendoumi.com/wan-quan-mian-fei-de-shadowsocksfu-wu-qi/">不花一分钱，搭建一个完全免费的Shadowsocks服务器</a><br />
-4，<a href="http://yansu.org/2014/04/10/install-docker-in-mac.html">在Mac下安装使用Docker</a><br />
-5，<a href="http://www.infoq.com/cn/articles/docker-command-line-quest">深入浅出Docker（二）：Docker命令行探秘</a></p>
+<p>转自：<a href="http://zhiqiexing.com/index.php/index/article/id/62.html">http://zhiqiexing.com/index.php/index/article/id/62.html</a></p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "在carina上使用Docker搭建免费的ShadowSocks.html";
+                var disqus_identifier = "php-execl-export.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
