@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>分享即美德</title>
+        <title>thinkphp导出excel表格</title>
         <meta charset="utf-8" />
 
 
@@ -56,45 +56,87 @@
               </ul>
             </div>
 
-<section id="content">
-
-
+<section id="content" class="body">
 
    <div class="row">
-
-
         <div class="eleven columns">
-                 <ol id="post-list">
-                        <li><article class="hentry">
-                                <header> <h3 class="entry-title"><a href="/pelican-install.html" rel="bookmark" title="Permalink to 这是一篇测试文章">这是一篇测试文章</a></h3> </header>
-                                <footer class="post-info">
-                                    <abbr class="published" title="2014-09-08T00:00:00+02:00"> 2014年09月08 </abbr>
-                                    <!--  -->
-                                    <address class="vcard author">
-                                    <!--                                     <a class="url fn" href="aboutme.html"> admin</a>
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/php-excel-export.html" rel="bookmark"
+                   title="Permalink to thinkphp导出excel表格">thinkphp导出excel表格</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2017-02-17T00:00:00+01:00">
+                2017年02月17
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
  -->
-                                    </address>
-                                    <!--  -->
-                                </footer><!-- /.post-info -->
-                                <div class="entry-content"> <h3>简介</h3>
-<p>测试blog发布</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">show</span>
-  <span class="vi">@widget</span> <span class="o">=</span> <span class="no">Widget</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
-  <span class="n">respond_to</span> <span class="k">do ...</span></pre></div> </div><!-- /.entry-content -->
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>thinkphp导出execl表格</p>
+<div class="highlight"><pre><span></span><span class="x">public function testExcel()</span>
+<span class="x">{</span>
+<span class="x">    header(&#39;Content-Type:text/html;charset=utf-8&#39;);</span>
+<span class="x">    /*获取数据表内容*/</span>
+<span class="x">    $data = [[&quot;1&quot;, &quot;2&quot;, &quot;3&quot;],</span>
+<span class="x">            [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;],</span>
+<span class="x">            [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;],</span>
+<span class="x">            [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]</span>
+<span class="x">    ];</span>
+<span class="x">    /*引入phpexcel包*/</span>
+<span class="x">    import(&#39;Vendor.phpexcel.PHPExcel&#39;);</span>
+<span class="x">    /*引入的类库没有命名空间，所以实例化前需要加上根命名空间*/</span>
+<span class="x">    $phpexcel = new \PHPExcel();</span>
+<span class="x">    /*取得数据表*/</span>
+<span class="x">    $sheet = $phpexcel-&gt;setActiveSheetIndex(0);</span>
+<span class="x">    /*添加表头*/</span>
+<span class="x">    $sheet-&gt;setCellValue( &#39;A1&#39;, &quot;id&quot; )</span>
+<span class="x">       -&gt;setCellValue( &#39;B1&#39;, &quot;name&quot; )</span>
+<span class="x">       -&gt;setCellValue( &#39;C1&#39;, &quot;skill_score&quot; );</span>
+<span class="x">    // 给表格添加数据</span>
+<span class="x">    foreach ($data as $k =&gt; $v) {</span>
+<span class="x">     $i = $k + 2;</span>
+<span class="x">     $id = $v[0];</span>
+<span class="x">     $name = $v[1];</span>
+<span class="x">     $skill_score = $v[2];</span>
+<span class="x">     $sheet-&gt;setCellValue( &quot;A&quot;.$i, &quot;$id&quot;);</span>
+<span class="x">     $sheet-&gt;setCellValue( &quot;B&quot;.$i, &quot;$name&quot;);</span>
+<span class="x">     $sheet-&gt;setCellValue( &quot;C&quot;.$i, &quot;$skill_score&quot;);</span>
+<span class="x">    }</span>
+<span class="x">    // 生成2003excel格式的xls文件</span>
+<span class="x">    header(&#39;Content-Type: application/vnd.ms-excel&#39;);</span>
+<span class="x">    header(&#39;Content-Disposition: attachment;filename=&quot;01simple.xls&quot;&#39;);</span>
+<span class="x">    header(&#39;Cache-Control: max-age=0&#39;);</span>
+<span class="x">    $objWriter = \PHPExcel_IOFactory::createWriter($phpexcel, &#39;Excel5&#39;);</span>
+<span class="x">    $objWriter-&gt;save(&#39;php://output&#39;);</span>
+<span class="x">    exit;</span>
+<span class="x">}</span>
+</pre></div>
 
-                                <!-- <div class="medium primary btn"><a href="/pelican-install.html" rel="bookmark" title="Permalink to 这是一篇测试文章">Read more <i class="icon-arrow-right"></i></a></div> -->
 
+<p>生成excel文件如下图：
+<img alt="img" src="../images/php_excel_export.png" />
+转自：<a href="http://zhiqiexing.com/index.php/index/article/id/62.html">http://zhiqiexing.com/index.php/index/article/id/62.html</a></p>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "php-excel-export.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
 
-
-                                <div class="row tag-row">
-                                        <!-- <span>Tagged as : </span> -->
-                                            <a class="danger label" href="/tag/markdown.html">markdown</a>
-                                </div>
-
-
-
-                        </article></li>
-                </ol><!-- /#posts-list -->
 
         </div><!-- /.eleven.columns -->
 
@@ -165,11 +207,51 @@
 
 </div> </div><!-- /.row -->
 
-<p class="paginator">
-            <a href="/index2.html"><i class="icon-arrow-left"></i></a>
-    Page 3 / 3
-</p>
-</section><!-- /#content -->
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
 
        </div><!-- /.row -->
     </div><!-- /.container -->
