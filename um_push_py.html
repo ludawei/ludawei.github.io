@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>使用pelican在Github pages上搭建博客遇到的坑</title>
+        <title>python友盟推送</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/使用pelican在Github pages上搭建博客遇到的坑.html" rel="bookmark"
-                   title="Permalink to 使用pelican在Github pages上搭建博客遇到的坑">使用pelican在Github pages上搭建博客遇到的坑</a></h3>
+                <a href="/um_push_py.html" rel="bookmark"
+                   title="Permalink to python友盟推送">python友盟推送</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2016-04-26T00:00:00+02:00">
-                2016年04月26
+              <abbr class="published" title="2017-02-17T00:00:00+01:00">
+                2017年02月17
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,124 +78,100 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p><strong>正常步骤参考：</strong></p>
-<p>1，<a href="http://www.xueweihan.com/pelican-build-bolg.html">http://www.xueweihan.com/pelican-build-bolg.html</a><br />
-2，<a href="http://www.wengweitao.com/shi-yong-pelican-github-pagesda-jian-ge-ren-bo-ke.html">http://www.wengweitao.com/shi-yong-pelican-github-pagesda-jian-ge-ren-bo-ke.html</a><br />
-3，<a href="http://jinjun.info/pelican-build-blog.html">http://jinjun.info/pelican-build-blog.html</a><br /></p>
-<p><strong>以下是实际操作时出现的问题：</strong></p>
-<p>1）安装</p>
-<div class="highlight"><pre><span></span>pip install pelican
-pip install markdown
+              <p>python实现友盟推送</p>
+<div class="highlight"><pre><span></span><span class="c1"># iOS</span>
+<span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">hashlib</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;appkey&quot;</span><span class="p">:</span> <span class="s2">&quot;友盟申请的appKey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;production_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;groupcast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;aps&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;sound&quot;</span><span class="p">:</span> <span class="s2">&quot;自定义.caf&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;alert&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="s2">&quot;这是一条推送的消息&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;推送消息&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;myKey1&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span> <span class="c1"># 自定义参数</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="c1"># 过滤条件</span>
+        <span class="s2">&quot;where&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;and&quot;</span><span class="p">:</span> <span class="p">[{</span>
+                <span class="s2">&quot;and&quot;</span><span class="p">:</span> <span class="p">[{</span>
+                    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;tag1&quot;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;tag2&quot;</span>
+                <span class="p">}]</span>
+            <span class="p">}]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
+<span class="n">postBody</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">sign_md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
+<span class="n">sign_md5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span> <span class="o">+</span> <span class="n">um_url</span> <span class="o">+</span> <span class="n">postBody</span> <span class="o">+</span> <span class="n">appSecret</span><span class="p">)</span>
+<span class="n">sign</span> <span class="o">=</span> <span class="n">sign_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">um_url</span> <span class="o">+</span> <span class="s2">&quot;?sign=&quot;</span> <span class="o">+</span> <span class="n">sign</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">postBody</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+
+<span class="c1">#Android</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;appkey&quot;</span><span class="p">:</span> <span class="s2">&quot;友盟申请的appKey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;production_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;groupcast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;extra&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;myKey1&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span> <span class="c1"># 自定义参数</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;display_type&quot;</span><span class="p">:</span> <span class="s2">&quot;notification&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;app名称&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ticker&quot;</span><span class="p">:</span> <span class="s2">&quot;app名称&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;这是一条推送的消息&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;custom&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;after_open&quot;</span><span class="p">:</span> <span class="s2">&quot;go_custom&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;play_vibrate&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;play_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;play_lights&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;where&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;and&quot;</span><span class="p">:</span> <span class="p">[{</span>
+                <span class="s2">&quot;and&quot;</span><span class="p">:</span> <span class="p">[{</span>
+                    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;tag1&quot;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;tag2&quot;</span>
+                <span class="p">}]</span>
+            <span class="p">}]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
+<span class="n">postBody</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">sign_md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
+<span class="n">sign_md5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span> <span class="o">+</span> <span class="n">um_url</span> <span class="o">+</span> <span class="n">postBody</span> <span class="o">+</span> <span class="n">appSecret</span><span class="p">)</span>
+<span class="n">sign</span> <span class="o">=</span> <span class="n">sign_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">um_url</span> <span class="o">+</span> <span class="s2">&quot;?sign=&quot;</span> <span class="o">+</span> <span class="n">sign</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">postBody</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
 </pre></div>
 
 
-<p>2）生成working_dir</p>
-<div class="highlight"><pre><span></span>mkdir blog
-cd blog
-pelican-quickstart
-</pre></div>
-
-
-<p>这时报错：</p>
-<div class="highlight"><pre><span></span>*** error: ImportError: No module named html_parser
-</pre></div>
-
-
-<p>这时只需要更改一下源文件即可：</p>
-<div class="highlight"><pre><span></span>vim /Library/Python/2.7/site-packages/pelican/readers.py
-</pre></div>
-
-
-<p>将24行的：</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>
-</pre></div>
-
-
-<p>换成：</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">HTMLParser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>
-</pre></div>
-
-
-<p>即可
-3）创建一个测试md文件保存到content目录下，并测试</p>
-<div class="highlight"><pre><span></span>Title: 文章标题
-Date: 创建日期
-Modified: 修改日期
-Category: 文章分类，标志本文处于该分类下
-Tags: 文章标签，标志本文处于该标签下
-Slug: URL中该文章的链接地址
-
-Author: 作者
-
-这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容这里是博客的内容
-</pre></div>
-
-
-<p>4）生成静态页面</p>
-<div class="highlight"><pre><span></span>make html
-</pre></div>
-
-
-<p>5）本地预览，博客全部文件在output目录下</p>
-<div class="highlight"><pre><span></span>make serve
-</pre></div>
-
-
-<p>通过在浏览器中访问 http://localhost:8000/ 就可以看到你的站点了。<br />
-6）部署到github上：将 output目录 整个上传到github page即可<br />
-7）访问yourname.github.io 就可以看到你的站点了。<br /></p>
-<p>8）绑定域名</p>
-<blockquote>
-<p>1，在<a href="https://www.GoDaddy.com">GoDaddy</a>上购买一个域名，并配合DNSPod指向your name.github.io的地址（参考：<a href="http://www.cnblog.me/2015/04/26/dnspod/">http://www.cnblog.me/2015/04/26/dnspod/</a>）<br />
-2，增加CNAME文件 在repo的根目录下面，新建一个名为CNAME的文本文件，里面写入你要绑定的域名，如：
-     www.davlu.com</p>
-</blockquote>
-<p>至此，blog部署应该可以基本完成了；</p>
-<h4><strong>在添加一个静态的html文件（16/06/02更新）</strong></h4>
-<p>具体是想实现在<code>make html</code>生成静态html时，将已有的静态html文件copy到output目录下即可。
-如此，只需要修改Makefile脚本</p>
-<div class="highlight"><pre><span></span><span class="nv">BASEDIR</span><span class="o">=</span><span class="k">$(</span>CURDIR<span class="k">)</span>
-<span class="nv">INPUTDIR</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/content
-<span class="nv">OUTPUTDIR</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/output
-<span class="nv">CONFFILE</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/pelicanconf.py
-<span class="nv">PUBLISHCONF</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/publishconf.py
-<span class="c">#增加一个常量路径</span>
-<span class="nv">DIR_TO_COPY</span><span class="o">=</span><span class="k">$(</span>BASEDIR<span class="k">)</span>/static_files
-</pre></div>
-
-
-<p>修改html命令：</p>
-<div class="highlight"><pre><span></span><span class="nf">html</span><span class="o">:</span>
-    <span class="k">$(</span>PELICAN<span class="k">)</span> <span class="k">$(</span>INPUTDIR<span class="k">)</span> -o <span class="k">$(</span>OUTPUTDIR<span class="k">)</span> -s <span class="k">$(</span>CONFFILE<span class="k">)</span> <span class="k">$(</span>PELICANOPTS<span class="k">)</span>
-<span class="c">    #复制到 OUTPUTDIR</span>
-    cp <span class="k">$(</span>DIR_TO_COPY<span class="k">)</span>/* <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>
-</pre></div>
-
-
-<p>这样每次make html时，都会自动复制DIR_TO_COPY中的文件到OUTPUTDIR目录下了</p>
-<h4><strong>给每个分类添加文章的数目（16/06/02更新）</strong></h4>
-<p>最终效果图：<br />
-<img alt="img" src="../images/2016_06_02_18_13_40.png" /></p>
-<p>修改主题目录下对应位置的模板文件<code>sidebar.html</code>：</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;h4&gt;</span>分类<span class="nt">&lt;/h4&gt;</span>
-<span class="cp">{%</span> <span class="k">if</span> <span class="nv">categories</span> <span class="cp">%}</span>
-<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;blank&quot;</span><span class="nt">&gt;</span>
-    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">cat</span><span class="o">,</span> <span class="nv">null</span> <span class="k">in</span> <span class="nv">categories</span> <span class="cp">%}</span>
-        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">SITEURL</span> <span class="cp">}}</span><span class="s">/</span><span class="cp">{{</span> <span class="nv">cat.url</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">cat</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;</span>（<span class="cp">{{</span> <span class="nv">null</span><span class="o">|</span><span class="nf">length</span> <span class="cp">}}</span>）<span class="nt">&lt;/li&gt;</span>
-    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
-<span class="nt">&lt;/ul&gt;</span>
-<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
-</pre></div>
-
-
-<p><code>（{{ null|length }}）</code>即为新添加的数目,Done!</p>
+<p>参考：<a href="http://dev.umeng.com/push/ios/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B">http://dev.umeng.com/push/ios/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B</a></p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "使用pelican在Github pages上搭建博客遇到的坑.html";
+                var disqus_identifier = "um_push_py.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
