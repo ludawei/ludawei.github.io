@@ -90,23 +90,17 @@
 <span class="x">    ];</span>
 <span class="x">    /*引入phpexcel包*/</span>
 <span class="x">    import(&#39;Vendor.phpexcel.PHPExcel&#39;);</span>
-<span class="x">    /*引入的类库没有命名空间，所以实例化前需要加上根命名空间*/</span>
+
 <span class="x">    $phpexcel = new \PHPExcel();</span>
-<span class="x">    /*取得数据表*/</span>
+
 <span class="x">    $sheet = $phpexcel-&gt;setActiveSheetIndex(0);</span>
-<span class="x">    /*添加表头*/</span>
-<span class="x">    $sheet-&gt;setCellValue( &#39;A1&#39;, &quot;id&quot; )</span>
-<span class="x">       -&gt;setCellValue( &#39;B1&#39;, &quot;name&quot; )</span>
-<span class="x">       -&gt;setCellValue( &#39;C1&#39;, &quot;skill_score&quot; );</span>
-<span class="x">    // 给表格添加数据</span>
+
 <span class="x">    foreach ($data as $k =&gt; $v) {</span>
-<span class="x">     $i = $k + 2;</span>
-<span class="x">     $id = $v[0];</span>
-<span class="x">     $name = $v[1];</span>
-<span class="x">     $skill_score = $v[2];</span>
-<span class="x">     $sheet-&gt;setCellValue( &quot;A&quot;.$i, &quot;$id&quot;);</span>
-<span class="x">     $sheet-&gt;setCellValue( &quot;B&quot;.$i, &quot;$name&quot;);</span>
-<span class="x">     $sheet-&gt;setCellValue( &quot;C&quot;.$i, &quot;$skill_score&quot;);</span>
+<span class="x">        $i = $k + 1;</span>
+
+<span class="x">        foreach ($v as $k1 =&gt; $v1) {</span>
+<span class="x">            $sheet-&gt;setCellValue( chr(65+$k1).$i, &quot;$v1&quot;);</span>
+<span class="x">        }</span>
 <span class="x">    }</span>
 <span class="x">    // 生成2003excel格式的xls文件</span>
 <span class="x">    header(&#39;Content-Type: application/vnd.ms-excel&#39;);</span>
