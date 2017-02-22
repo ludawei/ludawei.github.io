@@ -79,37 +79,37 @@
             </footer><!-- /.post-info -->
             <div class="entry-content">
               <p>mysql常用的时间转换方法</p>
-<div class="highlight"><pre><span></span><span class="nt">1</span><span class="err">，字符串转</span><span class="nt">Date</span><span class="err">：</span>
-<span class="nt">str_to_date</span><span class="o">(</span><span class="nt">str</span><span class="o">,</span> <span class="nt">format</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><span class="mi">1</span><span class="err">，字符串转</span><span class="kt">Date</span><span class="err">：</span>
+<span class="nf">str_to_date</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
 
-<span class="nt">select</span> <span class="nt">str_to_date</span><span class="o">(</span><span class="s1">&#39;08/09/2008 08:09:30&#39;</span><span class="o">,</span> <span class="s1">&#39;%m/%d/%Y %h:%i:%s&#39;</span><span class="o">);</span>             <span class="nt">--</span> <span class="nt">2008-08-09</span> <span class="nt">08</span><span class="nd">:09:30</span>
+<span class="k">select</span> <span class="nf">str_to_date</span><span class="p">(</span><span class="s1">&#39;08/09/2008 08:09:30&#39;</span><span class="p">,</span> <span class="s1">&#39;%m/%d/%Y %h:%i:%s&#39;</span><span class="p">);</span>             <span class="c1">-- 2008-08-09 08:09:30</span>
 
-<span class="nt">2</span><span class="err">，</span><span class="nt">Date</span><span class="err">转字符串</span>
-<span class="nt">date_format</span><span class="o">(</span><span class="nt">date</span><span class="o">,</span> <span class="nt">format</span><span class="o">)</span>
+<span class="mi">2</span><span class="err">，</span><span class="kt">Date</span><span class="err">转字符串</span>
+<span class="nf">date_format</span><span class="p">(</span><span class="kt">date</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
 
-<span class="nt">select</span> <span class="nt">date_format</span><span class="o">(</span><span class="s1">&#39;2008-08-08 22:23:01&#39;</span><span class="o">,</span> <span class="s1">&#39;%Y%m%d%H%i%s&#39;</span><span class="o">);</span>                  <span class="nt">--</span> <span class="nt">20080808222301</span>
+<span class="k">select</span> <span class="nf">date_format</span><span class="p">(</span><span class="s1">&#39;2008-08-08 22:23:01&#39;</span><span class="p">,</span> <span class="s1">&#39;%Y%m%d%H%i%s&#39;</span><span class="p">);</span>                  <span class="c1">-- 20080808222301</span>
 
-<span class="nt">3</span><span class="err">，</span><span class="nt">Date</span><span class="err">转时间戳</span>
-<span class="nt">UNIX_TIMESTAMP</span><span class="o">(</span><span class="nt">date</span><span class="o">)</span>   <span class="o">//</span> <span class="err">参数需要是</span><span class="nt">Date</span><span class="err">类型</span>
+<span class="mi">3</span><span class="err">，</span><span class="kt">Date</span><span class="err">转时间戳</span>
+<span class="nf">UNIX_TIMESTAMP</span><span class="p">(</span><span class="kt">date</span><span class="p">)</span>   <span class="o">//</span> <span class="err">参数需要是</span><span class="kt">Date</span><span class="err">类型</span>
 
-<span class="nt">Select</span> <span class="nt">UNIX_TIMESTAMP</span><span class="o">(</span><span class="s1">&#39;2006-11-04 12:23:00&#39;</span><span class="o">);</span>                               <span class="nt">--</span> <span class="nt">1162614180</span>
+<span class="k">Select</span> <span class="nf">UNIX_TIMESTAMP</span><span class="p">(</span><span class="s1">&#39;2006-11-04 12:23:00&#39;</span><span class="p">);</span>                               <span class="c1">-- 1162614180</span>
 
-<span class="nt">4</span><span class="err">，时间戳转</span><span class="nt">Date</span>
-<span class="nt">FROM_UNIXTIME</span><span class="o">(</span><span class="nt">timestamp</span><span class="o">)</span>
-<span class="nt">select</span> <span class="nt">FROM_UNIXTIME</span><span class="o">(</span><span class="nt">1156219870</span><span class="o">);</span>                                           <span class="nt">--</span> <span class="nt">2006-08-22</span> <span class="nt">12</span><span class="nd">:11:10</span>
+<span class="mi">4</span><span class="err">，时间戳转</span><span class="kt">Date</span>
+<span class="nf">FROM_UNIXTIME</span><span class="p">(</span><span class="kt">timestamp</span><span class="p">)</span>
+<span class="k">select</span> <span class="nf">FROM_UNIXTIME</span><span class="p">(</span><span class="mi">1156219870</span><span class="p">);</span>                                           <span class="c1">-- 2006-08-22 12:11:10</span>
 
 <span class="err">由以上可以衍生出，</span>
-<span class="nt">5</span><span class="err">，字符串转时间戳</span>
-<span class="nt">UNIX_TIMESTAMP</span><span class="o">(</span><span class="nt">str_to_date</span><span class="o">(</span><span class="nt">time_str</span><span class="o">,</span> <span class="nt">format</span><span class="o">))</span>   
+<span class="mi">5</span><span class="err">，字符串转时间戳</span>
+<span class="nf">UNIX_TIMESTAMP</span><span class="p">(</span><span class="nf">str_to_date</span><span class="p">(</span><span class="n">time_str</span><span class="p">,</span> <span class="n">format</span><span class="p">))</span>   
 
-<span class="nt">select</span> <span class="nt">UNIX_TIMESTAMP</span><span class="o">(</span><span class="nt">str_to_date</span><span class="o">(</span><span class="s1">&#39;2017022210&#39;</span><span class="o">,</span> <span class="s2">&quot;%Y%m%d%H&quot;</span><span class="o">));</span>               <span class="nt">--</span> <span class="nt">1487728800</span>
-<span class="nt">ps</span><span class="o">:</span><span class="err">在</span><span class="nt">where</span><span class="err">条件选择时非常好用</span>
+<span class="k">select</span> <span class="nf">UNIX_TIMESTAMP</span><span class="p">(</span><span class="nf">str_to_date</span><span class="p">(</span><span class="s1">&#39;2017022210&#39;</span><span class="p">,</span> <span class="s2">&quot;%Y%m%d%H&quot;</span><span class="p">));</span>               <span class="c1">-- 1487728800</span>
+<span class="n">ps</span><span class="p">:</span><span class="err">在</span><span class="k">where</span><span class="err">条件选择时非常好用</span>
 
-<span class="nt">6</span><span class="err">，字符串格式化</span>
-<span class="nt">DATE_FORMAT</span><span class="o">(</span><span class="nt">str_to_date</span><span class="o">(</span><span class="nt">time_str</span><span class="o">,</span> <span class="nt">from_format</span><span class="o">),</span> <span class="nt">to_format</span><span class="o">)</span>
+<span class="mi">6</span><span class="err">，字符串格式化</span>
+<span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="nf">str_to_date</span><span class="p">(</span><span class="n">time_str</span><span class="p">,</span> <span class="n">from_format</span><span class="p">),</span> <span class="n">to_format</span><span class="p">)</span>
 
-<span class="nt">select</span> <span class="nt">DATE_FORMAT</span><span class="o">(</span><span class="nt">str_to_date</span><span class="o">(</span><span class="s2">&quot;2017022210&quot;</span><span class="o">,</span> <span class="s2">&quot;%Y%m%d%H&quot;</span><span class="o">),</span> <span class="s2">&quot;%Y%m%d&quot;</span><span class="o">);</span>        <span class="nt">--</span> <span class="nt">20170222</span>
-<span class="nt">ps</span><span class="o">:</span><span class="err">在输出到结果中时，格式化时间非常必要</span>
+<span class="k">select</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="nf">str_to_date</span><span class="p">(</span><span class="s2">&quot;2017022210&quot;</span><span class="p">,</span> <span class="s2">&quot;%Y%m%d%H&quot;</span><span class="p">),</span> <span class="s2">&quot;%Y%m%d&quot;</span><span class="p">);</span>        <span class="c1">-- 20170222</span>
+<span class="n">ps</span><span class="p">:</span><span class="err">在输出到结果中时，格式化时间非常必要</span>
 </pre></div>
             </div><!-- /.entry-content -->
             <div class="comments">
