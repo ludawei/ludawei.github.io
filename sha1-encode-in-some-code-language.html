@@ -170,14 +170,14 @@
 
 <p>Objective-C实现</p>
 <div class="highlight"><pre><span></span><span class="bp">NSString</span> <span class="o">*</span><span class="n">private_key</span> <span class="o">=</span> <span class="s">@&quot;my_test&quot;</span><span class="p">;</span>
-<span class="bp">NSString</span> <span class="o">*</span><span class="n">appid</span> <span class="o">=</span> <span class="s">@&quot;1234567890&quot;</span><span class="p">;</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">appId</span> <span class="o">=</span> <span class="s">@&quot;1234567890&quot;</span><span class="p">;</span>
 <span class="bp">NSString</span> <span class="o">*</span><span class="n">domain</span> <span class="o">=</span> <span class="s">@&quot;http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&quot;</span><span class="p">;</span>
 
 <span class="bp">NSDateFormatter</span> <span class="o">*</span><span class="n">formatter</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDateFormatter</span> <span class="n">new</span><span class="p">];</span>
 <span class="p">[</span><span class="n">formatter</span> <span class="nl">setDateFormat</span><span class="p">:</span><span class="s">@&quot;yyyyMMddHHmm&quot;</span><span class="p">];</span>
 <span class="bp">NSString</span> <span class="o">*</span><span class="n">now</span> <span class="o">=</span> <span class="p">[</span><span class="n">formatter</span> <span class="nl">stringFromDate</span><span class="p">:[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">]];</span>
 
-<span class="bp">NSString</span> <span class="o">*</span><span class="n">public_key</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;&amp;%@date=%@&amp;appid=%@&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">now</span><span class="p">,</span> <span class="n">appId</span><span class="p">];</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">public_key</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&amp;date=%@&amp;appid=%@&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">now</span><span class="p">,</span> <span class="n">appId</span><span class="p">];</span>
 
 <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cKey</span>  <span class="o">=</span> <span class="p">[</span><span class="n">private_key</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSASCIIStringEncoding</span><span class="p">];</span>
 <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cData</span> <span class="o">=</span> <span class="p">[</span><span class="n">public_key</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSASCIIStringEncoding</span><span class="p">];</span>
@@ -186,12 +186,20 @@
 <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">cHMAC</span><span class="p">[</span><span class="n">CC_SHA1_DIGEST_LENGTH</span><span class="p">];</span>
 <span class="n">CCHmac</span><span class="p">(</span><span class="n">kCCHmacAlgSHA1</span><span class="p">,</span> <span class="n">cKey</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">cKey</span><span class="p">),</span> <span class="n">cData</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">cData</span><span class="p">),</span> <span class="n">cHMAC</span><span class="p">);</span>
 
-<span class="bp">NSData</span> <span class="o">*</span><span class="n">HMAC</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSData</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBytes</span><span class="p">:</span><span class="n">cHMAC</span>
-                                      <span class="nl">length</span><span class="p">:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">cHMAC</span><span class="p">)];</span>
+<span class="bp">NSData</span> <span class="o">*</span><span class="n">HMAC</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSData</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBytes</span><span class="p">:</span><span class="n">cHMAC</span> <span class="nl">length</span><span class="p">:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">cHMAC</span><span class="p">)];</span>
 
-<span class="bp">NSString</span> <span class="o">*</span><span class="n">hash</span> <span class="o">=</span> <span class="p">[</span><span class="n">HMAC</span> <span class="nl">base64EncodedStringWithOptions</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="n">HMAC</span> <span class="nl">base64EncodedStringWithOptions</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">CFBridgingRelease</span><span class="p">(</span><span class="n">CFURLCreateStringByAddingPercentEscapes</span><span class="p">(</span>
+                                                                      <span class="nb">NULL</span><span class="p">,</span>
+                                                                      <span class="p">(</span><span class="k">__bridge</span> <span class="n">CFStringRef</span><span class="p">)</span><span class="n">key</span><span class="p">,</span>
+                                                                      <span class="nb">NULL</span><span class="p">,</span>
+                                                                      <span class="p">(</span><span class="n">CFStringRef</span><span class="p">)</span><span class="s">@&quot;!*&#39;</span><span class="se">\&quot;</span><span class="s">();:@&amp;=+$,/?%#[]% &quot;</span><span class="p">,</span>
+                                                                      <span class="n">CFStringConvertNSStringEncodingToEncoding</span><span class="p">(</span><span class="n">NSUTF8StringEncoding</span><span class="p">)));</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@&amp;date=%@&amp;appid=%@&amp;key=%@&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">now</span><span class="p">,</span> <span class="n">appId</span><span class="p">,</span> <span class="n">key</span><span class="p">];</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">);</span>
 
-<span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">hash</span><span class="p">);</span>
+<span class="c1">// 结果如下：</span>
+<span class="c1">// http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&amp;date=201704131613&amp;appid=1234567890&amp;key=%2BteLBODxDGS13d9BuVJQMNZbbzs%3D</span>
 </pre></div>
             </div><!-- /.entry-content -->
             <div class="comments">
