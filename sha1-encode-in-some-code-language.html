@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>几种常用语言下的sha1加密</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+              <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-77750244-1', 'auto');
+                ga('send', 'pageview');
+
+              </script>
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h2><a href="/">分享即美德 <strong></strong></a></h2>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+
+              <ul class="columns">
+                <!-- <li><a href="/">Home</a></li> -->
+
+                <li><a href="/">首页</a></li>
+                <li><a href="/archives">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="/aboutme">关于我</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/sha1-encode-in-some-code-language.html" rel="bookmark"
+                   title="Permalink to 几种常用语言下的sha1加密">几种常用语言下的sha1加密</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2017-04-10T00:00:00+02:00">
+                2017年04月10
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
+ -->
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>为了防止api数据被第三方（非己方）的网页或App调用到，我们需要对一些关键数据接口做api请求的身份验证；
+我们这用到的方法是，提供一个分配好的appid（应用id）和private_key（私钥），然后按一个特定规则计算出一个key参数传给服务器。</p>
+<p>python实现</p>
+<div class="highlight"><pre><span></span><span class="c1">#encoding:utf8</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">datetime</span><span class="o">,</span> <span class="nn">hmac</span><span class="o">,</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">sha1</span>
+<span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">quote_plus</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="c1"># private_key and appid</span>
+<span class="n">private_key</span> <span class="o">=</span> <span class="s1">&#39;my_test&#39;</span>
+<span class="n">appid</span> <span class="o">=</span> <span class="s1">&#39;1234567890&#39;</span>
+
+<span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">)</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&quot;</span>
+
+<span class="c1"># get public_key</span>
+<span class="n">public_key</span> <span class="o">=</span> <span class="n">domain</span> <span class="o">+</span> <span class="s2">&quot;&amp;date=&quot;</span> <span class="o">+</span> <span class="n">date</span> <span class="o">+</span> <span class="s2">&quot;&amp;appid=&quot;</span> <span class="o">+</span> <span class="n">appid</span>
+<span class="k">print</span> <span class="n">public_key</span>
+<span class="c1"># 哈希一个令牌</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">,</span> <span class="n">public_key</span><span class="p">,</span> <span class="n">sha1</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="n">domain</span> <span class="o">+</span> <span class="s2">&quot;&amp;date=&quot;</span> <span class="o">+</span> <span class="n">date</span> <span class="o">+</span> <span class="s2">&quot;&amp;appid=&quot;</span> <span class="o">+</span> <span class="n">appid</span> <span class="o">+</span> <span class="s2">&quot;&amp;key=&quot;</span> <span class="o">+</span> <span class="n">quote_plus</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">url</span>
+
+<span class="c1"># 结果如下：</span>
+<span class="c1"># http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&amp;date=201704131538&amp;appid=1234567890&amp;key=Mw8m6gidwkLZaQRwzb6uIoFVc4Y%3D</span>
+</pre></div>
+
+
+<p>php实现</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="c1">// private_key</span>
+<span class="nv">$private_key</span> <span class="o">=</span> <span class="s1">&#39;my_test&#39;</span><span class="p">;</span>
+<span class="nv">$appid</span> <span class="o">=</span> <span class="s1">&#39;1234567890&#39;</span><span class="p">;</span>
+
+<span class="nv">$date</span><span class="o">=</span><span class="nb">date</span><span class="p">(</span><span class="s2">&quot;YmdHi&quot;</span><span class="p">);</span>
+<span class="nv">$domain</span> <span class="o">=</span> <span class="s2">&quot;http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&quot;</span><span class="p">;</span>
+
+<span class="c1">// get public_key</span>
+<span class="nv">$public_key</span> <span class="o">=</span> <span class="nv">$domain</span><span class="o">.</span><span class="s2">&quot;&amp;date=&quot;</span><span class="o">.</span><span class="nv">$date</span><span class="o">.</span><span class="s2">&quot;&amp;appid=&quot;</span><span class="o">.</span><span class="nv">$appid</span><span class="p">;</span>
+
+<span class="c1"># get key</span>
+<span class="nv">$key</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">&#39;sha1&#39;</span><span class="p">,</span><span class="nv">$public_key</span><span class="p">,</span><span class="nv">$private_key</span><span class="p">,</span><span class="k">TRUE</span><span class="p">));</span>
+
+<span class="nv">$URL</span> <span class="o">=</span> <span class="nv">$domain</span><span class="o">.</span><span class="s2">&quot;&amp;date=&quot;</span><span class="o">.</span><span class="nv">$date</span><span class="o">.</span><span class="s2">&quot;&amp;appid=&quot;</span><span class="o">.</span><span class="nv">$appid</span><span class="o">.</span><span class="s2">&quot;&amp;key=&quot;</span><span class="o">.</span><span class="nb">urlencode</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$URL</span><span class="o">.</span><span class="s2">&quot;&lt;br /&gt;&quot;</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+
+<span class="x">// 结果如下：</span>
+<span class="x">// http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&amp;date=201704130739&amp;appid=1234567890&amp;key=kU7DVthCC0wjWTrI5Jtri2nA%2BMY%3D</span>
+</pre></div>
+
+
+<p>js实现：</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;crypto&#39;</span><span class="p">)</span>
+
+<span class="nx">private_key</span> <span class="o">=</span> <span class="s1">&#39;my_test&#39;</span>
+<span class="nx">appid</span> <span class="o">=</span> <span class="s1">&#39;1234567890&#39;</span>
+
+<span class="kd">var</span> <span class="nx">time</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">()</span>
+<span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span>
+<span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">getDate</span><span class="p">()</span>
+<span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">getHours</span><span class="p">()</span>
+<span class="kd">var</span> <span class="nx">mm</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">getMinutes</span><span class="p">()</span>
+<span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">getSeconds</span><span class="p">()</span>
+<span class="nx">date</span> <span class="o">=</span> <span class="nx">y</span><span class="o">+</span><span class="s1">&#39;&#39;</span><span class="o">+</span><span class="nx">m</span><span class="o">+</span><span class="s1">&#39;&#39;</span><span class="o">+</span><span class="nx">d</span><span class="o">+</span><span class="s1">&#39;&#39;</span><span class="o">+</span><span class="nx">h</span><span class="o">+</span><span class="s1">&#39;&#39;</span><span class="o">+</span><span class="nx">mm</span>
+
+<span class="nx">domain</span> <span class="o">=</span> <span class="s2">&quot;http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&quot;</span>
+<span class="nx">public_key</span> <span class="o">=</span> <span class="nx">domain</span> <span class="o">+</span> <span class="s2">&quot;&amp;date=&quot;</span> <span class="o">+</span> <span class="nx">date</span> <span class="o">+</span> <span class="s2">&quot;&amp;appid=&quot;</span> <span class="o">+</span> <span class="nx">appid</span>
+
+<span class="kd">var</span> <span class="nx">hmac</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">&#39;sha1&#39;</span><span class="p">,</span> <span class="nx">private_key</span><span class="p">)</span>
+<span class="nx">hmac</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">public_key</span><span class="p">)</span>
+<span class="nx">hmac</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+<span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">hmac</span><span class="p">.</span><span class="nx">read</span><span class="p">().</span><span class="nx">toString</span><span class="p">(</span><span class="s1">&#39;base64&#39;</span><span class="p">)</span>
+<span class="nx">key</span> <span class="o">=</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+
+<span class="nx">finalUrl</span> <span class="o">=</span> <span class="nx">domain</span> <span class="o">+</span><span class="s1">&#39;?appid=&#39;</span><span class="o">+</span> <span class="nx">appid</span> <span class="o">+</span><span class="s1">&#39;&amp;timestamp=&#39;</span><span class="o">+</span> <span class="nx">date</span> <span class="o">+</span><span class="s1">&#39;&amp;key=&#39;</span><span class="o">+</span> <span class="nx">key</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">finalUrl</span><span class="p">)</span>
+
+<span class="c1">// 结果如下：</span>
+<span class="c1">// http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test?appid=1234567890×tamp=20174131551&amp;key=JPBPvqvtjQbgelt70crbOJN3v9o%3D</span>
+</pre></div>
+
+
+<p>Objective-C实现</p>
+<div class="highlight"><pre><span></span><span class="bp">NSString</span> <span class="o">*</span><span class="n">private_key</span> <span class="o">=</span> <span class="s">@&quot;my_test&quot;</span><span class="p">;</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">appid</span> <span class="o">=</span> <span class="s">@&quot;1234567890&quot;</span><span class="p">;</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">domain</span> <span class="o">=</span> <span class="s">@&quot;http://xxxxxx.com/?lon=118.246&amp;lat=39.117&amp;type=test&quot;</span><span class="p">;</span>
+
+<span class="bp">NSDateFormatter</span> <span class="o">*</span><span class="n">formatter</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDateFormatter</span> <span class="n">new</span><span class="p">];</span>
+<span class="p">[</span><span class="n">formatter</span> <span class="nl">setDateFormat</span><span class="p">:</span><span class="s">@&quot;yyyyMMddHHmm&quot;</span><span class="p">];</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">now</span> <span class="o">=</span> <span class="p">[</span><span class="n">formatter</span> <span class="nl">stringFromDate</span><span class="p">:[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">]];</span>
+
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">public_key</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;&amp;%@date=%@&amp;appid=%@&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">now</span><span class="p">,</span> <span class="n">appId</span><span class="p">];</span>
+
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cKey</span>  <span class="o">=</span> <span class="p">[</span><span class="n">private_key</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSASCIIStringEncoding</span><span class="p">];</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cData</span> <span class="o">=</span> <span class="p">[</span><span class="n">public_key</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSASCIIStringEncoding</span><span class="p">];</span>
+
+<span class="c1">//sha1</span>
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">cHMAC</span><span class="p">[</span><span class="n">CC_SHA1_DIGEST_LENGTH</span><span class="p">];</span>
+<span class="n">CCHmac</span><span class="p">(</span><span class="n">kCCHmacAlgSHA1</span><span class="p">,</span> <span class="n">cKey</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">cKey</span><span class="p">),</span> <span class="n">cData</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">cData</span><span class="p">),</span> <span class="n">cHMAC</span><span class="p">);</span>
+
+<span class="bp">NSData</span> <span class="o">*</span><span class="n">HMAC</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSData</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBytes</span><span class="p">:</span><span class="n">cHMAC</span>
+                                      <span class="nl">length</span><span class="p">:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">cHMAC</span><span class="p">)];</span>
+
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">hash</span> <span class="o">=</span> <span class="p">[</span><span class="n">HMAC</span> <span class="nl">base64EncodedStringWithOptions</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">hash</span><span class="p">);</span>
+</pre></div>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "sha1-encode-in-some-code-language.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<!-- <h4>方位</h4>
+
+ <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/archives">归档</a></li>
+      <li><a href="/categories">分类</a></li>
+      <li><a href="/tags">标签</a></li>
+      <li><a href="/aboutme">关于我</a></li>
+  </ul> -->
+
+<h4>分类</h4>
+<ul class="blank">
+		<li><a href="/category/gong-ju.html">工具</a>（2）</li>
+		<li><a href="/category/ios.html">iOS</a>（13）</li>
+		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a>（1）</li>
+		<li><a href="/category/markdown.html">markdown</a>（1）</li>
+		<li><a href="/category/mysql.html">mysql</a>（2）</li>
+		<li><a href="/category/pelican.html">pelican</a>（1）</li>
+		<li><a href="/category/php.html">PHP</a>（1）</li>
+		<li><a href="/category/python.html">python</a>（1）</li>
+		<li><a href="/category/qi-ta.html">其它</a>（2）</li>
+</ul>
+
+
+<!-- <h4>标签</h4>
+	<ul class="blank">
+</ul>
+ -->
+
+<!-- <h4>时间</h4>
+	<ul class="blank">
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">22 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 十月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 四月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 五月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 四月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 二月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 九月 2014</a></li>
+</ul>
+ -->
+
+
+<nav class="widget">
+  <h4>about me</h4>
+  <ul class="blank">
+    <li><a href="https://github.com/ludawei">github</a></li>
+    <li><a href="http://www.cnblogs.com/china-ldw/">cnblog</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Creared by dav@2016 and Proudly powered by <a href="http://getpelican.com/">Pelican</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<!-- <script type="text/javascript">
+    var disqus_shortname = 'davlu';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+ -->
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>
