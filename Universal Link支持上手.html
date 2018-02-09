@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>mysql时间转换</title>
+        <title>Universal Link支持上手</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/mysql_time_format.html" rel="bookmark"
-                   title="Permalink to mysql时间转换">mysql时间转换</a></h3>
+                <a href="/Universal Link支持上手.html" rel="bookmark"
+                   title="Permalink to Universal Link支持上手">Universal Link支持上手</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2017-02-22T00:00:00+01:00">
-                2017年02月22
+              <abbr class="published" title="2017-02-09T00:00:00+01:00">
+                2017年02月09
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,46 +78,56 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>mysql常用的时间转换方法</p>
-<div class="highlight"><pre><span></span><span class="x">1，字符串转Date</span>
-<span class="x">str_to_date(str, format)</span>
+              <p>Universal Link
+操作步骤：
+1，准备https服务器；
+2，开发者中心证书打开Associated Domains（通常一个App会有正式版、测试版、企业版，多个都可以配置上）；
+3，工程配置Associated Domains（applinks可以添加多个服务器）；
+4，appDelegate代码添加：</p>
+<div class="highlight"><pre><span></span>- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
+    return YES;
+}
 
-<span class="x">select str_to_date(&#39;08/09/2008 08:09:30&#39;, &#39;%m/%d/%Y %h:%i:%s&#39;);             -- 2008-08-09 08:09:30</span>
-
-<span class="x">2，Date转字符串</span>
-<span class="x">date_format(date, format)</span>
-
-<span class="x">select date_format(&#39;2008-08-08 22:23:01&#39;, &#39;%Y%m%d%H%i%s&#39;);                  -- 20080808222301</span>
-
-<span class="x">3，Date转时间戳</span>
-<span class="x">UNIX_TIMESTAMP(date)   // 参数需要是Date类型</span>
-
-<span class="x">Select UNIX_TIMESTAMP(&#39;2006-11-04 12:23:00&#39;);                               -- 1162614180</span>
-
-<span class="x">4，时间戳转Date</span>
-<span class="x">FROM_UNIXTIME(timestamp)</span>
-<span class="x">select FROM_UNIXTIME(1156219870);                                           -- 2006-08-22 12:11:10</span>
-
-<span class="x">由以上可以衍生出，</span>
-<span class="x">5，字符串转时间戳</span>
-<span class="x">UNIX_TIMESTAMP(str_to_date(time_str, format))   </span>
-
-<span class="x">select UNIX_TIMESTAMP(str_to_date(&#39;2017022210&#39;, &quot;%Y%m%d%H&quot;));               -- 1487728800</span>
-<span class="x">ps:在where条件选择时非常好用</span>
-
-<span class="x">6，字符串格式化</span>
-<span class="x">DATE_FORMAT(str_to_date(time_str, from_format), to_format)</span>
-
-<span class="x">select DATE_FORMAT(str_to_date(&quot;2017022210&quot;, &quot;%Y%m%d%H&quot;), &quot;%Y%m%d&quot;);        -- 20170222</span>
-<span class="x">ps:在输出到结果中时，格式化时间非常必要</span>
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return YES;
+}
 </pre></div>
+
+
+<p>5，创建apple-app-site-association的json文件，不带.json后缀；
+6，将apple-app-site-association文件放在服务器域名对应目录的.well-know目录下（可以放置于多台服务器）,并将文件返回的content_type设置为application/json；
+7，安装配置完成的App，打开相应域名下apple-app-site-association文件中符合paths规则的任一网页测试；</p>
+<p>PS：测试网页与内容无关，空白页面也可以测试；测试要注意顺序，配置好apple-app-site-association后，重新安装App，再打开或者刷新网页测试效果</p>
+<p>以下是我配置的apple-app-site-association文件</p>
+<div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;applinks&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;apps&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;details&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;appID&quot;</span><span class="p">:</span> <span class="s2">&quot;temaId.boundId1&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;/Public/share/chinaweather_links/&quot;</span><span class="p">,</span> <span class="s2">&quot;/Public/share/chinaweather_links/*&quot;</span><span class="p">,</span> <span class="s2">&quot;/jueceqixiang.html&quot;</span> <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;appID&quot;</span><span class="p">:</span> <span class="s2">&quot;temaId.boundId2&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;/Public/share/chinaweather_links/&quot;</span><span class="p">,</span> <span class="s2">&quot;/Public/share/chinaweather_links/*&quot;</span><span class="p">,</span> <span class="s2">&quot;/jueceqixiang.html&quot;</span> <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>apple-app-site-association内容说明：
+1，apps空着不用动
+2，paths在不同服务器上的目录路径不同</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "mysql_time_format.html";
+                var disqus_identifier = "Universal Link支持上手.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
