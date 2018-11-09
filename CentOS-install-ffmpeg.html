@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>一些实用工具</title>
+        <title>CentOS 安装最新版本ffmpeg</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/sometools.html" rel="bookmark"
-                   title="Permalink to 一些实用工具">一些实用工具</a></h3>
+                <a href="/CentOS-install-ffmpeg.html" rel="bookmark"
+                   title="Permalink to CentOS 安装最新版本ffmpeg">CentOS 安装最新版本ffmpeg</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2016-05-25T00:00:00+02:00">
-                2016年05月25
+              <abbr class="published" title="2018-03-16T00:00:00+01:00">
+                2018年03月16
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,17 +78,140 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p><strong>1，在线文本编辑器</strong></p>
-<p>&emsp;&emsp;<a href="./edit.html">编辑器</a></p>
-<p><strong>2，iOS block定义语法</strong></p>
-<p>&emsp;&emsp;<a href="http://fuckingblocksyntax.com/">fuckingblocks</a></p>
+              <p>CentOS用yum安装的ffmpeg为2.<em>.</em>，最新的ffmpeg已经更新到了4.<em>.</em>了，也增加了不少新功能</p>
+<p>参照<a href="https://help.github.com/articles/using-jekyll-with-pages">官方文档</a>写了个一键安安装的bash脚本。</p>
+<p>安装脚本如下</p>
+<div class="highlight"><pre><span></span><span class="c1">#/bin/bash</span>
+
+<span class="c1">#安装必要的库</span>
+sudo yum install autoconf automake bzip2 cmake freetype-devel gcc gcc-c++ git libtool make mercurial pkgconfig zlib-devel
+
+<span class="c1">#创建目录</span>
+mkdir -p ~/soft/ffmpeg_sources
+
+<span class="c1"># NASM</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+curl -O -L http://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.bz2
+tar xjvf nasm-2.13.02.tar.bz2
+<span class="nb">cd</span> nasm-2.13.02
+./autogen.sh
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --bindir<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin&quot;</span>
+make
+make install
+
+<span class="c1"># Yasm</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+curl -O -L http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
+tar xzvf yasm-1.3.0.tar.gz
+<span class="nb">cd</span> yasm-1.3.0
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --bindir<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin&quot;</span>
+make
+make install
+
+<span class="c1"># libx264</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+git clone --depth <span class="m">1</span> http://git.videolan.org/git/x264
+<span class="nb">cd</span> x264
+<span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build/lib/pkgconfig&quot;</span> ./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --bindir<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin&quot;</span> --enable-static
+make
+make install
+
+<span class="c1"># libx265</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+hg clone https://bitbucket.org/multicoreware/x265
+<span class="nb">cd</span> x265/build/linux
+cmake -G <span class="s2">&quot;Unix Makefiles&quot;</span> -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> -DENABLE_SHARED:bool<span class="o">=</span>off ../../source
+make
+make install
+
+<span class="c1"># aac</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+git clone --depth <span class="m">1</span> git://github.com/mstorsjo/fdk-aac.git
+<span class="nb">cd</span> fdk-aac
+autoreconf -fiv
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --disable-shared
+make
+make install
+
+<span class="c1"># libmp3lame</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+curl -O -L http://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz
+tar xzvf lame-3.100.tar.gz
+<span class="nb">cd</span> lame-3.100
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --bindir<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin&quot;</span> --disable-shared --enable-nasm
+make
+make install
+
+<span class="c1"># libopus</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+curl -O -L https://archive.mozilla.org/pub/opus/opus-1.2.1.tar.gz
+tar xzvf opus-1.2.1.tar.gz
+<span class="nb">cd</span> opus-1.2.1
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --disable-shared
+make
+make install
+
+<span class="c1"># libogg</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+curl -O -L http://downloads.xiph.org/releases/ogg/libogg-1.3.3.tar.gz
+tar xzvf libogg-1.3.3.tar.gz
+<span class="nb">cd</span> libogg-1.3.3
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --disable-shared
+make
+make install
+
+<span class="c1"># libvorbis</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+curl -O -L http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.5.tar.gz
+tar xzvf libvorbis-1.3.5.tar.gz
+<span class="nb">cd</span> libvorbis-1.3.5
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --with-ogg<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --disable-shared
+make
+make install
+
+<span class="c1"># libvpx</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+<span class="c1"># git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git</span>
+git clone --depth <span class="m">1</span> git://github.com/webmproject/libvpx.git
+<span class="nb">cd</span> libvpx
+./configure --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as<span class="o">=</span>yasm
+make
+make install
+
+<span class="c1"># ffmpeg</span>
+<span class="nb">cd</span> ~/soft/ffmpeg_sources
+curl -O -L https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
+tar xjvf ffmpeg-snapshot.tar.bz2
+<span class="nb">cd</span> ffmpeg
+<span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span> <span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build/lib/pkgconfig&quot;</span> ./configure <span class="se">\</span>
+  --prefix<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build&quot;</span> <span class="se">\</span>
+  --pkg-config-flags<span class="o">=</span><span class="s2">&quot;--static&quot;</span> <span class="se">\</span>
+  --extra-cflags<span class="o">=</span><span class="s2">&quot;-I</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build/include&quot;</span> <span class="se">\</span>
+  --extra-ldflags<span class="o">=</span><span class="s2">&quot;-L</span><span class="nv">$HOME</span><span class="s2">/ffmpeg_build/lib&quot;</span> <span class="se">\</span>
+  --extra-libs<span class="o">=</span>-lpthread <span class="se">\</span>
+  --extra-libs<span class="o">=</span>-lm <span class="se">\</span>
+  --bindir<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin&quot;</span> <span class="se">\</span>
+  --enable-gpl <span class="se">\</span>
+  --enable-libfdk_aac <span class="se">\</span>
+  --enable-libfreetype <span class="se">\</span>
+  --enable-libmp3lame <span class="se">\</span>
+  --enable-libopus <span class="se">\</span>
+  --enable-libvorbis <span class="se">\</span>
+  --enable-libvpx <span class="se">\</span>
+  --enable-libx264 <span class="se">\</span>
+  --enable-libx265 <span class="se">\</span>
+  --enable-nonfree
+make
+make install
+<span class="nb">hash</span> -r
+</pre></div>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "sometools.html";
+                var disqus_identifier = "CentOS-install-ffmpeg.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
