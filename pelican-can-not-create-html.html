@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>xcode自定义“删除一行”快捷键的python脚本</title>
+        <title>pelican 生成不了html文件</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/custom-xcode-remove-a-line-with-python.html" rel="bookmark"
-                   title="Permalink to xcode自定义“删除一行”快捷键的python脚本">xcode自定义“删除一行”快捷键的python脚本</a></h3>
+                <a href="/pelican-can-not-create-html.html" rel="bookmark"
+                   title="Permalink to pelican 生成不了html文件">pelican 生成不了html文件</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2015-04-10T00:00:00+02:00">
-                2015年04月10
+              <abbr class="published" title="2018-04-03T00:00:00+02:00">
+                2018年04月03
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,57 +78,23 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>一个xcode自定义“删除一行”快捷键的python脚本</p>
-<div class="highlight"><pre><span></span><span class="c1"># -*- coding:utf8 -*-</span>
-<span class="c1">#</span>
-<span class="c1"># 修改文件权限</span>
-<span class="c1"># 添加自定义的ctr+D删除到xcode中</span>
-<span class="c1"># 参考：</span>
-<span class="c1">#   http://hi.baidu.com/castiello_ybx/item/20e9945932516ac89e2667ea</span>
-<span class="c1">#   http://stackoverflow.com/questions/13045593/using-sudo-with-python-script</span>
-<span class="c1">#</span>
-
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">stat</span>
-<span class="kn">from</span> <span class="nn">biplist</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="k">def</span> <span class="nf">changeChmod</span><span class="p">(</span><span class="n">sudoPassword</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;echo </span><span class="si">%s</span><span class="s1">|sudo </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sudoPassword</span><span class="p">,</span> <span class="n">command</span><span class="p">))</span>
-
-<span class="k">def</span> <span class="nf">myFun</span><span class="p">():</span>
-    <span class="c1"># os.chmod(&quot;/Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/&quot;, stat.S_IRWXU)</span>
-    <span class="c1"># os.chmod(&quot;/Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist&quot;, stat.S_IRWXU)</span>
-    <span class="c1"># 相关文件路径</span>
-    <span class="n">dir_path</span> <span class="o">=</span> <span class="s2">&quot;/Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/&quot;</span>
-    <span class="n">plist_path</span> <span class="o">=</span> <span class="n">dir_path</span><span class="o">+</span><span class="s2">&quot;IDETextKeyBindingSet.plist&quot;</span>
-
-    <span class="c1"># 修改文件权限</span>
-    <span class="n">command1</span> <span class="o">=</span> <span class="s2">&quot;sudo chmod 666 &quot;</span><span class="o">+</span><span class="n">plist_path</span>
-    <span class="n">command2</span> <span class="o">=</span> <span class="s2">&quot;sudo chmod 777 &quot;</span><span class="o">+</span><span class="n">dir_path</span>
-    <span class="c1"># os.system(&#39;echo %s|sudo %s&#39; % (sudoPassword, command))</span>
-    <span class="n">changeChmod</span><span class="p">(</span><span class="s1">&#39;这里写你的电脑密码&#39;</span><span class="p">,</span> <span class="n">command1</span><span class="p">)</span>
-    <span class="n">changeChmod</span><span class="p">(</span><span class="s1">&#39;这里写你的电脑密码&#39;</span><span class="p">,</span> <span class="n">command2</span><span class="p">)</span>
-
-    <span class="c1"># 添加自定义的ctr+D删除到xcode中</span>
-    <span class="n">plist</span> <span class="o">=</span> <span class="n">readPlist</span><span class="p">(</span><span class="n">plist_path</span><span class="p">)</span>
-    <span class="n">plist</span><span class="p">[</span><span class="s1">&#39;Deletions&#39;</span><span class="p">][</span><span class="s1">&#39;my delete the line&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;moveToEndOfLine:, deleteToBeginningOfLine:, deleteToEndOfParagraph:&#39;</span>
-    <span class="n">writePlist</span><span class="p">(</span><span class="n">plist</span><span class="p">,</span> <span class="n">plist_path</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">myFun</span><span class="p">()</span>
+              <p>今天用peclican转md文件生成html时，终端提示<code>WARNING: No valid files found in content.</code></p>
+<p>更新peclican也没用，最后发现是markdown库安装不对</p>
+<div class="highlight"><pre><span></span><span class="c1">#错误的安装</span>
+pip install Markdown
+<span class="c1">#正确的安装 </span>
+easy_install -U markdown
 </pre></div>
 
 
-<h4>使用场景：</h4>
-<p>每次更新xcode后（apple更新xcode的频率真心快）</p>
-<h4>用法：</h4>
-<p>创建空文件，粘贴代码并保存为.py文件，在控制台cd到文件目前目录，执行 python 文件名.py ,重启xcode。</p>
+<p>感谢<a href="https://www.linuxzen.com/jiang-pelicanban-ben-geng-xin-dao-33.html">文章</a>，解决了问题</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "custom-xcode-remove-a-line-with-python.html";
+                var disqus_identifier = "pelican-can-not-create-html.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';

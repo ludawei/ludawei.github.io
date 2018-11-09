@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>xcode自定义“删除一行”快捷键的python脚本</title>
+        <title>ffmpeg使用命令记录</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/custom-xcode-remove-a-line-with-python.html" rel="bookmark"
-                   title="Permalink to xcode自定义“删除一行”快捷键的python脚本">xcode自定义“删除一行”快捷键的python脚本</a></h3>
+                <a href="/ffmpeg-use.html" rel="bookmark"
+                   title="Permalink to ffmpeg使用命令记录">ffmpeg使用命令记录</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2015-04-10T00:00:00+02:00">
-                2015年04月10
+              <abbr class="published" title="2018-05-08T00:00:00+02:00">
+                2018年05月08
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,57 +78,66 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>一个xcode自定义“删除一行”快捷键的python脚本</p>
-<div class="highlight"><pre><span></span><span class="c1"># -*- coding:utf8 -*-</span>
-<span class="c1">#</span>
-<span class="c1"># 修改文件权限</span>
-<span class="c1"># 添加自定义的ctr+D删除到xcode中</span>
-<span class="c1"># 参考：</span>
-<span class="c1">#   http://hi.baidu.com/castiello_ybx/item/20e9945932516ac89e2667ea</span>
-<span class="c1">#   http://stackoverflow.com/questions/13045593/using-sudo-with-python-script</span>
-<span class="c1">#</span>
+              <p>一些工作中常用到的ffmpeg命令：</p>
+<div class="highlight"><pre><span></span><span class="c1">#图片合成视频</span>
+ffmpeg -framerate <span class="m">25</span> -pattern_type glob -i <span class="s1">&#39;images/*.png&#39;</span> -c:v libx264 -pix_fmt yuv420p out2.mp4
+<span class="c1">#视频转码</span>
+ffmpeg -i ~/Desktop/out.mpg -vcodec libx264  -crf <span class="m">20</span> ~/Desktop/out.mp4
+<span class="c1">#屏幕录制（mac）</span>
+ffmpeg -f avfoundation -i <span class="s2">&quot;1:0&quot;</span> -ss <span class="m">00</span>:00:05 -t <span class="m">00</span>:00:05 -pixel_format monob ~/Desktop/out.mpg
+<span class="c1">#屏幕录制（windows,指定窗体）</span>
+ffmpeg -f gdigrab -draw_mouse <span class="m">0</span> -framerate <span class="m">25</span> -i <span class="nv">title</span><span class="o">=</span><span class="s2">&quot;decision weather - Google Chrome&quot;</span> out.mpg
+<span class="c1">#屏幕录制（windows,指定屏幕区域）</span>
+ffmpeg -f gdigrab -framerate <span class="m">30</span> -offset_x <span class="m">0</span> -offset_y <span class="m">0</span> -video_size 1600x900 -i desktop out.mpg
+- gdigrab:表明我们是通过gdi抓屏的方式； 
+-framerate <span class="m">30</span>：表示我录制的帧率为30；
+-offset_x ：左上偏移量X； 
+-offset_y ：左上偏移量Y； 
+-video_size：需要录制的宽度和高度，这是我是整个屏幕； 
+-i：输入路径和名称以及格式mpg； 
+-desktop：告诉ffmpeg我们录的是屏幕，而不是一个窗口<span class="o">(</span>可以录制一个窗口，不过得用窗口的ID<span class="o">)</span>。
+说明：帧率是和格式相关的，比如我用mpg格式30帧就很清楚，如果用mp4则需要60帧。
 
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">stat</span>
-<span class="kn">from</span> <span class="nn">biplist</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c1">#视频剪辑</span>
+ffmpeg -i test.mp4 -ss <span class="m">2</span>:59:00 -codec copy -t <span class="m">60</span> output.mp4 （取最后60秒视频）
+<span class="c1">#修改视频码率</span>
+ffmpeg -i test.mp4 -vb 20M -max_muxing_queue_size <span class="m">20480</span> -y output.mp4
 
-<span class="k">def</span> <span class="nf">changeChmod</span><span class="p">(</span><span class="n">sudoPassword</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;echo </span><span class="si">%s</span><span class="s1">|sudo </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sudoPassword</span><span class="p">,</span> <span class="n">command</span><span class="p">))</span>
+<span class="c1">#rtmp推流</span>
+ffmpeg -re -i test.mp4 -vcodec libx264 -acodec aac -f flv rtmp://test_url
 
-<span class="k">def</span> <span class="nf">myFun</span><span class="p">():</span>
-    <span class="c1"># os.chmod(&quot;/Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/&quot;, stat.S_IRWXU)</span>
-    <span class="c1"># os.chmod(&quot;/Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist&quot;, stat.S_IRWXU)</span>
-    <span class="c1"># 相关文件路径</span>
-    <span class="n">dir_path</span> <span class="o">=</span> <span class="s2">&quot;/Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/&quot;</span>
-    <span class="n">plist_path</span> <span class="o">=</span> <span class="n">dir_path</span><span class="o">+</span><span class="s2">&quot;IDETextKeyBindingSet.plist&quot;</span>
+<span class="c1">#拉流</span>
+ffmpeg -i rtmp://test_url -c copy -t <span class="m">10</span> -f mp4 test.mp4
+ffmpeg -i rtmp://test_url -c copy -f flv test.flv
+<span class="c1">#拉流 保存视频片断</span>
+ffmpeg  -y -i rtmp://test_url -t <span class="m">3600</span> -c copy -flags +global_header -f segment -segment_time <span class="m">1200</span> -segment_format_options <span class="nv">movflags</span><span class="o">=</span>+faststart -reset_timestamps <span class="m">1</span> test%d.mp4
+<span class="c1">#拉流 保存图片序列</span>
+ffmpeg -y -i rtmp://test_url -r <span class="m">1</span> /Users/ludawei/Desktop/2222/out%03d.jpg
+<span class="c1">#拉流 保存截图</span>
+ffmpeg -i rtmp://test_url -y -t <span class="m">0</span>.001 -ss <span class="m">1</span> -f image2 -r <span class="m">1</span> test.jpg
+<span class="c1">#拉流再推流</span>
+ffmpeg -i 拉流地址 -acodec copy -vcodec copy -f flv 推流地址
 
-    <span class="c1"># 修改文件权限</span>
-    <span class="n">command1</span> <span class="o">=</span> <span class="s2">&quot;sudo chmod 666 &quot;</span><span class="o">+</span><span class="n">plist_path</span>
-    <span class="n">command2</span> <span class="o">=</span> <span class="s2">&quot;sudo chmod 777 &quot;</span><span class="o">+</span><span class="n">dir_path</span>
-    <span class="c1"># os.system(&#39;echo %s|sudo %s&#39; % (sudoPassword, command))</span>
-    <span class="n">changeChmod</span><span class="p">(</span><span class="s1">&#39;这里写你的电脑密码&#39;</span><span class="p">,</span> <span class="n">command1</span><span class="p">)</span>
-    <span class="n">changeChmod</span><span class="p">(</span><span class="s1">&#39;这里写你的电脑密码&#39;</span><span class="p">,</span> <span class="n">command2</span><span class="p">)</span>
+<span class="c1">#拉流保存m3u8切片：</span>
+ffmpeg -v verbose -i rtmp://test_url -c:v libx264 -c:a aac -ac <span class="m">1</span> -strict -2 -crf <span class="m">20</span> -profile:v main -maxrate 800k -bufsize 1835k -pix_fmt yuv420p -flags -global_header -hls_time <span class="m">10</span> -hls_list_size <span class="m">6</span> -start_number <span class="m">1</span> -f segment -segment_list ./test/playlist.m3u8 -segment_list_flags +live -segment_time <span class="m">10</span> ./test/out%02d.ts
+<span class="c1">#推本地m3u8文件</span>
+ffmpeg -re -i ./test/playlist.m3u8 -vcodec libx264 -acodec aac -preset ultrafast -f flv rtmp://test_url
+<span class="c1">#视频加水印</span>
+ffmpeg -y -i test.mp4 -i watermark.png -filter_complex <span class="s2">&quot;overlay=1157:50&quot;</span> test1.mp4
 
-    <span class="c1"># 添加自定义的ctr+D删除到xcode中</span>
-    <span class="n">plist</span> <span class="o">=</span> <span class="n">readPlist</span><span class="p">(</span><span class="n">plist_path</span><span class="p">)</span>
-    <span class="n">plist</span><span class="p">[</span><span class="s1">&#39;Deletions&#39;</span><span class="p">][</span><span class="s1">&#39;my delete the line&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;moveToEndOfLine:, deleteToBeginningOfLine:, deleteToEndOfParagraph:&#39;</span>
-    <span class="n">writePlist</span><span class="p">(</span><span class="n">plist</span><span class="p">,</span> <span class="n">plist_path</span><span class="p">)</span>
+<span class="c1">#拉流加水印存4路m3u8</span>
+ffmpeg -y -v verbose -i rtmp://test_url -i ./logos/watermark.png -filter_complex <span class="s2">&quot;[0:v][1:v]overlay=1157:50,split=4[out1][out2][out3][out4]&quot;</span> -map <span class="s2">&quot;[out1]&quot;</span> -c:v libx264 -c:a aac -ac <span class="m">1</span> -strict -2 -crf <span class="m">20</span> -profile:v main -maxrate 3000k -bufsize 1835k -pix_fmt yuv420p -flags -global_header -hls_time <span class="m">10</span> -hls_list_size <span class="m">6</span> -start_number <span class="m">1</span> -f segment -segment_list ./hls1/playlist.m3u8 -segment_list_flags +live -segment_time <span class="m">10</span> ./hls1/out%003d.ts -map <span class="s2">&quot;[out2]&quot;</span> -s 1280x720 -c:v libx264 -c:a aac -ac <span class="m">1</span> -strict -2 -crf <span class="m">20</span> -profile:v main -maxrate 1096k -bufsize 1835k -pix_fmt yuv420p -flags -global_header -hls_time <span class="m">10</span> -hls_list_size <span class="m">6</span> -start_number <span class="m">1</span> -f segment -segment_list ./hls2/playlist.m3u8 -segment_list_flags +live -segment_time <span class="m">10</span> ./hls2/out%003d.ts -map <span class="s2">&quot;[out3]&quot;</span> -s 640x480 -c:v libx264 -c:a aac -ac <span class="m">1</span> -strict -2 -crf <span class="m">20</span> -profile:v main -maxrate 564k -bufsize 1835k -pix_fmt yuv420p -flags -global_header -hls_time <span class="m">10</span> -hls_list_size <span class="m">6</span> -start_number <span class="m">1</span> -f segment -segment_list ./hls3/playlist.m3u8 -segment_list_flags +live -segment_time <span class="m">10</span> ./hls3/out%003d.ts -map <span class="s2">&quot;[out4]&quot;</span> -s 320x180 -c:v libx264 -c:a aac -ac <span class="m">1</span> -strict -2 -crf <span class="m">20</span> -profile:v main -maxrate 192k -bufsize 1835k -pix_fmt yuv420p -flags -global_header -hls_time <span class="m">10</span> -hls_list_size <span class="m">6</span> -start_number <span class="m">1</span> -f segment -segment_list ./hls4/playlist.m3u8 -segment_list_flags +live -segment_time <span class="m">10</span> ./hls4/out%003d.ts
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">myFun</span><span class="p">()</span>
+<span class="c1">#正常结束录制：</span>
+<span class="nb">kill</span> -3 进程号
 </pre></div>
-
-
-<h4>使用场景：</h4>
-<p>每次更新xcode后（apple更新xcode的频率真心快）</p>
-<h4>用法：</h4>
-<p>创建空文件，粘贴代码并保存为.py文件，在控制台cd到文件目前目录，执行 python 文件名.py ,重启xcode。</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "custom-xcode-remove-a-line-with-python.html";
+                var disqus_identifier = "ffmpeg-use.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';

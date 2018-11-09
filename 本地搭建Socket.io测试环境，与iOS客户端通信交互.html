@@ -134,9 +134,9 @@ node版本：v8.2.1</p>
   <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>jsb_test<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
     <span class="nt">img</span><span class="p">{</span>
-      <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
-      <span class="nb">top</span><span class="o">:</span> <span class="m">50%</span><span class="p">;</span>
-      <span class="nb">left</span><span class="o">:</span> <span class="m">50%</span><span class="p">;</span>
+      <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+      <span class="k">top</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+      <span class="k">left</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -169,7 +169,7 @@ node版本：v8.2.1</p>
 
 <p>在浏览器里访问<a href="http://localhost:3000">http://localhost:3000</a>，将显示index.html
 目录结构如下图：
-<img alt="img" src="../images/socketIO_files.png" /></p>
+<img alt="img" src="../images/socketIO_files.png"></p>
 <p>7，App端访问</p>
 <div class="highlight"><pre><span></span><span class="c1">// 连接SocketIO服务</span>
 <span class="nb">self</span><span class="p">.</span><span class="n">webSocket</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SocketIOClient</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithSocketURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://192.168.1.101:3000&quot;</span><span class="p">]</span> <span class="nl">config</span><span class="p">:</span><span class="l">@{</span><span class="s">@&quot;log&quot;</span><span class="o">:</span> <span class="m">@YES</span><span class="p">,</span> <span class="s">@&quot;compress&quot;</span><span class="o">:</span> <span class="m">@YES</span><span class="l">}</span><span class="p">];</span>
@@ -219,14 +219,14 @@ node版本：v8.2.1</p>
 
 <h4>分类</h4>
 <ul class="blank">
-		<li><a href="/category/ffmpeg.html">ffmpeg</a>（1）</li>
+		<li><a href="/category/ffmpeg.html">ffmpeg</a>（2）</li>
 		<li><a href="/category/gong-ju.html">工具</a>（2）</li>
 		<li><a href="/category/ios.html">iOS</a>（15）</li>
 		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a>（1）</li>
 		<li><a href="/category/markdown.html">markdown</a>（1）</li>
 		<li><a href="/category/mysql.html">mysql</a>（2）</li>
 		<li><a href="/category/node.html">node</a>（1）</li>
-		<li><a href="/category/pelican.html">pelican</a>（1）</li>
+		<li><a href="/category/pelican.html">pelican</a>（2）</li>
 		<li><a href="/category/php.html">PHP</a>（1）</li>
 		<li><a href="/category/python.html">python</a>（1）</li>
 		<li><a href="/category/qi-ta.html">其它</a>（2）</li>
@@ -240,6 +240,8 @@ node版本：v8.2.1</p>
 
 <!-- <h4>时间</h4>
 	<ul class="blank">
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 五月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 四月 2018</a></li>
 	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 三月 2018</a></li>
 	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 二月 2018</a></li>
 	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 八月 2017</a></li>
