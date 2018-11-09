@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>linux 部分常用命令</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+              <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-77750244-1', 'auto');
+                ga('send', 'pageview');
+
+              </script>
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h2><a href="/">分享即美德 <strong></strong></a></h2>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+
+              <ul class="columns">
+                <!-- <li><a href="/">Home</a></li> -->
+
+                <li><a href="/">首页</a></li>
+                <li><a href="/archives">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="/aboutme">关于我</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/linux-bash-tips.html" rel="bookmark"
+                   title="Permalink to linux 部分常用命令">linux 部分常用命令</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-08-16T00:00:00+02:00">
+                2018年08月16
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
+ -->
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <h4><strong>rsync同步命令</strong></h4>
+<div class="highlight"><pre><span></span><span class="c1">#参数说明：</span>
+<span class="c1">#-a 参数，相当于-rlptgoD（-r 是递归 -l 是链接文件，意思是拷贝链接文件；-p 表示保持文件原有权限；-t 保持文件原有时间；-g 保持文件原有用户组；-o 保持文件原有属主；-D 相当于块设备文件）；</span>
+<span class="c1">#-z 传输时压缩；</span>
+<span class="c1">#-P 传输进度；</span>
+<span class="c1">#-v 传输时的进度等信息；</span>
+<span class="c1">#--delete 删除同步目标目录的多余文件（与同步源一致）</span>
+rsync -avzP --delete root@<span class="o">{</span>remoteHost<span class="o">}</span>:<span class="o">{</span>remoteDir<span class="o">}</span>/* <span class="o">{</span>localDir<span class="o">}</span>
+
+<span class="c1">#远程文件复制（基于ssh）</span>
+scp <span class="m">11</span>.txt dav@xx.xx.xx.xx:/data/home/dav/test              <span class="c1">#复制本地文件到远程</span>
+scp -r ~/test dav@xx.xx.xx.xx:/data/home/dav/test/          <span class="c1">#复制本地目录到远程</span>
+scp dav@xx.xx.xx.xx:/data/home/dav/test/11.txt ~/test       <span class="c1">#复制远程文件到本地</span>
+scp -r dav@xx.xx.xx.xx:/data/home/dav/test ~/test/          <span class="c1">#复制远程目录到本地</span>
+
+<span class="c1">#查找进程</span>
+ps -ef<span class="p">|</span>grep <span class="s1">&#39;test shell&#39;</span><span class="p">|</span>grep -v <span class="s1">&#39;grep&#39;</span>     <span class="c1">#配合crontab可以做进程监控</span>
+<span class="c1">#查找并终止进程</span>
+ps -ef<span class="p">|</span>grep <span class="s1">&#39;test shell&#39;</span><span class="p">|</span>grep -v <span class="s1">&#39;grep&#39;</span><span class="p">|</span>awk <span class="s1">&#39;{print $2}&#39;</span><span class="p">|</span>xargs --no-run-if-empty <span class="nb">kill</span> -9
+
+<span class="c1">#查看目录中所有目录、文件大小： </span>
+du -hs *
+<span class="c1">#(带排序)</span>
+du -hs * <span class="p">|</span> sort -h
+
+<span class="c1">#修改用户所在组</span>
+id                              <span class="c1">#查看所属组</span>
+usermod -a -G sudo dav          <span class="c1">#添加sudo权限（-a追加）</span>
+usermod -G dav dav              <span class="c1">#取消sudo权限（去掉-a表示指定用户组）</span>
+
+<span class="c1">#修改用户信息</span>
+usermod -s /bin/bash dav        <span class="c1">#允许用户登录</span>
+usermod -s /bin/false dav       <span class="c1">#禁止用户登录</span>
+usermod -s /sbin/nologin dav    <span class="c1">#禁止用户登录</span>
+<span class="c1">#root专用</span>
+passwd                          <span class="c1">#修改root的密码，直接用passwd</span>
+passwd dav                      <span class="c1">#修改普通用户的密码，passwd后加用户名</span>
+
+<span class="c1">#设置crontab默认编辑器为vim</span>
+<span class="nb">export</span> <span class="nv">EDITOR</span><span class="o">=</span>vim
+
+<span class="c1"># 删除历史数据 3天前</span>
+find /home/dav/test/ -type f -mtime +2 -delete
+find /home/dav/test/ -type f -mtime +2 -size +10c -delete       <span class="c1">#大于10bytes</span>
+<span class="c1"># 删除空目录</span>
+find /home/dav/test/ -type d -empty -delete
+<span class="c1"># 查找并复制</span>
+find http_files/ -name <span class="s1">&#39;*).mp4&#39;</span> -exec cp <span class="o">{}</span> /home/dav/tmp_files/ <span class="se">\;</span>
+<span class="c1"># 查找并mv</span>
+find /home/dav/http_files -type f -exec mv <span class="o">{}</span> <span class="k">$(</span>date -d <span class="s2">&quot;today&quot;</span> +<span class="s2">&quot;%Y%m%d&quot;</span><span class="k">)</span>/ <span class="se">\;</span>
+
+<span class="c1">#查找文件包含内容</span>
+find . -name <span class="s1">&#39;*&#39;</span> <span class="p">|</span> xargs grep <span class="s1">&#39;test&#39;</span>
+
+<span class="c1">#创建软链接</span>
+ln -s /home/dav/test <span class="nb">test</span>       <span class="c1">#在当前创建指向/home/dav/test的软链接</span>
+<span class="c1">#删除软链接</span>
+unlink <span class="nb">test</span>
+
+<span class="c1">#sshfs</span>
+sshfs dav@10.141.2.196:/data/home/dav/test /data/home/dav/test  <span class="c1">#Linux 挂载远程目录（将dav@10.141.2.196机器上的目录挂载到本地，要做ssh免密）</span>
+umount /data/home/dav/test                                      <span class="c1">#删除挂载</span>
+
+<span class="c1">#硬盘挂载</span>
+mount -t nfs xx.xx.xx.xx:/mount/test /backup
+<span class="c1">#重新挂载</span>
+umount
+mount -a
+
+<span class="c1">#linux压缩</span>
+tar -zcvf /home/dav/xxx.tar.gz /xxx
+<span class="c1">#解压</span>
+tar -zxvf xxx.tar.gz
+</pre></div>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "linux-bash-tips.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<!-- <h4>方位</h4>
+
+ <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/archives">归档</a></li>
+      <li><a href="/categories">分类</a></li>
+      <li><a href="/tags">标签</a></li>
+      <li><a href="/aboutme">关于我</a></li>
+  </ul> -->
+
+<h4>分类</h4>
+<ul class="blank">
+		<li><a href="/category/bash.html">bash</a>（2）</li>
+		<li><a href="/category/ffmpeg.html">ffmpeg</a>（2）</li>
+		<li><a href="/category/gong-ju.html">工具</a>（2）</li>
+		<li><a href="/category/ios.html">iOS</a>（15）</li>
+		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a>（1）</li>
+		<li><a href="/category/linux.html">linux</a>（1）</li>
+		<li><a href="/category/markdown.html">markdown</a>（1）</li>
+		<li><a href="/category/mysql.html">mysql</a>（2）</li>
+		<li><a href="/category/nginx.html">nginx</a>（1）</li>
+		<li><a href="/category/node.html">node</a>（1）</li>
+		<li><a href="/category/pelican.html">pelican</a>（2）</li>
+		<li><a href="/category/php.html">PHP</a>（1）</li>
+		<li><a href="/category/python.html">python</a>（3）</li>
+		<li><a href="/category/qi-ta.html">其它</a>（2）</li>
+</ul>
+
+
+<!-- <h4>标签</h4>
+	<ul class="blank">
+</ul>
+ -->
+
+<!-- <h4>时间</h4>
+	<ul class="blank">
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">20 十月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">17 九月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 七月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 六月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 五月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 四月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 三月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 二月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 八月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">20 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">22 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 十月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 四月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 五月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 四月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 二月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 九月 2014</a></li>
+</ul>
+ -->
+
+
+<nav class="widget">
+  <h4>about me</h4>
+  <ul class="blank">
+    <li><a href="https://github.com/ludawei">github</a></li>
+    <li><a href="http://www.cnblogs.com/china-ldw/">cnblog</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Creared by dav@2016 and Proudly powered by <a href="http://getpelican.com/">Pelican</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<!-- <script type="text/javascript">
+    var disqus_shortname = 'davlu';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+ -->
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>

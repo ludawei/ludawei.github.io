@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>bash使用学习</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+              <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-77750244-1', 'auto');
+                ga('send', 'pageview');
+
+              </script>
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h2><a href="/">分享即美德 <strong></strong></a></h2>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+
+              <ul class="columns">
+                <!-- <li><a href="/">Home</a></li> -->
+
+                <li><a href="/">首页</a></li>
+                <li><a href="/archives">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="/aboutme">关于我</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/linux-bash-use-tips.html" rel="bookmark"
+                   title="Permalink to bash使用学习">bash使用学习</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-10-20T00:00:00+02:00">
+                2018年10月20
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
+ -->
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <div class="highlight"><pre><span></span><span class="c1">#变量赋值注意</span>
+<span class="nv">currDir</span> <span class="o">=</span> <span class="s1">&#39;hello&#39;</span>      <span class="c1">#错误，=左右不能有空格</span>
+<span class="nv">currDir</span><span class="o">=</span><span class="s1">&#39;hello&#39;</span>        <span class="c1">#正确</span>
+
+<span class="c1">#得到执行结果</span>
+<span class="nv">currDir</span><span class="o">=</span><span class="sb">`</span>dirname <span class="nv">$0</span><span class="sb">`</span>        <span class="c1">#方法1</span>
+<span class="nv">currDir</span><span class="o">=</span><span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span>       <span class="c1">#方法2</span>
+
+<span class="c1">#时间</span>
+<span class="nv">curD</span><span class="o">=</span><span class="sb">`</span>date +<span class="s2">&quot;%Y%m%d&quot;</span><span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$curD</span>
+
+<span class="c1">#if条件控制</span>
+<span class="nv">a</span><span class="o">=</span><span class="sb">`</span>ps -ef <span class="p">|</span> grep <span class="s2">&quot;python&quot;</span> <span class="p">|</span> grep -v grep <span class="p">|</span> awk <span class="o">{</span><span class="s1">&#39;print $2&#39;</span><span class="o">}</span> <span class="p">|</span> head -1<span class="sb">`</span>      <span class="c1">#head -1：只取1行</span>
+<span class="k">if</span> <span class="o">[</span> -z <span class="nv">$a</span> <span class="o">]</span>            <span class="c1">#判断是否为空</span>
+<span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;为空&quot;</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&quot;不为空&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1">#for循环</span>
+<span class="k">for</span> i in <span class="s1">&#39;111 222 333&#39;</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="si">${</span><span class="nv">i</span><span class="si">}</span>
+<span class="k">done</span>
+
+<span class="c1">#文件读取</span>
+<span class="nv">file_c</span><span class="o">=</span><span class="sb">`</span>cat /Users/ludawei/test_ftp.txt<span class="sb">`</span>
+<span class="nb">echo</span> <span class="nv">$file_c</span>
+
+<span class="c1">#一个监控进程的例子</span>
+<span class="k">for</span> i in <span class="s1">&#39;python&#39;</span> <span class="s1">&#39;ffmpeg&#39;</span> <span class="s1">&#39;php&#39;</span>
+<span class="k">do</span>
+    <span class="nv">a</span><span class="o">=</span><span class="sb">`</span>ps -ef <span class="p">|</span> grep <span class="nv">$i</span> <span class="p">|</span> grep -v grep <span class="p">|</span> awk <span class="o">{</span><span class="s1">&#39;print $2&#39;</span><span class="o">}</span> <span class="p">|</span> head -1<span class="sb">`</span>      <span class="c1">#head -1：只取1行</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="nv">$a</span> <span class="o">]</span>            <span class="c1">#判断是否为空</span>
+    <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">进程为空&quot;</span>
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">进程不为空&quot;</span>
+    <span class="k">fi</span>
+<span class="k">done</span>
+</pre></div>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "linux-bash-use-tips.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<!-- <h4>方位</h4>
+
+ <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/archives">归档</a></li>
+      <li><a href="/categories">分类</a></li>
+      <li><a href="/tags">标签</a></li>
+      <li><a href="/aboutme">关于我</a></li>
+  </ul> -->
+
+<h4>分类</h4>
+<ul class="blank">
+		<li><a href="/category/bash.html">bash</a>（2）</li>
+		<li><a href="/category/ffmpeg.html">ffmpeg</a>（2）</li>
+		<li><a href="/category/gong-ju.html">工具</a>（2）</li>
+		<li><a href="/category/ios.html">iOS</a>（15）</li>
+		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a>（1）</li>
+		<li><a href="/category/linux.html">linux</a>（1）</li>
+		<li><a href="/category/markdown.html">markdown</a>（1）</li>
+		<li><a href="/category/mysql.html">mysql</a>（2）</li>
+		<li><a href="/category/nginx.html">nginx</a>（1）</li>
+		<li><a href="/category/node.html">node</a>（1）</li>
+		<li><a href="/category/pelican.html">pelican</a>（2）</li>
+		<li><a href="/category/php.html">PHP</a>（1）</li>
+		<li><a href="/category/python.html">python</a>（3）</li>
+		<li><a href="/category/qi-ta.html">其它</a>（2）</li>
+</ul>
+
+
+<!-- <h4>标签</h4>
+	<ul class="blank">
+</ul>
+ -->
+
+<!-- <h4>时间</h4>
+	<ul class="blank">
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">20 十月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">17 九月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 七月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 六月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 五月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 四月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 三月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 二月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 八月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">20 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">22 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 十月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 四月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 五月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 四月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 二月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 九月 2014</a></li>
+</ul>
+ -->
+
+
+<nav class="widget">
+  <h4>about me</h4>
+  <ul class="blank">
+    <li><a href="https://github.com/ludawei">github</a></li>
+    <li><a href="http://www.cnblogs.com/china-ldw/">cnblog</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Creared by dav@2016 and Proudly powered by <a href="http://getpelican.com/">Pelican</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<!-- <script type="text/javascript">
+    var disqus_shortname = 'davlu';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+ -->
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>

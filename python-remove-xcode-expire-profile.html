@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>python删除xcode过期证书</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+              <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-77750244-1', 'auto');
+                ga('send', 'pageview');
+
+              </script>
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h2><a href="/">分享即美德 <strong></strong></a></h2>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+
+              <ul class="columns">
+                <!-- <li><a href="/">Home</a></li> -->
+
+                <li><a href="/">首页</a></li>
+                <li><a href="/archives">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="/aboutme">关于我</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/python-remove-xcode-expire-profile.html" rel="bookmark"
+                   title="Permalink to python删除xcode过期证书">python删除xcode过期证书</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-07-11T00:00:00+02:00">
+                2018年07月11
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
+ -->
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>apple的企业证书有效期为1年，过期后证书失效、对应安装的企业应用也会过期无法打开，非常有必要定期更新证书：
+删除过期（即将过期）的证书
+然后创建新的证书（直接修改旧证书没用~）</p>
+<p>xcode使用时间长了，<code>~/Library/MobileDevice/Provisioning Profiles</code>目录下可能很多过期的<code>.mobileprovision</code>证书文件，证书文件在mac上可以预览内容，如下图：<br>
+<img alt="img" src="../images/mobileprovision_pre.png"></p>
+<p>同样方法也可以用于读取企业应用ipa包过期时间，ipa文件解压出来Payload目录，右键.app文件查看包内容，找到embedded.mobileprovision证书文件，部分内容是plist格式的，使用python可以读出来过期时间<code>Expiration Date</code>。</p>
+<p>代码如下：</p>
+<div class="highlight"><pre><span></span><span class="c1">#encoding:utf8</span>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span><span class="nn">glob</span><span class="o">,</span><span class="nn">os</span><span class="o">,</span><span class="nn">time</span><span class="o">,</span><span class="nn">datetime</span><span class="o">,</span><span class="nn">shutil</span><span class="o">,</span><span class="nn">zipfile</span><span class="o">,</span><span class="nn">biplist</span><span class="o">,</span><span class="nn">plistlib</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="c1"># 删除</span>
+<span class="k">def</span> <span class="nf">removeFile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="c1"># 得到过期时间</span>
+<span class="k">def</span> <span class="nf">getExpireTime</span><span class="p">(</span><span class="n">embedded_path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">embedded_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">embedded_txt</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="n">embedded_index_0</span> <span class="o">=</span> <span class="n">embedded_txt</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;&lt;plist&#39;</span><span class="p">)</span>
+    <span class="n">embedded_index_1</span> <span class="o">=</span> <span class="n">embedded_txt</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;&lt;/plist&gt;&#39;</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;&lt;/plist&gt;&#39;</span><span class="p">)</span>
+    <span class="n">embedded_str</span> <span class="o">=</span> <span class="n">embedded_txt</span><span class="p">[</span><span class="n">embedded_index_0</span><span class="p">:</span><span class="n">embedded_index_1</span><span class="p">]</span>
+
+    <span class="n">embedded_json</span> <span class="o">=</span> <span class="n">plistlib</span><span class="o">.</span><span class="n">readPlistFromString</span><span class="p">(</span><span class="n">embedded_str</span><span class="p">)</span>
+    <span class="n">expire_time</span> <span class="o">=</span> <span class="n">embedded_json</span><span class="p">[</span><span class="s1">&#39;ExpirationDate&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">expire_time</span>
+
+<span class="c1"># 解压ipa文件</span>
+<span class="k">def</span> <span class="nf">unzipipa_get_expire_time</span><span class="p">(</span><span class="n">ipa_path</span><span class="p">):</span>
+    <span class="n">zfile</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">ipa_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">zfile</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">ipa_path</span><span class="p">))</span>
+    <span class="n">app_dir</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">ipa_path</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/Payload/*&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">expire_time</span> <span class="o">=</span> <span class="n">getExpireTime</span><span class="p">(</span><span class="n">app_dir</span><span class="p">)</span>
+    <span class="n">removeFile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">app_dir</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">expire_time</span>
+
+<span class="k">def</span> <span class="nf">remove_xcode_expire_profile</span><span class="p">():</span>
+    <span class="n">profiles_path</span> <span class="o">=</span> <span class="s1">&#39;~/Library/MobileDevice/Provisioning Profiles&#39;</span>
+    <span class="n">pathList</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">profiles_path</span><span class="o">+</span><span class="s1">&#39;/*&#39;</span><span class="p">)</span>
+
+    <span class="n">now_timeint</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
+
+    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">pathList</span><span class="p">:</span>
+        <span class="n">expire_time</span> <span class="o">=</span> <span class="n">getExpireTime</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="n">expire_timeint</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">expire_time</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
+        <span class="c1"># 删除过过期和还有1个月过期的证书</span>
+        <span class="k">if</span> <span class="n">expire_timeint</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">3600</span><span class="o">+</span><span class="n">now_timeint</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">getExpireTime</span><span class="p">(</span><span class="n">file_path</span><span class="p">),</span> <span class="n">file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">removeFile</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># 删除xcode过期证书</span>
+    <span class="n">remove_xcode_expire_profile</span><span class="p">()</span>
+    <span class="c1"># 得到企业应用ipa过期时间</span>
+    <span class="n">unzipipa_get_expire_time</span><span class="p">(</span><span class="s1">&#39;test.ipa&#39;</span><span class="p">)</span>
+</pre></div>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "python-remove-xcode-expire-profile.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<!-- <h4>方位</h4>
+
+ <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/archives">归档</a></li>
+      <li><a href="/categories">分类</a></li>
+      <li><a href="/tags">标签</a></li>
+      <li><a href="/aboutme">关于我</a></li>
+  </ul> -->
+
+<h4>分类</h4>
+<ul class="blank">
+		<li><a href="/category/bash.html">bash</a>（2）</li>
+		<li><a href="/category/ffmpeg.html">ffmpeg</a>（2）</li>
+		<li><a href="/category/gong-ju.html">工具</a>（2）</li>
+		<li><a href="/category/ios.html">iOS</a>（15）</li>
+		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a>（1）</li>
+		<li><a href="/category/linux.html">linux</a>（1）</li>
+		<li><a href="/category/markdown.html">markdown</a>（1）</li>
+		<li><a href="/category/mysql.html">mysql</a>（2）</li>
+		<li><a href="/category/nginx.html">nginx</a>（1）</li>
+		<li><a href="/category/node.html">node</a>（1）</li>
+		<li><a href="/category/pelican.html">pelican</a>（2）</li>
+		<li><a href="/category/php.html">PHP</a>（1）</li>
+		<li><a href="/category/python.html">python</a>（3）</li>
+		<li><a href="/category/qi-ta.html">其它</a>（2）</li>
+</ul>
+
+
+<!-- <h4>标签</h4>
+	<ul class="blank">
+</ul>
+ -->
+
+<!-- <h4>时间</h4>
+	<ul class="blank">
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">20 十月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">17 九月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 七月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 六月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 五月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 四月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 三月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 二月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 八月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">20 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">22 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 十月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 四月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 五月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 四月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 二月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 九月 2014</a></li>
+</ul>
+ -->
+
+
+<nav class="widget">
+  <h4>about me</h4>
+  <ul class="blank">
+    <li><a href="https://github.com/ludawei">github</a></li>
+    <li><a href="http://www.cnblogs.com/china-ldw/">cnblog</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Creared by dav@2016 and Proudly powered by <a href="http://getpelican.com/">Pelican</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<!-- <script type="text/javascript">
+    var disqus_shortname = 'davlu';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+ -->
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>
