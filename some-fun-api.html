@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>python basemap库安装</title>
+        <title>一些有趣的api</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/python-install-basemap.html" rel="bookmark"
-                   title="Permalink to python basemap库安装">python basemap库安装</a></h3>
+                <a href="/some-fun-api.html" rel="bookmark"
+                   title="Permalink to 一些有趣的api">一些有趣的api</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2018-06-20T00:00:00+02:00">
-                2018年06月20
+              <abbr class="published" title="2018-11-16T00:00:00+01:00">
+                2018年11月16
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,35 +78,42 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>linux服务器上安装python地图库basemap：</p>
-<div class="highlight"><pre><span></span><span class="c1">#安装Anaconda2</span>
-wget https://repo.continuum.io/archive/Anaconda2-5.2.0-Linux-x86_64.sh（会更新python到2.7.15）
-chmod +x Anaconda2-5.2.0-Linux-x86_64.sh
-./Anaconda2-5.2.0-Linux-x86_64.sh
-
-<span class="c1">#添加环境变量</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/home/ludawei/anaconda2/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
-
-<span class="c1">#conda安装basemap</span>
-<span class="c1"># conda install basemap</span>
-conda install -c conda-forge proj4
-conda install -c conda-forge basemap
-
-<span class="c1">#解决proj库引用问题</span>
-import conda,os
-<span class="nv">conda_file_dir</span> <span class="o">=</span> conda.__file__
-<span class="nv">conda_dir</span> <span class="o">=</span> conda_file_dir.split<span class="o">(</span><span class="s1">&#39;lib&#39;</span><span class="o">)[</span><span class="m">0</span><span class="o">]</span>
-<span class="nv">proj_lib</span> <span class="o">=</span> os.path.join<span class="o">(</span>os.path.join<span class="o">(</span>conda_dir, <span class="s1">&#39;share&#39;</span><span class="o">)</span>, <span class="s1">&#39;proj&#39;</span><span class="o">)</span>
-os.environ<span class="o">[</span><span class="s2">&quot;PROJ_LIB&quot;</span><span class="o">]</span> <span class="o">=</span> proj_lib
-from mpl_toolkits.basemap import Basemap
-</pre></div>
+              <h4><strong>1，随机得到一句话</strong></h4>
+<p>https://hitokoto.cn/api</p>
+<p>一言网(Hitokoto.cn)创立于2016年，隶属于萌创Team，目前网站主要提供一句话服务。</p>
+<p>动漫也好、小说也好、网络也好，不论在哪里，我们总会看到有那么一两个句子能穿透你的心。我们把这些句子汇聚起来，形成一言网络，以传递更多的感动。如果可以，我们希望我们没有停止服务的那一天。</p>
+<p>简单来说，一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。
+或是感动，或是开心，有或是单纯的回忆。来到这里，留下你所喜欢的那一句句话，与大家分享，这就是一言存在的目的。</p>
+<h4><strong>2，随机得到一张图片</strong></h4>
+<p>http://lorempixel.com/200/200/
+https://source.unsplash.com/random
+https://source.unsplash.com/random/200x200
+https://www.xwboke.cn/api/api.php
+https://picsum.photos/200/300/?random
+http://img.xjh.me/random_img.php  </p>
+<p>获取指定QQ的头像：<br>
+http://q2.qlogo.cn/headimg_dl?dst_uin=#QQ号#&amp;spec=100<br>
+spec 的参数可以是 40, 100, 640</p>
+<h4><strong>3，随机得到一首诗</strong></h4>
+<p>http://gxy.me/2017/07/23/qts-api/  </p>
+<p>中国古诗词数据库：<br>
+https://github.com/chinese-poetry/chinese-poetry  </p>
+<p>诗词搜索接口：<br>
+http://api.jisuapi.com/tangshi/search  </p>
+<h4><strong>4，深度学习生成图片、写诗</strong></h4>
+<p>https://github.com/chenyuntc/pytorch-book/tree/master/chapter7-GAN生成动漫头像<br>
+https://github.com/chenyuntc/pytorch-book/tree/master/chapter9-神经网络写诗(CharRNN)  </p>
+<p>参考网站：<br>
+https://hitokoto.cn/api<br>
+https://blog.csdn.net/qq_38318303/article/details/80066619<br>
+https://github.com/chenyuntc/pytorch-book</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "python-install-basemap.html";
+                var disqus_identifier = "some-fun-api.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
