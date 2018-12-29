@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>linux 部分常用命令</title>
+        <title>python实现windows版微信自动发消息（模拟键盘鼠标）</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/linux-bash-tips.html" rel="bookmark"
-                   title="Permalink to linux 部分常用命令">linux 部分常用命令</a></h3>
+                <a href="/python-windows-wecat-sender.html" rel="bookmark"
+                   title="Permalink to python实现windows版微信自动发消息（模拟键盘鼠标）">python实现windows版微信自动发消息（模拟键盘鼠标）</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2018-08-16T00:00:00+02:00">
-                2018年08月16
+              <abbr class="published" title="2018-12-28T00:00:00+01:00">
+                2018年12月28
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,87 +78,94 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <h4><strong>rsync同步命令</strong></h4>
-<div class="highlight"><pre><span></span><span class="c1">#参数说明：</span>
-<span class="c1">#-a 参数，相当于-rlptgoD（-r 是递归 -l 是链接文件，意思是拷贝链接文件；-p 表示保持文件原有权限；-t 保持文件原有时间；-g 保持文件原有用户组；-o 保持文件原有属主；-D 相当于块设备文件）；</span>
-<span class="c1">#-z 传输时压缩；</span>
-<span class="c1">#-P 传输进度；</span>
-<span class="c1">#-v 传输时的进度等信息；</span>
-<span class="c1">#--delete 删除同步目标目录的多余文件（与同步源一致）</span>
-rsync -avzP --delete root@<span class="o">{</span>remoteHost<span class="o">}</span>:<span class="o">{</span>remoteDir<span class="o">}</span>/* <span class="o">{</span>localDir<span class="o">}</span>
+              <p>18年12月，微信发布7.0后，原来用wxpy库（基于网页版）做的自动发信息脚本出问题了--网页微信的登录状态只能保存10分钟了（原来可以一直保存），这样定时发消息的功能算是报费了，只能另寻出路。</p>
+<p>近日找到模拟键盘鼠标+复制粘贴的的方法试了下，可以初步完成目前的使用需要，代码如下：</p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding=utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span><span class="nn">os</span><span class="o">,</span><span class="nn">sys</span><span class="o">,</span><span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">pynput.mouse</span> <span class="kn">import</span> <span class="n">Controller</span> <span class="k">as</span> <span class="n">Mouse</span>
+<span class="kn">from</span> <span class="nn">pynput.mouse</span> <span class="kn">import</span> <span class="n">Button</span> <span class="k">as</span> <span class="n">bt</span>
+<span class="kn">from</span> <span class="nn">pynput.keyboard</span> <span class="kn">import</span> <span class="n">Controller</span> <span class="k">as</span> <span class="n">Keyboard</span>
+<span class="kn">from</span> <span class="nn">pynput.keyboard</span> <span class="kn">import</span> <span class="n">Key</span> 
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">win32clipboard</span> <span class="kn">as</span> <span class="nn">w</span>
+<span class="kn">import</span> <span class="nn">win32con</span>
+<span class="kn">import</span> <span class="nn">win32api</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 
-<span class="c1">#远程文件复制（基于ssh）</span>
-scp <span class="m">11</span>.txt dav@xx.xx.xx.xx:/data/home/dav/test              <span class="c1">#复制本地文件到远程</span>
-scp -r ~/test dav@xx.xx.xx.xx:/data/home/dav/test/          <span class="c1">#复制本地目录到远程</span>
-scp dav@xx.xx.xx.xx:/data/home/dav/test/11.txt ~/test       <span class="c1">#复制远程文件到本地</span>
-scp -r dav@xx.xx.xx.xx:/data/home/dav/test ~/test/          <span class="c1">#复制远程目录到本地</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 
-<span class="c1">#查找进程</span>
-ps -ef<span class="p">|</span>grep <span class="s1">&#39;test shell&#39;</span><span class="p">|</span>grep -v <span class="s1">&#39;grep&#39;</span>     <span class="c1">#配合crontab可以做进程监控</span>
-<span class="c1">#查找并终止进程</span>
-ps -ef<span class="p">|</span>grep <span class="s1">&#39;test shell&#39;</span><span class="p">|</span>grep -v <span class="s1">&#39;grep&#39;</span><span class="p">|</span>awk <span class="s1">&#39;{print $2}&#39;</span><span class="p">|</span>xargs --no-run-if-empty <span class="nb">kill</span> -9
+<span class="k">def</span> <span class="nf">get_new</span><span class="p">():</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;我是一条测试消息&quot;</span>
 
-<span class="c1">#查看目录中所有目录、文件大小： </span>
-du -hs *
-<span class="c1">#(带排序)</span>
-du -hs * <span class="p">|</span> sort -h
+    <span class="k">return</span> <span class="n">text</span>
 
-<span class="c1">#修改用户所在组</span>
-id                              <span class="c1">#查看所属组</span>
-usermod -a -G sudo dav          <span class="c1">#添加sudo权限（-a追加）</span>
-usermod -G dav dav              <span class="c1">#取消sudo权限（去掉-a表示指定用户组）</span>
+<span class="k">def</span> <span class="nf">setClipboardText</span><span class="p">(</span><span class="n">aString</span><span class="p">):</span>  <span class="c1"># 写入剪切板  </span>
+    <span class="n">w</span><span class="o">.</span><span class="n">OpenClipboard</span><span class="p">()</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">EmptyClipboard</span><span class="p">()</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">SetClipboardText</span><span class="p">(</span><span class="n">aString</span><span class="p">,</span> <span class="n">win32con</span><span class="o">.</span><span class="n">CF_UNICODETEXT</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">CloseClipboard</span><span class="p">()</span>
 
-<span class="c1">#修改用户信息</span>
-usermod -s /bin/bash dav        <span class="c1">#允许用户登录</span>
-usermod -s /bin/false dav       <span class="c1">#禁止用户登录</span>
-usermod -s /sbin/nologin dav    <span class="c1">#禁止用户登录</span>
-<span class="c1">#root专用</span>
-passwd                          <span class="c1">#修改root的密码，直接用passwd</span>
-passwd dav                      <span class="c1">#修改普通用户的密码，passwd后加用户名</span>
+<span class="k">def</span> <span class="nf">getClipboardText</span><span class="p">():</span>  <span class="c1"># 读取剪切板  </span>
+    <span class="n">w</span><span class="o">.</span><span class="n">OpenClipboard</span><span class="p">()</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">GetClipboardText</span><span class="p">(</span><span class="n">win32con</span><span class="o">.</span><span class="n">CF_UNICODETEXT</span><span class="p">)</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">CloseClipboard</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">d</span>
 
-<span class="c1">#设置crontab默认编辑器为vim</span>
-<span class="nb">export</span> <span class="nv">EDITOR</span><span class="o">=</span>vim
+<span class="k">def</span> <span class="nf">sendWX</span><span class="p">():</span>
+    <span class="n">ms</span><span class="o">=</span><span class="n">Mouse</span><span class="p">()</span>
+    <span class="n">kb</span><span class="o">=</span><span class="n">Keyboard</span><span class="p">()</span>
+    <span class="c1"># print(ms.position)</span>
+    <span class="c1"># time.sleep(3)</span>
+    <span class="c1"># print(&#39;The current pointer position is {0}&#39;.format(ms.position))</span>
 
-<span class="c1"># 删除历史数据 3天前</span>
-find /home/dav/test/ -type f -mtime +2 -delete
-find /home/dav/test/ -type f -mtime +2 -size +10c -delete       <span class="c1">#大于10bytes</span>
-<span class="c1"># 删除空目录</span>
-find /home/dav/test/ -type d -empty -delete
-<span class="c1"># 查找并复制</span>
-find http_files/ -name <span class="s1">&#39;*).mp4&#39;</span> -exec cp <span class="o">{}</span> /home/dav/tmp_files/ <span class="se">\;</span>
-<span class="c1"># 查找并mv</span>
-find /home/dav/http_files -type f -exec mv <span class="o">{}</span> <span class="k">$(</span>date -d <span class="s2">&quot;today&quot;</span> +<span class="s2">&quot;%Y%m%d&quot;</span><span class="k">)</span>/ <span class="se">\;</span>
+    <span class="c1"># 得到消息内容</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">get_new</span><span class="p">()</span>
+    <span class="c1"># print text</span>
 
-<span class="c1">#查找文件包含内容</span>
-find . -name <span class="s1">&#39;*&#39;</span> <span class="p">|</span> xargs grep <span class="s1">&#39;test&#39;</span>
+    <span class="c1"># 消息内容写入系统剪切板</span>
+    <span class="n">setClipboardText</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># print getClipboardText()</span>
+    <span class="c1">#set pointer positon</span>
 
-<span class="c1">#创建软链接</span>
-ln -s /home/dav/test <span class="nb">test</span>       <span class="c1">#在当前创建指向/home/dav/test的软链接</span>
-<span class="c1">#删除软链接</span>
-unlink <span class="nb">test</span>
+    <span class="c1"># 切换微信窗口焦点</span>
+    <span class="n">ms</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">893</span><span class="p">,</span> <span class="mi">449</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;The current pointer position is {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">position</span><span class="p">))</span>
+    <span class="n">ms</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="n">ms</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
 
-<span class="c1">#sshfs</span>
-sshfs dav@10.141.2.196:/data/home/dav/test /data/home/dav/test  <span class="c1">#Linux 挂载远程目录（将dav@10.141.2.196机器上的目录挂载到本地，要做ssh免密）</span>
-umount /data/home/dav/test                                      <span class="c1">#删除挂载</span>
+    <span class="c1"># 粘贴消息内容</span>
+    <span class="n">kb</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="n">Key</span><span class="o">.</span><span class="n">ctrl</span><span class="p">)</span>
+    <span class="n">kb</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
+    <span class="n">kb</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
+    <span class="n">kb</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">Key</span><span class="o">.</span><span class="n">ctrl</span><span class="p">)</span>
 
-<span class="c1">#硬盘挂载</span>
-mount -t nfs xx.xx.xx.xx:/mount/test /backup
-<span class="c1">#重新挂载</span>
-umount
-mount -a
+    <span class="c1"># 点击enter, 发送消息</span>
+    <span class="n">kb</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="n">Key</span><span class="o">.</span><span class="n">enter</span><span class="p">)</span>
+    <span class="n">kb</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">Key</span><span class="o">.</span><span class="n">enter</span><span class="p">)</span>
 
-<span class="c1">#linux压缩</span>
-tar -zcvf /home/dav/xxx.tar.gz /xxx
-<span class="c1">#解压</span>
-tar -zxvf xxx.tar.gz
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">sendWX</span><span class="p">()</span>
 </pre></div>
+
+
+<p>然后将python脚本写入到windows计划任务，定时1小时执行一次。</p>
+<p>PS：<br>
+脚本还是有些缺陷，实际使用时，把脚本放到windows云服务器上运行，结果发现在没有远程桌面时（即无GUI时），脚本无法模拟键盘鼠标而执行失败，只能一直开着远程才能执行成功~~~</p>
+<p>目前正在寻找更完美的实现办法...</p>
+<p>参考资源：<br>
+https://www.jianshu.com/p/03010ac70e4c<br>
+https://www.jianshu.com/p/a9c28cb24c05<br>
+http://www.voidcn.com/article/p-yekwwmnm-bbb.html  </p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "linux-bash-tips.html";
+                var disqus_identifier = "python-windows-wecat-sender.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
