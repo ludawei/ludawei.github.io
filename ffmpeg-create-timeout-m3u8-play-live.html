@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+        <title>ffmpeg生成延时指定时间的直播流</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+              <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-77750244-1', 'auto');
+                ga('send', 'pageview');
+
+              </script>
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h2><a href="/">分享即美德 <strong></strong></a></h2>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+
+              <ul class="columns">
+                <!-- <li><a href="/">Home</a></li> -->
+
+                <li><a href="/">首页</a></li>
+                <li><a href="/archives">归档</a></li>
+                <li><a href="/categories">分类</a></li>
+                <li><a href="/tags">标签</a></li>
+                <li><a href="/aboutme">关于我</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h3 class="entry-title">
+                <a href="/ffmpeg-create-timeout-m3u8-play-live.html" rel="bookmark"
+                   title="Permalink to ffmpeg生成延时指定时间的直播流">ffmpeg生成延时指定时间的直播流</a></h3>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2019-01-29T00:00:00+01:00">
+                2019年01月29
+              </abbr>
+              <address class="vcard author">
+              <!--               admin
+ -->
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <h4>需求描述</h4>
+<p>最近项目上需要对接广电级别的7*24小时无间歇风景区网站视频直播，因为广电对直播安全的要求比较高，直播期间不能出现断流、黑场，也不是出现影响政治安全的画面（如直播画面内有人拉反动文字横幅等必须禁止出现），最后需要确定如下：<br>
+1，直播信号提供方式为m3u8，并且支持多分辨率自动切换<br>
+2，部分直播视频画面需要剪切
+3，直播视频需要增加水印图片<br>
+4，播放15分钟前的直播视频画面<br>
+5，并且晚上回放白天的视频画面<br>
+6，不能出现断流、黑场画面（如网络不好，可以静帧）<br>
+7，需要有人工监控，当视频出现影响政治安全画面时，临时切换到24小时前的视频画面  </p>
+<h4>功能分解</h4>
+<p>简单需求分析下，并对就ffmpeg的实现参数：<br>
+1，第1点m3u8对应<code>hls</code>参数、多分辨率支持需要滤镜参数<code>-filter_complex</code>，一分多参数<code>split</code>，输出选择参数<code>-map</code>，缩放分辨率参数<code>-s</code>等配合使用<br>
+2，第2点剪切需要滤镜参数<code>-filter_complex</code>,剪切参数<code>crop</code>等配合使用<br>
+3，第3点水印需要滤镜参数<code>-filter_complex</code>,位置参数<code>overlay</code>等配合使用<br>
+4，第4点需要缓存视频流，这里我保存不编码的mp4切片文件，这样保存速度快；然后用python脚本从缓存中找出15分钟前的切片生成hls直播；把它加入定时任务，1分钟执行一次<br>
+5，第5点，定时任务，白天修改延时时间存放文件为15分钟（常规15分钟延时直播），晚间修改为900分钟（回放白天）<br>
+6，第6点，在第4点python脚本查找15分钟时mp4缓存逻辑中，如果找不到新的缓存时（网络不好或其它原因导致缓存失败），会查找与目标时间最相近并已缓存的mp4进行直播播放<br>
+7，第7点人工监控，这里另做了一个监看的前端网页，并提供了切换备播（24小时前视频画面）的功能按钮  </p>
+<h4>硬软件环境</h4>
+<p>规格：高IO型I1 | I1.8XLARGE64<br>
+CPU：32核<br>
+内存：64G<br>
+硬盘：500G<br>
+系统：CentOS7.5 64位<br>
+带宽：100Mbps<br>
+ffmpeg版本：4.8.5（当时最新）<br>
+python版本：2.7.5<br>
+flask版本：1.1  </p>
+<h4>代码实现</h4>
+<p>以下是主要的拉流缓存、推流直播代码实现部分<br>
+1，持续拉流保存mp4缓存  </p>
+<div class="highlight"><pre><span></span><span class="c1"># 拉取直播流存本地mp4切片</span>
+ffmpeg -y -v verbose -i <span class="o">{</span>拉流地址<span class="o">}</span> -c copy -flags +global_header -f segment -segment_time <span class="m">60</span> -segment_format_options <span class="nv">movflags</span><span class="o">=</span>+faststart -reset_timestamps <span class="m">1</span> -strftime <span class="m">1</span> -write_empty_segments <span class="m">1</span> <span class="s2">&quot;mp4/%s.mp4&quot;</span>
+</pre></div>
+
+
+<p>2，查找指定延时缓存，生成hls直播的m3u8直播文件  </p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding=utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span><span class="nn">os</span><span class="o">,</span><span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span><span class="o">,</span><span class="nn">datetime</span><span class="o">,</span><span class="nn">glob</span><span class="o">,</span><span class="nn">math</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">createHls</span><span class="p">(</span><span class="n">rtmp_id</span><span class="p">):</span>
+    <span class="n">work_dir</span> <span class="o">=</span> <span class="s1">&#39;/hls_dir/&#39;</span><span class="o">+</span><span class="n">rtmp_id</span><span class="o">+</span><span class="s1">&#39;/&#39;</span>    <span class="c1"># m3u8、ts切片存放目录</span>
+    <span class="n">name_file_path</span> <span class="o">=</span> <span class="n">work_dir</span><span class="o">+</span><span class="s1">&#39;mp4_file.log&#39;</span>        <span class="c1"># 记录播放mp4的索引文件</span>
+    <span class="n">mp4_name</span> <span class="o">=</span> <span class="bp">None</span>                                 
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">name_file_path</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name_file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">mp4_name</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="n">mp4_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">work_dir</span><span class="o">+</span><span class="s1">&#39;mp4/*.mp4&#39;</span><span class="p">))</span>
+    <span class="c1"># 初始化hls直播播放的mp4文件名</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mp4_name</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mp4_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="n">mp4_name</span> <span class="o">=</span> <span class="n">mp4_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s2">&quot;no find mp4 files&quot;</span>
+            <span class="k">return</span>
+
+    <span class="c1">### 生成ffmpeg直播hls的命令</span>
+    <span class="c1"># 判断是否需要剪切视频画面</span>
+    <span class="n">filter_complex</span> <span class="o">=</span> <span class="s2">&quot;[0:v][1:v]overlay=1167:50,split=4[out1][out2][out3][out4]&quot;</span>
+    <span class="k">if</span> <span class="n">rtmp_id</span> <span class="o">==</span> <span class="s1">&#39;{test_rtmp}&#39;</span><span class="p">:</span>
+        <span class="n">filter_complex</span> <span class="o">=</span> <span class="s2">&quot;[0:v]crop=1920:940:0:20[v1];[v1][1:v]overlay=1157:50,split=4[out1][out2][out3][out4]&quot;</span>
+
+    <span class="c1"># hls直播切片相关参数</span>
+    <span class="n">video_code</span> <span class="o">=</span> <span class="s1">&#39;-c:v libx264 -c:a aac -strict -2 -hls_flags append_list+round_durations+omit_endlist+split_by_time -hls_allow_cache 0 -hls_time 10 -strftime 1 -hls_segment_filename&#39;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">cd </span><span class="si">%s</span><span class="s2"> &amp;&amp; ffmpeg -y -i </span><span class="si">%s</span><span class="s2"> -i ../../logos/</span><span class="si">%s</span><span class="s2">.png </span><span class="se">\</span>
+<span class="s2">-filter_complex &quot;</span><span class="si">%s</span><span class="s2">&quot; </span><span class="se">\</span>
+<span class="s2">-map &quot;[out1]&quot; </span><span class="si">%s</span><span class="s2"> &#39;1080p/</span><span class="si">%%</span><span class="s2">s.ts&#39; 1080p/playlist.m3u8 </span><span class="se">\</span>
+<span class="s2">-map &quot;[out2]&quot; -s 1280x720 </span><span class="si">%s</span><span class="s2"> &#39;720p/</span><span class="si">%%</span><span class="s2">s.ts&#39; 720p/playlist.m3u8 </span><span class="se">\</span>
+<span class="s2">-map &quot;[out3]&quot; -s 640x360 </span><span class="si">%s</span><span class="s2"> &#39;640p/</span><span class="si">%%</span><span class="s2">s.ts&#39; 640p/playlist.m3u8 </span><span class="se">\</span>
+<span class="s2">-map &quot;[out4]&quot; -s 320x180 </span><span class="si">%s</span><span class="s2"> &#39;320p/</span><span class="si">%%</span><span class="s2">s.ts&#39; 320p/playlist.m3u8</span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">mp4_name</span><span class="p">,</span> <span class="n">rtmp_id</span><span class="p">,</span> <span class="n">filter_complex</span><span class="p">,</span> <span class="n">video_code</span><span class="p">,</span> <span class="n">video_code</span><span class="p">,</span> <span class="n">video_code</span><span class="p">,</span> <span class="n">video_code</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="n">writeMp4Name2File</span><span class="p">(</span><span class="n">mp4_name</span><span class="p">,</span> <span class="n">rtmp_id</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">writeMp4Name2File</span><span class="p">(</span><span class="n">mp4_name</span><span class="p">,</span> <span class="n">rtmp_id</span><span class="p">):</span>
+    <span class="n">work_dir</span> <span class="o">=</span> <span class="s1">&#39;/hls_dir/&#39;</span><span class="o">+</span><span class="n">rtmp_id</span><span class="o">+</span><span class="s1">&#39;/&#39;</span>
+
+    <span class="c1">### 重置mp4索引文件名 </span>
+    <span class="c1"># seek_file存放延时的分钟数，常规为15（15分钟）</span>
+    <span class="n">seek_file_path</span> <span class="o">=</span> <span class="n">work_dir</span><span class="o">+</span><span class="s1">&#39;seek_file.txt&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">seek_file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">minue_str</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="n">des_mp4_name_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">minue_str</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span>
+    <span class="n">mp4_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">work_dir</span><span class="o">+</span><span class="s1">&#39;mp4/*.mp4&#39;</span><span class="p">))</span>
+    <span class="n">first_mp4_name_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mp4_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">first_mp4_name_int</span> <span class="o">&gt;</span> <span class="n">des_mp4_name_int</span><span class="p">:</span>
+        <span class="n">mp4_name</span> <span class="o">=</span> <span class="n">mp4_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tmp_time_detla</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">first_mp4_name_int</span> <span class="o">-</span> <span class="n">des_mp4_name_int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tmp_name</span> <span class="ow">in</span> <span class="n">mp4_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="c1"># 检查mp4文件时间是否合规</span>
+            <span class="n">tmp_mp4_name_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">tmp_mp4_name_int</span> <span class="o">&gt;</span> <span class="n">des_mp4_name_int</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># 找到与目标时间最接近的mp4文件名</span>
+            <span class="n">loop_time_detla</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">tmp_mp4_name_int</span> <span class="o">-</span> <span class="n">des_mp4_name_int</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">loop_time_detla</span> <span class="o">&lt;</span> <span class="n">tmp_time_detla</span><span class="p">:</span>
+                <span class="n">tmp_time_detla</span> <span class="o">=</span> <span class="n">loop_time_detla</span>
+                <span class="n">mp4_name</span> <span class="o">=</span> <span class="n">tmp_name</span>
+
+    <span class="n">name_file_path</span> <span class="o">=</span> <span class="n">work_dir</span><span class="o">+</span><span class="s1">&#39;mp4_file.log&#39;</span>
+
+    <span class="c1"># 保存下1分钟hls直播播放的mp4文件名</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mp4_name</span><span class="p">)</span>
+
+<span class="c1"># 人工切换备播</span>
+<span class="k">def</span> <span class="nf">saveSeekMinue2File</span><span class="p">(</span><span class="n">rtmp_id</span><span class="p">,</span> <span class="n">minue_str</span><span class="p">):</span>
+    <span class="n">work_dir</span> <span class="o">=</span> <span class="s1">&#39;/hls_dir/&#39;</span><span class="o">+</span><span class="n">rtmp_id</span><span class="o">+</span><span class="s1">&#39;/&#39;</span>
+    <span class="n">seek_file_path</span> <span class="o">=</span> <span class="n">work_dir</span><span class="o">+</span><span class="s1">&#39;seek_file.txt&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">seek_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">minue_str</span><span class="p">)</span>
+
+    <span class="n">writeMp4Name2File</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rtmp_id</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># 自动直播指定时间前的视频</span>
+        <span class="n">rtmp_id</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">createHls</span><span class="p">(</span><span class="n">rtmp_id</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># 人工切换直播指定时间前的视频</span>
+        <span class="n">rtmp_id</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">minue_str</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">saveSeekMinue2File</span><span class="p">(</span><span class="n">rtmp_id</span><span class="p">,</span> <span class="n">minue_str</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s2">&quot;error!&quot;</span>
+</pre></div>
+
+
+<h4>功能测试</h4>
+<p>真实测试时，发现还是有很多问题：<br>
+1，拉流脚本拉流有可能会失败，会拉流进程会停止（需要重启拉流）<br>
+2，拉流脚本拉流有可能会超时，会使拉流一直卡住（需要关闭进程并重启拉流）<br>
+3，直播m3u8索引文件被误删了，导致断流（需要重新生成m3u8索引文件）<br>
+4，硬盘使用满了，读写缓存文件失败，导致断流（需要定时清理历史缓存文件）<br>
+以上问题可以用进程监控、邮件告警等自动化脚本方式解决。  </p>
+<h4>ffmpeg关键点说明</h4>
+<div class="highlight"><pre><span></span>-c:v libx264 -c:a aac -strict -2：  
+视频使用h.264编码、音频使用aac编码  
+
+-hls_flags append_list+round_durations+omit_endlist+split_by_time：  
+* append_list：追加新的ts切片到直播流，并删除直播流结束标志#EXT-X-ENDLIST  
+* round_durations：切片时间使用整数（如果不加此字段，默认是小数）  
+* omit_endlist：直播流不添加结束标志EXT-X-ENDLIST  
+* split_by_time：可以根据关键帧切片  
+
+-hls_allow_cache <span class="m">0</span> -hls_time <span class="m">10</span> -strftime <span class="m">1</span> -hls_segment_filename：  
+* 直播流m3u8不允许缓存、切片时间10秒、自定义切片ts文件名  
+
+-filter_complex <span class="o">[</span><span class="m">0</span>:v<span class="o">]</span><span class="nv">crop</span><span class="o">=</span><span class="m">1920</span>:940:0:20<span class="o">[</span>v1<span class="o">]</span><span class="p">;</span><span class="o">[</span>v1<span class="o">][</span><span class="m">1</span>:v<span class="o">]</span><span class="nv">overlay</span><span class="o">=</span><span class="m">1157</span>:50,split<span class="o">=</span><span class="m">4</span><span class="o">[</span>out1<span class="o">][</span>out2<span class="o">][</span>out3<span class="o">][</span>out4<span class="o">]</span>：  
+* filter_complex：滤镜参数  
+* crop：剪切第一个输入源（视频）  
+* overlay：设置第二个输入源（水印）的位置  
+* split：输出源一路分为多路  
+</pre></div>
+
+
+<p>参考资源：<br>
+https://ffmpeg.org/ffmpeg-formats.html<br>
+http://www.davhui.top/ffmpeg-use.html  </p>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <!-- <h3><b>Comments</b></h3> -->
+            <br />
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "ffmpeg-create-timeout-m3u8-play-live.html";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://davlu.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<!-- <h4>方位</h4>
+
+ <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/archives">归档</a></li>
+      <li><a href="/categories">分类</a></li>
+      <li><a href="/tags">标签</a></li>
+      <li><a href="/aboutme">关于我</a></li>
+  </ul> -->
+
+<h4>分类</h4>
+<ul class="blank">
+		<li><a href="/category/bash.html">bash</a>（2）</li>
+		<li><a href="/category/ffmpeg.html">ffmpeg</a>（2）</li>
+		<li><a href="/category/ffmpeg-python-bash.html">ffmpeg, python, bash</a>（1）</li>
+		<li><a href="/category/gong-ju.html">工具</a>（2）</li>
+		<li><a href="/category/ios.html">iOS</a>（16）</li>
+		<li><a href="/category/ke-xue-shang-wang.html">科学上网</a>（1）</li>
+		<li><a href="/category/linux.html">linux</a>（1）</li>
+		<li><a href="/category/markdown.html">markdown</a>（1）</li>
+		<li><a href="/category/mysql.html">mysql</a>（2）</li>
+		<li><a href="/category/nginx.html">nginx</a>（1）</li>
+		<li><a href="/category/node.html">node</a>（1）</li>
+		<li><a href="/category/pelican.html">pelican</a>（2）</li>
+		<li><a href="/category/php.html">PHP</a>（1）</li>
+		<li><a href="/category/python.html">python</a>（4）</li>
+		<li><a href="/category/qi-ta.html">其它</a>（3）</li>
+</ul>
+
+
+<!-- <h4>标签</h4>
+	<ul class="blank">
+</ul>
+ -->
+
+<!-- <h4>时间</h4>
+	<ul class="blank">
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/生成延时指定时间的直播流技术实现.md"><a href="/ffmpeg-create-timeout-m3u8-play-live.html">29 January 2019</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python实现windows版微信自动发消息.md"><a href="/python-windows-wecat-sender.html">28 December 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS动态库制作.md"><a href="/iOS-framework-create.html">26 November 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一些有趣的api.md"><a href="/some-fun-api.html">19 November 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">23 October 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">12 September 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 August 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 August 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 July 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 June 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 May 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 April 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 March 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 February 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 August 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">27 May 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 April 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">25 March 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 February 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">10 January 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 October 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">15 September 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">22 August 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">12 July 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 June 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 June 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 May 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 May 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 April 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 May 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 April 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 March 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 March 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 March 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 February 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 January 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 January 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 January 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 January 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 September 2014</a></li>
+</ul>
+ -->
+
+
+<nav class="widget">
+  <h4>about me</h4>
+  <ul class="blank">
+    <li><a href="https://github.com/ludawei">github</a></li>
+    <li><a href="http://www.cnblogs.com/china-ldw/">cnblog</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+<!-- JiaThis Button BEGIN -->
+<!-- <hr/>
+<aside>
+<nav>
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tools_1"></a>
+	<a class="jiathis_button_tools_2"></a>
+	<a class="jiathis_button_tools_3"></a>
+	<a class="jiathis_button_tools_4"></a>
+	<a href="http://www.jiathis.com/share?uid=2003036" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2003036" charset="utf-8"></script>
+</aside>
+</nav> -->
+<!-- JiaThis Button END -->
+
+<!-- Duoshuo Comment Begin-->
+<!-- <aside>
+<nav>
+<div class="comments">
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"davlu"};
+(function() {
+var ds = document.createElement('script');
+ds.type = 'text/javascript';ds.async = true;
+ds.src = 'http://static.duoshuo.com/embed.js';
+ds.charset = 'UTF-8';
+(document.getElementsByTagName('head')[0]
+ || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
+</nav>
+</aside> -->
+<!-- Duoshuo Comment End -->
+
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Creared by dav@2016 and Proudly powered by <a href="http://getpelican.com/">Pelican</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<!-- <script type="text/javascript">
+    var disqus_shortname = 'davlu';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+ -->
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>
