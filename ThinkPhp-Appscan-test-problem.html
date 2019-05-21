@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>mac 安装mysql后root密码问题</title>
+        <title>ThinkPhp解决IBM Appscan扫描的安全问题</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/mac 安装mysql后root密码问题.html" rel="bookmark"
-                   title="Permalink to mac 安装mysql后root密码问题">mac 安装mysql后root密码问题</a></h3>
+                <a href="/ThinkPhp-Appscan-test-problem.html" rel="bookmark"
+                   title="Permalink to ThinkPhp解决IBM Appscan扫描的安全问题">ThinkPhp解决IBM Appscan扫描的安全问题</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2016-08-22T00:00:00+02:00">
-                2016年08月22
+              <abbr class="published" title="2019-05-21T00:00:00+02:00">
+                2019年05月21
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,78 +78,104 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>问题描述：mac上新安装的mysql, 在终端使用命令：<code>mysql -u root -p</code> 无法连接到mysql数据库；</p>
-<p>解决方法：修改密码！</p>
-<p>步骤：<br />
-1，在 设置 中关闭msql服务<br />
-2，进入超级管理员用户：</p>
-<div class="highlight"><pre><span></span>sudo su
+              <p>Appscan扫描的问题列表如下：</p>
+<ul>
+<li>跨站点请求伪造（验证“Referer”头的值，并对每个提交的表单使用 one-time-nonce）</li>
+<li>会话标识未更新（登录之后更改会话标识符值）</li>
+<li>已解密的登录请求（发送敏感信息时，始终使用 SSL 和 POST(主体)参数）</li>
+</ul>
+<h5><strong>1，跨站点请求伪造（验证“Referer”头的值，并对每个提交的表单使用 one-time-nonce）</strong></h5>
+<p>修改步骤：</p>
+<h6><strong>1）在Common类的_initialize方法中增加checkrefer方法</strong></h6>
+<div class="highlight"><pre><span></span><span class="x">private function checkrefer()</span>
+<span class="x">    {</span>
+<span class="x">        $refWhiteList=array(</span>
+<span class="x">                        &#39;^https:\/\/test.com\/&#39;,</span>
+<span class="x">                        &#39;^http:\/\/test.com\/&#39;,</span>
+<span class="x">                    );</span>
+<span class="x">        if(isset($_SERVER[&#39;HTTP_REFERER&#39;])){</span>
+<span class="x">            $ref = $_SERVER[&#39;HTTP_REFERER&#39;];</span>
+<span class="x">            if( strpos( $ref, &#39;http://&#39; ) !== 0 &amp;&amp; strpos( $ref , &#39;https://&#39; ) !== 0 ){</span>
+<span class="x">                $ref = &#39;http://&#39; . $ref;</span>
+<span class="x">            }</span>
+<span class="x">            foreach ( $refWhiteList as $item ){</span>
+<span class="x">                if( preg_match( &quot;/{$item}/i&quot; , $ref ) ){</span>
+<span class="x">                    return true;</span>
+<span class="x">                }</span>
+<span class="x">            }</span>
+<span class="x">            return false;</span>
+<span class="x">        }else{</span>
+<span class="x">            return false;</span>
+<span class="x">        }</span>
+<span class="x">    }</span>
 </pre></div>
 
 
-<p>3，进入mysql目录：</p>
-<div class="highlight"><pre><span></span>cd /usr/local/mysql/bin/
+<h6><strong>2）在所有的post提交接口中增加Token验证</strong></h6>
+<div class="highlight"><pre><span></span><span class="x">if ((!isset($_SESSION[&#39;token&#39;]) || $_POST[&#39;token&#39;] != $_SESSION[&#39;token&#39;]))</span>
+<span class="x">{</span>
+<span class="x">    $this-&gt;ajaxReturn([&#39;msg&#39;=&gt;&#39;token不合法&#39;]);</span>
+<span class="x">    #$this-&gt;error(&#39;token不合法&#39;);</span>
+<span class="x">}</span>
 </pre></div>
 
 
-<p>4，安全启动mysql：</p>
-<div class="highlight"><pre><span></span>./mysqld_safe --skip-grant-tables &amp;
+<h6><strong>3）在html中使用ajax替换form表单提交请求</strong></h6>
+<div class="highlight"><pre><span></span><span class="c">&lt;!-- &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;提交&lt;/button&gt; --&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-default&quot;</span> <span class="na">onclick</span><span class="o">=</span><span class="s">&quot;AddHandlingFeeToRefund()&quot;</span><span class="p">&gt;</span>提交<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-zh-CN.js &quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span><span class="p">&gt;</span>
+    <span class="kd">function</span> <span class="nx">AddHandlingFeeToRefund</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">AjaxURL</span><span class="o">=</span> <span class="s2">&quot;doinsert&quot;</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">formdata</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">(</span><span class="nx">form</span><span class="p">);</span>
+        <span class="c1">//alert($(&#39;form&#39;).serialize());</span>
+        <span class="c1">//alert(formdata);</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+            <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+            <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;html&quot;</span><span class="p">,</span>
+            <span class="nx">url</span><span class="o">:</span> <span class="nx">AjaxURL</span><span class="p">,</span>
+            <span class="nx">data</span><span class="o">:</span> <span class="nx">formdata</span><span class="p">,</span>
+            <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">alert</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">msg</span><span class="p">);</span>
+            <span class="p">},</span>
+            <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;error:&quot;</span><span class="o">+</span><span class="nx">data</span><span class="p">.</span><span class="nx">responseText</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </pre></div>
 
 
-<p>5，新打开一个终端，进入 MySQL：</p>
-<div class="highlight"><pre><span></span>mysql -u root -p
+<h5><strong>2，会话标识未更新（登录之后更改会话标识符值）</strong></h5>
+<p>修改步骤：</p>
+<div class="highlight"><pre><span></span><span class="x">// 登录前，生成token</span>
+<span class="x">$token = &#39;hf&#39;.md5(uniqid(rand(), TRUE));</span>
+<span class="x">$_SESSION[&#39;token&#39;] = $token;</span>
+<span class="x">$this-&gt;assign(&#39;token&#39;,$token);</span>
+<span class="x">// 登录后，保存token</span>
+<span class="x">session(&#39;token&#39;,$post_token);</span>
+<span class="x">cookie(&#39;token&#39;,$post_token);</span>
 </pre></div>
 
 
-<p>6，数据库、表说明如下图：
-<img alt="img" src="../images/mysql_root_pass_img_1.png" /></p>
-<p>7，修改密码为“root”：</p>
-<div class="highlight"><pre><span></span>update user set authentication_string=PASSWORD(&#39;root&#39;) where User=&#39;root’;
-</pre></div>
-
-
-<p>8，刷新权限，使配置生效：</p>
-<div class="highlight"><pre><span></span>flush privileges;
-</pre></div>
-
-
-<p>9，关闭数据库：</p>
-<div class="highlight"><pre><span></span>quit;
-</pre></div>
-
-
-<p>10，重启mysql：</p>
-<div class="highlight"><pre><span></span>sudo /usr/local/mysql/support-files/mysql.server start
-</pre></div>
-
-
-<p>11，再次连接：</p>
-<div class="highlight"><pre><span></span>mysql -u root -proot
-</pre></div>
-
-
-<p>提示错误：<br /></p>
-<div class="highlight"><pre><span></span>ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.
-</pre></div>
-
-
-<p>12，mysql下执行命令：</p>
-<div class="highlight"><pre><span></span>SET PASSWORD = PASSWORD(&#39;root&#39;);
-</pre></div>
-
-
-<p>完毕！（:</p>
-<p>参考：<br />
-1，<a href="http://www.2cto.com/database/201303/197067.html">http://www.2cto.com/database/201303/197067.html</a><br />
-2，<a href="http://fgyong.cn/2016/01/28/MAC-%E9%87%8D%E7%BD%AEMySQL-root-%E5%AF%86%E7%A0%81/">http://fgyong.cn/2016/01/28/MAC-%E9%87%8D%E7%BD%AEMySQL-root-%E5%AF%86%E7%A0%81/</a><br /></p>
+<h5><strong>3，已解密的登录请求（发送敏感信息时，始终使用 SSL 和 POST(主体)参数）</strong></h5>
+<p>修改步骤：<br />
+<code>更换https域名。</code></p>
+<h4>未完待续...</h4>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "mac 安装mysql后root密码问题.html";
+                var disqus_identifier = "ThinkPhp-Appscan-test-problem.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';

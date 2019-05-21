@@ -84,13 +84,13 @@ ffmpeg -framerate <span class="m">25</span> -pattern_type glob -i <span class="s
 <span class="c1">#视频转码</span>
 ffmpeg -i ~/Desktop/out.mpg -vcodec libx264  -crf <span class="m">20</span> ~/Desktop/out.mp4
 <span class="c1">#屏幕录制（mac）</span>
-ffmpeg -f avfoundation -i <span class="s2">&quot;1:0&quot;</span> -ss <span class="m">00</span>:00:05 -t <span class="m">00</span>:00:05 -pixel_format monob ~/Desktop/out.mpg
+ffmpeg -f avfoundation -i <span class="s2">&quot;1:0&quot;</span> -ss 00:00:05 -t 00:00:05 -pixel_format monob ~/Desktop/out.mpg
 <span class="c1">#屏幕录制（windows,指定窗体）</span>
 ffmpeg -f gdigrab -draw_mouse <span class="m">0</span> -framerate <span class="m">25</span> -i <span class="nv">title</span><span class="o">=</span><span class="s2">&quot;decision weather - Google Chrome&quot;</span> out.mpg
 <span class="c1">#屏幕录制（windows,指定屏幕区域）</span>
 ffmpeg -f gdigrab -framerate <span class="m">30</span> -offset_x <span class="m">0</span> -offset_y <span class="m">0</span> -video_size 1600x900 -i desktop out.mpg
 - gdigrab:表明我们是通过gdi抓屏的方式； 
--framerate <span class="m">30</span>：表示我录制的帧率为30；
+-framerate 30：表示我录制的帧率为30；
 -offset_x ：左上偏移量X； 
 -offset_y ：左上偏移量Y； 
 -video_size：需要录制的宽度和高度，这是我是整个屏幕； 
@@ -98,8 +98,23 @@ ffmpeg -f gdigrab -framerate <span class="m">30</span> -offset_x <span class="m"
 -desktop：告诉ffmpeg我们录的是屏幕，而不是一个窗口<span class="o">(</span>可以录制一个窗口，不过得用窗口的ID<span class="o">)</span>。
 说明：帧率是和格式相关的，比如我用mpg格式30帧就很清楚，如果用mp4则需要60帧。
 
+<span class="c1">#得到视频时长</span>
+ffprobe -v error -show_entries <span class="nv">format</span><span class="o">=</span>duration -of <span class="nv">default</span><span class="o">=</span><span class="nv">noprint_wrappers</span><span class="o">=</span>1:nokey<span class="o">=</span><span class="m">1</span> center.mp4
+<span class="c1">#剪切mp3音频文件（取前60.350000秒）</span>
+ffmpeg -t 60.350000 -i bg.mp3 center_bg.mp3
+<span class="c1">#视频mp4插入音频mp3</span>
+ffmpeg -y -i center.mp4 -i center_bg.mp3 center_1.mp4
+
+<span class="c1">############ 以下是mp4合并方法 ############</span>
+<span class="c1">#mp4转ts</span>
+ffmpeg -y -i center_1.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts 1.ts
+<span class="c1">#合并ts</span>
+ffmpeg -y -i <span class="s2">&quot;concat:0.ts|1.ts|2.ts&quot;</span> -c copy <span class="s2">&quot;output.ts&quot;</span>
+<span class="c1">#ts转mp4</span>
+ffmpeg -y -i output.ts -acodec copy -ar <span class="m">44100</span> -ab 96k -coder ac -vbsf h264_mp4toannexb output.mp4
+
 <span class="c1">#视频剪辑</span>
-ffmpeg -i test.mp4 -ss <span class="m">2</span>:59:00 -codec copy -t <span class="m">60</span> output.mp4 （取最后60秒视频）
+ffmpeg -i test.mp4 -ss 2:59:00 -codec copy -t <span class="m">60</span> output.mp4 （取最后60秒视频）
 <span class="c1">#修改视频码率</span>
 ffmpeg -i test.mp4 -vb 20M -max_muxing_queue_size <span class="m">20480</span> -y output.mp4
 
@@ -112,9 +127,9 @@ ffmpeg -i rtmp://test_url -c copy -f flv test.flv
 <span class="c1">#拉流 保存视频片断</span>
 ffmpeg  -y -i rtmp://test_url -t <span class="m">3600</span> -c copy -flags +global_header -f segment -segment_time <span class="m">1200</span> -segment_format_options <span class="nv">movflags</span><span class="o">=</span>+faststart -reset_timestamps <span class="m">1</span> test%d.mp4
 <span class="c1">#拉流 保存图片序列</span>
-ffmpeg -y -i rtmp://test_url -r <span class="m">1</span> /Users/ludawei/Desktop/2222/out%03d.jpg
+ffmpeg -y -i rtmp://test_url -r <span class="m">1</span> dest_dir/out%03d.jpg
 <span class="c1">#拉流 保存截图</span>
-ffmpeg -i rtmp://test_url -y -t <span class="m">0</span>.001 -ss <span class="m">1</span> -f image2 -r <span class="m">1</span> test.jpg
+ffmpeg -i rtmp://test_url -y -t 0.001 -ss <span class="m">1</span> -f image2 -r <span class="m">1</span> test.jpg
 <span class="c1">#拉流再推流</span>
 ffmpeg -i 拉流地址 -acodec copy -vcodec copy -f flv 推流地址
 
@@ -174,8 +189,8 @@ ffmpeg -y -v verbose -i rtmp://test_url -i ./logos/watermark.png -filter_complex
 		<li><a href="/category/nginx.html">nginx</a>（1）</li>
 		<li><a href="/category/node.html">node</a>（1）</li>
 		<li><a href="/category/pelican.html">pelican</a>（2）</li>
-		<li><a href="/category/php.html">PHP</a>（1）</li>
-		<li><a href="/category/python.html">python</a>（4）</li>
+		<li><a href="/category/php.html">php</a>（2）</li>
+		<li><a href="/category/python.html">python</a>（5）</li>
 		<li><a href="/category/qi-ta.html">其它</a>（3）</li>
 </ul>
 
@@ -187,46 +202,48 @@ ffmpeg -y -v verbose -i rtmp://test_url -i ./logos/watermark.png -filter_complex
 
 <!-- <h4>时间</h4>
 	<ul class="blank">
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/生成延时指定时间的直播流技术实现.md"><a href="/ffmpeg-create-timeout-m3u8-play-live.html">29 January 2019</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python实现windows版微信自动发消息.md"><a href="/python-windows-wecat-sender.html">28 December 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS动态库制作.md"><a href="/iOS-framework-create.html">26 November 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一些有趣的api.md"><a href="/some-fun-api.html">19 November 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">23 October 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">12 September 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 August 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 August 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 July 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 June 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 May 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 April 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 March 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 February 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 August 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">27 May 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 April 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">25 March 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 February 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">10 January 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 October 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">15 September 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">22 August 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">12 July 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 June 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 June 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 May 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 May 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 April 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 May 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 April 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 March 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 March 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 March 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 February 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 September 2014</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ThinkPhp解决IBM Appscan扫描的安全问题.md"><a href="/ThinkPhp-Appscan-test-problem.html">21 五月 2019</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python解析grub2、nc文件.md"><a href="/python-decode-grub2_nc.html">08 三月 2019</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/生成延时指定时间的直播流技术实现.md"><a href="/ffmpeg-create-timeout-m3u8-play-live.html">29 一月 2019</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python实现windows版微信自动发消息.md"><a href="/python-windows-wecat-sender.html">28 十二月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS动态库制作.md"><a href="/iOS-framework-create.html">26 十一月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一些有趣的api.md"><a href="/some-fun-api.html">19 十一月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">23 十月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">12 九月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 七月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 六月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 五月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 四月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 三月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 二月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 八月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">27 五月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">25 三月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">10 一月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 十月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">15 九月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">22 八月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">12 七月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 四月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 五月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 四月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 二月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 九月 2014</a></li>
 </ul>
  -->
 

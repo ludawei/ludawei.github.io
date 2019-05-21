@@ -80,7 +80,7 @@
             <div class="entry-content">
               <p>本着不重复造轮子的原则，app开发中或多或少用各种的开源库，用对了开源库，往往能<strong>代码风骚、效率恐怖</strong>~</p>
 <p>做iOS也有几年了，整理一下开发中常用到的开源库。</p>
-<p _="%" endhighlight>1，<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>&nbsp;在iOS开发中使用非常多网络开源库,适用于iOS以及Mac OS X。架构良好，模块清晰，api丰富，绝对是iOS开发中网络库的不二之先。
+<p _="%" endhighlight="endhighlight">1，<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>&nbsp;在iOS开发中使用非常多网络开源库,适用于iOS以及Mac OS X。架构良好，模块清晰，api丰富，绝对是iOS开发中网络库的不二之先。
 <div class="message">
 <em>AFNetworing</em>是mattt大神的开源库，mattt同时也是<a href="http://nshipster.com/">nshipster</a>的组织者，上面有很多关于iOS的技术文章。
 </div>
@@ -92,7 +92,7 @@ AFHTTPRequestOperationManager <em>manager = [AFHTTPRequestOperationManager manag
 } failure:^(AFHTTPRequestOperation <em>operation, NSError </em>error) {
     NSLog(@"Error: %@", error);
 }];</p>
-<p _="%" endhighlight>2，<a href="https://github.com/rs/SDWebImage">SDWebImage</a>&nbsp;ios开发的图片下载缓存库，实现<strong>懒加载</strong>的得力助手。
+<p _="%" endhighlight="endhighlight">2，<a href="https://github.com/rs/SDWebImage">SDWebImage</a>&nbsp;ios开发的图片下载缓存库，实现<strong>懒加载</strong>的得力助手。
 <div class="message">
 不过新版本的AFNetwording集成了这功能，而且api一样，所以现在基本用不单独用这个库了。
 </div>
@@ -119,8 +119,8 @@ AFHTTPRequestOperationManager <em>manager = [AFHTTPRequestOperationManager manag
 }
 {% endhighlight %}
 </div>
-<img alt="gif" src="../images/1月-22-2015-11-34.gif"></p>
-<p _="%" endhighlight>4，<a href="https://developer.apple.com/library/ios/samplecode/Reachability/Introduction/Intro.html">Reachability</a>&nbsp;<code>apple</code>官方给出的在iOS设备上检测网络的库，可以检测网络的连通性，也可以监听网络的变化（由3g到wifi等情况）。
+<img alt="gif" src="../images/1月-22-2015-11-34.gif" /></p>
+<p _="%" endhighlight="endhighlight">4，<a href="https://developer.apple.com/library/ios/samplecode/Reachability/Introduction/Intro.html">Reachability</a>&nbsp;<code>apple</code>官方给出的在iOS设备上检测网络的库，可以检测网络的连通性，也可以监听网络的变化（由3g到wifi等情况）。
 简单使用示例：
 {% highlight objc %}
 -(int)checkNetWork {
@@ -146,18 +146,18 @@ AFHTTPRequestOperationManager <em>manager = [AFHTTPRequestOperationManager manag
 <div class="message">
 这样左右侧滑效果在一两年前，相当流行啊！现在好像差不多审美疲劳了~
 </div>
-<img alt="img" src="https://camo.githubusercontent.com/c7764cc1a74c7a9be35fa09f350adb5622e3eb49/68747470733a2f2f696d672e736b697463682e636f6d2f32303132303332322d6478366b36393537377261333777776771676d73676b737170782e6a7067"></p>
+<img alt="img" src="https://camo.githubusercontent.com/c7764cc1a74c7a9be35fa09f350adb5622e3eb49/68747470733a2f2f696d672e736b697463682e636f6d2f32303132303332322d6478366b36393537377261333777776771676d73676b737170782e6a7067" /></p>
 <p>6，分享组件&nbsp;&nbsp;&nbsp;国内有好多平台，用过的有：
 <ul>
 <li><a href="http://www.umeng.com/social">友盟</a></li>
 <li><a href="http://www.mob.com/">mob</a></li>
 <li><a href="http://share.baidu.com/">百度</a></li>
 </ul></p>
-<p _="%" endhighlight>7，<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>&nbsp;&nbsp; GPUImage是Brad Larson在github托管的一个开源项目，项目实现了图片滤镜、摄像头实时滤镜，该项目的优点不但在于滤镜很多，而且处理效果是基于GPU的，比使用CPU性能更高。
+<p _="%" endhighlight="endhighlight">7，<a href="https://github.com/BradLarson/GPUImage">GPUImage</a>&nbsp;&nbsp; GPUImage是Brad Larson在github托管的一个开源项目，项目实现了图片滤镜、摄像头实时滤镜，该项目的优点不但在于滤镜很多，而且处理效果是基于GPU的，比使用CPU性能更高。
 <div class="message">
 部分滤镜介绍参考<a href="http://www.cnblogs.com/bunsman/archive/2013/06/06/3121406.html">这里</a>
 </div>
-<img alt="filterImage" src="../images/屏幕快照2015-01-22下午2.16.00.png">
+<img alt="filterImage" src="../images/屏幕快照2015-01-22下午2.16.00.png" />
 简单使用示例：
 {% highlight objc %}
 GPUImageSepiaFilter <em>stillImageFilter2 = [[GPUImageSepiaFilter alloc] init];
@@ -201,7 +201,7 @@ vision.cameraMode = PBJCameraModeVideo;
 vision.cameraOrientation = PBJCameraOrientationPortrait;
 vision.focusMode = PBJFocusModeContinuousAutoFocus;
 vision.outputFormat = PBJOutputFormatSquare;</p>
-<p _="%" endhighlight>[vision startPreview];
+<p _="%" endhighlight="endhighlight">[vision startPreview];
 }</p>
 </li>
 </ul>
@@ -210,7 +210,7 @@ vision.outputFormat = PBJOutputFormatSquare;</p>
 源码可任意自定义，修改出各种样式的下拉刷新样式~
 </div></p>
 <p>12，<a href="https://github.com/CEWendel/SWTableViewCell">SWTableViewCell</a>&nbsp;&nbsp;UITableViewCell右滑删除，效果十分赞~
-<img alt="img" src="https://camo.githubusercontent.com/c138fcd3df24ae1d91f8bf6feb51a1cf111606a4/687474703a2f2f692e696d6775722e636f6d2f6e6a4b436a4b382e676966"></p>
+<img alt="img" src="https://camo.githubusercontent.com/c138fcd3df24ae1d91f8bf6feb51a1cf111606a4/687474703a2f2f692e696d6775722e636f6d2f6e6a4b436a4b382e676966" /></p>
 <p>13，<a href="http://developer.baidu.com/wiki/index.php?title=docs/cplat/media/voice">百度语音服务</a>&nbsp;&nbsp;这个服务能帮你把语音变成文本。</p>
 <p>简单使用示例：
 {% highlight objc %}
@@ -256,7 +256,7 @@ vision.outputFormat = PBJOutputFormatSquare;</p>
 </pre></div>
 
 
-<p _="%" endhighlight>}</p>
+<p _="%" endhighlight="endhighlight">}</p>
 <p>14，高德地图sdk，百度地图sdk&nbsp;&nbsp;&nbsp;这两个地图sdk的api基本一样，都包含了<code>apple</code>自己的MapKit的所有api.
 <div class="message">
 这两地图提供了一些额外的api，如地图覆盖物图层MAGroundOverlay等。<br />
@@ -296,7 +296,7 @@ vision.outputFormat = PBJOutputFormatSquare;</p>
 <p>(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];</p>
-<p _="%" endhighlight>// self.navigationController.navigationBarHidden = NO;
+<p _="%" endhighlight="endhighlight">// self.navigationController.navigationBarHidden = NO;
 [self.navigationController.navigationBar addSubview:_progressView];
 }</p>
 </li>
@@ -397,7 +397,7 @@ vision.outputFormat = PBJOutputFormatSquare;</p>
 </pre></div>
 
 
-<p _="%" endhighlight>}</p>
+<p _="%" endhighlight="endhighlight">}</p>
 <p>还有一些用过的，但不常用，就不介绍了。先到这里，以后有再添加。</p>
             </div><!-- /.entry-content -->
             <div class="comments">
@@ -442,8 +442,8 @@ vision.outputFormat = PBJOutputFormatSquare;</p>
 		<li><a href="/category/nginx.html">nginx</a>（1）</li>
 		<li><a href="/category/node.html">node</a>（1）</li>
 		<li><a href="/category/pelican.html">pelican</a>（2）</li>
-		<li><a href="/category/php.html">PHP</a>（1）</li>
-		<li><a href="/category/python.html">python</a>（4）</li>
+		<li><a href="/category/php.html">php</a>（2）</li>
+		<li><a href="/category/python.html">python</a>（5）</li>
 		<li><a href="/category/qi-ta.html">其它</a>（3）</li>
 </ul>
 
@@ -455,46 +455,48 @@ vision.outputFormat = PBJOutputFormatSquare;</p>
 
 <!-- <h4>时间</h4>
 	<ul class="blank">
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/生成延时指定时间的直播流技术实现.md"><a href="/ffmpeg-create-timeout-m3u8-play-live.html">29 January 2019</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python实现windows版微信自动发消息.md"><a href="/python-windows-wecat-sender.html">28 December 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS动态库制作.md"><a href="/iOS-framework-create.html">26 November 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一些有趣的api.md"><a href="/some-fun-api.html">19 November 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">23 October 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">12 September 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 August 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 August 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 July 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 June 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 May 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 April 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 March 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 February 2018</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 August 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">27 May 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 April 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">25 March 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 February 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">10 January 2017</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 October 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">15 September 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">22 August 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">12 July 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 June 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 June 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 May 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 May 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 April 2016</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 May 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 April 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 March 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 March 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 March 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 February 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 January 2015</a></li>
-	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 September 2014</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ThinkPhp解决IBM Appscan扫描的安全问题.md"><a href="/ThinkPhp-Appscan-test-problem.html">21 五月 2019</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python解析grub2、nc文件.md"><a href="/python-decode-grub2_nc.html">08 三月 2019</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/生成延时指定时间的直播流技术实现.md"><a href="/ffmpeg-create-timeout-m3u8-play-live.html">29 一月 2019</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python实现windows版微信自动发消息.md"><a href="/python-windows-wecat-sender.html">28 十二月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS动态库制作.md"><a href="/iOS-framework-create.html">26 十一月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一些有趣的api.md"><a href="/some-fun-api.html">19 十一月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/bash使用学习.md"><a href="/linux-bash-use-tips.html">23 十月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/nginx-部分使用技巧.md"><a href="/linux-nginx-tips.html">12 九月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-部分常用命令.md"><a href="/linux-bash-tips.html">16 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/linux-ssh部分知识.md"><a href="/linux-ssh-tips.html">15 八月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python删除xcode过期证书.md"><a href="/python-remove-xcode-expire-profile.html">11 七月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/python-basemap库安装.md"><a href="/python-install-basemap.html">20 六月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ffmpeg使用命令记录.md"><a href="/ffmpeg-use.html">08 五月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/pelican生成不了html文件.md"><a href="/pelican-can-not-create-html.html">03 四月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/CentOS-install-ffmpeg.md"><a href="/CentOS-install-ffmpeg.html">16 三月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/iOS-universal-link.md"><a href="/iOS-Universal-Link.html">09 二月 2018</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/test_socketIO.md"><a href="/本地搭建Socket.io测试环境，与iOS客户端通信交互.html">11 八月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/xcode-change-program-name.md"><a href="/xcode-change-program-name.html">27 五月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sha1-encode.md"><a href="/sha1-encode-in-some-code-language.html">10 四月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mysql-time-conversion.md"><a href="/mysql_time_format.html">25 三月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/php-execl-export.md"><a href="/php-excel-export.html">17 二月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/um_push_py.md"><a href="/um_push_py.html">10 一月 2017</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/itc_error_20161017.md"><a href="/itunesConnect导入此构建版本时出错-问题解决.html">17 十月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/niceblogs.md"><a href="/someniceblogs.html">15 九月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/mac 安装mysql后root密码问题.md"><a href="/mac 安装mysql后root密码问题.html">22 八月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/MKMapView经纬引起的一个bug.md"><a href="/MKMapView经纬引起的一个bug.html">12 七月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/一张gif完美诠释pc+app演变史.md"><a href="/一张gif完美诠释pc+app演变史.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/myshadowsocksfromcarina.md"><a href="/在carina上使用Docker搭建免费的ShadowSocks.html">02 六月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/sometools.md"><a href="/sometools.html">25 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/fuckingblocks.md"><a href="/fuckingblocks.html">20 五月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/使用pelican在Github pages上搭建博客遇到的坑.md"><a href="/使用pelican在Github pages上搭建博客遇到的坑.html">26 四月 2016</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/tools.md"><a href="/ios-mac-tools.html">29 五月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/custom-xcode-remove-a-line-with-python.md"><a href="/custom-xcode-remove-a-line-with-python.html">10 四月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios7-background-modes.md"><a href="/ios7-background-modes.html">27 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-bugs-for-march.md"><a href="/iOS-bugs.html">16 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ReactiveCocoa-learning.md"><a href="/ReactiveCocoa-learning.html">05 三月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/UIBarButtonItem-all-types.md"><a href="/UIBarButtonItem-all-types.html">04 二月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-third-libs-arrange.md"><a href="/ios-third-libs-arrange.html">22 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-encode.md"><a href="/ios-encode.html">21 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/ios-Testing-iOS-simple-pgyer.md"><a href="/ios-Testing-iOS-simple-pgyer.html">19 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/Build-my-github.io-blog-from-0.md"><a href="/Build-my-github.io-blog-from-0.html">16 一月 2015</a></li>
+	    <li class="article-/Users/ludawei/important/ludawei_blog_github/content/posts/第一个测试.md"><a href="/pelican-install.html">08 九月 2014</a></li>
 </ul>
  -->
 

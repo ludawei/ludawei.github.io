@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 
-        <title>mac 安装mysql后root密码问题</title>
+        <title>python解析grub2、nc文件</title>
         <meta charset="utf-8" />
 
 
@@ -64,13 +64,13 @@
 
             <header>
               <h3 class="entry-title">
-                <a href="/mac 安装mysql后root密码问题.html" rel="bookmark"
-                   title="Permalink to mac 安装mysql后root密码问题">mac 安装mysql后root密码问题</a></h3>
+                <a href="/python-decode-grub2_nc.html" rel="bookmark"
+                   title="Permalink to python解析grub2、nc文件">python解析grub2、nc文件</a></h3>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2016-08-22T00:00:00+02:00">
-                2016年08月22
+              <abbr class="published" title="2019-03-08T00:00:00+01:00">
+                2019年03月08
               </abbr>
               <address class="vcard author">
               <!--               admin
@@ -78,78 +78,35 @@
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>问题描述：mac上新安装的mysql, 在终端使用命令：<code>mysql -u root -p</code> 无法连接到mysql数据库；</p>
-<p>解决方法：修改密码！</p>
-<p>步骤：<br />
-1，在 设置 中关闭msql服务<br />
-2，进入超级管理员用户：</p>
-<div class="highlight"><pre><span></span>sudo su
+              <p>一些工作中常用到的python解析库：</p>
+<div class="highlight"><pre><span></span><span class="c1"># grub2数据</span>
+<span class="kn">import</span> <span class="nn">pygrib</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;filename.GRB2&#39;</span>
+<span class="n">grbs</span> <span class="o">=</span> <span class="n">pygrib</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="c1"># grb = grbs.select()[0]#grbs.message(1)</span>
+<span class="k">for</span> <span class="n">grb</span> <span class="ow">in</span> <span class="n">grbs</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">grb</span>
+
+<span class="c1"># nc数据</span>
+<span class="kn">from</span> <span class="nn">netCDF4</span> <span class="kn">import</span> <span class="n">Dataset</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;filename.nc&#39;</span>
+<span class="n">nc</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">print</span> <span class="n">key</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 
 
-<p>3，进入mysql目录：</p>
-<div class="highlight"><pre><span></span>cd /usr/local/mysql/bin/
-</pre></div>
-
-
-<p>4，安全启动mysql：</p>
-<div class="highlight"><pre><span></span>./mysqld_safe --skip-grant-tables &amp;
-</pre></div>
-
-
-<p>5，新打开一个终端，进入 MySQL：</p>
-<div class="highlight"><pre><span></span>mysql -u root -p
-</pre></div>
-
-
-<p>6，数据库、表说明如下图：
-<img alt="img" src="../images/mysql_root_pass_img_1.png" /></p>
-<p>7，修改密码为“root”：</p>
-<div class="highlight"><pre><span></span>update user set authentication_string=PASSWORD(&#39;root&#39;) where User=&#39;root’;
-</pre></div>
-
-
-<p>8，刷新权限，使配置生效：</p>
-<div class="highlight"><pre><span></span>flush privileges;
-</pre></div>
-
-
-<p>9，关闭数据库：</p>
-<div class="highlight"><pre><span></span>quit;
-</pre></div>
-
-
-<p>10，重启mysql：</p>
-<div class="highlight"><pre><span></span>sudo /usr/local/mysql/support-files/mysql.server start
-</pre></div>
-
-
-<p>11，再次连接：</p>
-<div class="highlight"><pre><span></span>mysql -u root -proot
-</pre></div>
-
-
-<p>提示错误：<br /></p>
-<div class="highlight"><pre><span></span>ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.
-</pre></div>
-
-
-<p>12，mysql下执行命令：</p>
-<div class="highlight"><pre><span></span>SET PASSWORD = PASSWORD(&#39;root&#39;);
-</pre></div>
-
-
-<p>完毕！（:</p>
-<p>参考：<br />
-1，<a href="http://www.2cto.com/database/201303/197067.html">http://www.2cto.com/database/201303/197067.html</a><br />
-2，<a href="http://fgyong.cn/2016/01/28/MAC-%E9%87%8D%E7%BD%AEMySQL-root-%E5%AF%86%E7%A0%81/">http://fgyong.cn/2016/01/28/MAC-%E9%87%8D%E7%BD%AEMySQL-root-%E5%AF%86%E7%A0%81/</a><br /></p>
+<h4>未完待续...</h4>
             </div><!-- /.entry-content -->
             <div class="comments">
               <!-- <h3><b>Comments</b></h3> -->
             <br />
               <div id="disqus_thread"></div>
               <script type="text/javascript">
-                var disqus_identifier = "mac 安装mysql后root密码问题.html";
+                var disqus_identifier = "python-decode-grub2_nc.html";
                 (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://davlu.disqus.com/embed.js';
